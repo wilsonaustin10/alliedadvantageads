@@ -2,10 +2,7 @@
 const nextConfig = {
   // Disable the legacy Pages Router
   useFileSystemPublicRoutes: true,
-  // Enable App Router features
-  experimental: {
-    appDir: true,
-  },
+  // No need for experimental.appDir in Next.js 14+ as it's the default
 };
 
 module.exports = nextConfig;

@@ -197,28 +197,30 @@ exports.generateLanding = onDocumentCreated(
                 generatedAt: new Date().toISOString(),
               };
 
-              // Add AI-generated content if available
-              if (cfg.aiInstructions && cfg.businessDescription && openai) {
+              // Generate logo if requested
+              if (cfg.createLogo === "yes" && openai) {
                 try {
-                  logger.info("Generating content with OpenAI...");
-                  const completion = await openai.chat.completions.create({
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                      {role: "system", content: "You are an expert copywriter specializing in landing pages."},
-                      {role: "user", content: `Generate a compelling headline and a short paragraph for a landing page for a business named '${cfg.businessName}'. Their business is: ${cfg.businessDescription}. Additional instructions: ${cfg.aiInstructions}`},
-                    ],
+                  logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
+                  const imageResponse = await openai.images.generate({
+                    model: "dall-e-3",
+                    prompt: `A modern, professional, and clean logo for a real estate wholesaling business named "${cfg.businessName}". The logo should evoke trust and reliability. Color hints: primary ${cfg.primaryColor || 'blue'}, secondary ${cfg.secondaryColor || 'grey'}. Ensure the logo is suitable for web and branding, avoiding overly complex details. Focus on a strong, memorable mark or logotype. Format: Digital art. Style: Minimalist but impactful.`,
+                    n: 1,
+                    size: "1024x1024", // DALL-E 3 supports 1024x1024, 1792x1024, or 1024x1792
+                    response_format: "url",
                   });
-                  const generatedText = completion.choices[0].message.content;
-                  if (generatedText) {
-                    const parts = generatedText.split("\n\n");
-                    viewData.headline = parts[0] || `Welcome to ${cfg.businessName}`;
-                    viewData.paragraph = parts[1] || cfg.businessDescription;
+
+                  const logoUrl = imageResponse.data[0]?.url;
+                  if (logoUrl) {
+                    viewData.logoUrl = logoUrl;
+                    logger.info(`Successfully generated logo for ${cfg.businessName}. URL: ${logoUrl}`);
+                  } else {
+                    logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
                   }
                 } catch (error) {
-                  logger.error("Error generating content with OpenAI:", error);
+                  logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
                 }
               } else {
-                logger.info("Skipping OpenAI content generation - OpenAI not initialized or missing required fields");
+                logger.info(`Skipping logo generation for ${cfg.businessName} - OpenAI not initialized or createLogo not set to 'yes'.`);
               }
 
               content = Mustache.render(content, viewData);

@@ -12,8 +12,39 @@ const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
 const cors = require("cors")({origin: true});
 
+// Add these require statements
+const {onDocumentCreated} = require("firebase-functions/v2/firestore");
+const {Octokit} = require("@octokit/rest");
+const Mustache = require("mustache");
+const OpenAI = require("openai");
+
 // Initialize Firebase Admin
 admin.initializeApp();
+
+// Initialize Octokit (ensure GITHUB_TOKEN is set in Firebase config)
+// You'll need to set this via: firebase functions:config:set octokit.token="YOUR_TOKEN"
+const octokit = new Octokit({
+  auth: process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN,
+});
+
+// Initialize OpenAI (ensure OPENAI_API_KEY is set in Firebase config)
+// You'll need to set this via: firebase functions:config:set openai.apikey="YOUR_KEY"
+let openai = null;
+try {
+  if (process.env.FUNCTIONS_CONFIG_OPENAI_APIKEY) {
+    openai = new OpenAI({
+      apiKey: process.env.FUNCTIONS_CONFIG_OPENAI_APIKEY,
+      dangerouslyAllowBrowser: true,
+    });
+  }
+} catch (error) {
+  logger.warn("OpenAI initialization failed:", error);
+}
+
+// GitHub configuration (set these in Firebase config)
+// firebase functions:config:set github.owner="OWNER" github.templaterepo="REPO"
+const GITHUB_OWNER = process.env.FUNCTIONS_CONFIG_GITHUB_OWNER;
+const TEMPLATE_REPO = process.env.FUNCTIONS_CONFIG_GITHUB_TEMPLATEREPO;
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
@@ -47,31 +78,30 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
       }
 
       // Add submission timestamp and format data
-      const submissionData = {
+      const landingPageData = {
         ...formData,
         submittedAt: admin.firestore.FieldValue.serverTimestamp(),
-        status: "pending", // You can use this for tracking onboarding status
+        status: "pending", // This status will trigger generateLanding function
         // monthlyAdSpendBudget will be included via ...formData if present
       };
 
-      // Store in Firestore
-      const submissionRef = await admin.firestore()
-          .collection("onboardingSubmissions")
-          .add(submissionData);
+      // Store in Firestore to trigger the landing page generation
+      const landingPageRef = await admin.firestore()
+          .collection("landingPages") // Changed to 'landingPages'
+          .add(landingPageData);
 
       // Log the submission
-      logger.info("New onboarding submission received", {
-        submissionId: submissionRef.id,
+      logger.info("New landing page request received, generation triggered.", {
+        landingPageId: landingPageRef.id,
         businessName: formData.businessName,
         requestId: formData.requestId,
-        monthlyAdSpendBudget: formData.monthlyAdSpendBudget,
       });
 
       // Return success response
       return response.status(200).json({
         success: true,
-        message: "Onboarding submission received successfully",
-        submissionId: submissionRef.id,
+        message: "Onboarding submission received. Landing page generation has started.",
+        landingPageId: landingPageRef.id,
       });
     } catch (error) {
       logger.error("SUBMISSION ERROR");
@@ -100,3 +130,138 @@ exports.test = onRequest((request, response) => {
     response.send("Hello from Firebase Test Function!");
   });
 });
+
+exports.generateLanding = onDocumentCreated(
+    "/landingPages/{id}",
+    async (event) => {
+    // Retrieve the configuration object from the Firestore document
+      const cfg = event.data.data();
+
+      // Idempotency: Only process if status is 'pending'
+      if (cfg.status !== "pending") {
+        logger.info(`Skipping document ${event.params.id} as status is '${cfg.status}'.`);
+        return;
+      }
+
+      logger.info(`Processing landing page generation for document: ${event.params.id}`, {cfg});
+
+      try {
+      // Generate a URL-friendly slug from the business name
+        const slug = cfg.businessName.toLowerCase().replace(/\W+/g, "-");
+        const newRepoName = `landing-${slug}`; // This will be the name of the new repository
+
+        // 1. Create a new repository
+        logger.info(`Creating new repository: ${newRepoName}`);
+        try {
+          await octokit.repos.createForAuthenticatedUser({
+            name: newRepoName,
+            description: `Landing page for ${cfg.businessName}`,
+            private: false, // or true if you want private repos
+            auto_init: false, // We don't want a README since we're templating
+          });
+          logger.info(`Successfully created repository: ${newRepoName}`);
+        } catch (error) {
+          logger.error("Error creating repository:", error);
+          await event.data.ref.update({
+            status: "failed",
+            error: "Failed to create repository",
+          });
+          return;
+        }
+
+        // 2. Get template repository contents
+        logger.info(`Fetching template from ${GITHUB_OWNER}/${TEMPLATE_REPO}`);
+        try {
+          const {data: templateContents} = await octokit.repos.getContent({
+            owner: GITHUB_OWNER,
+            repo: TEMPLATE_REPO,
+            path: "",
+          });
+
+          // Process each file from the template
+          for (const file of templateContents) {
+            const {data: fileData} = await octokit.repos.getContent({
+              owner: GITHUB_OWNER,
+              repo: TEMPLATE_REPO,
+              path: file.path,
+            });
+
+            let content = Buffer.from(fileData.content, "base64").toString("utf8");
+
+            // If this is an HTML file, process it with Mustache
+            if (file.path.endsWith(".html")) {
+            // Prepare view data
+              const viewData = {
+                ...cfg,
+                companyName: cfg.businessName,
+                generatedAt: new Date().toISOString(),
+              };
+
+              // Add AI-generated content if available
+              if (cfg.aiInstructions && cfg.businessDescription && openai) {
+                try {
+                  logger.info("Generating content with OpenAI...");
+                  const completion = await openai.chat.completions.create({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                      {role: "system", content: "You are an expert copywriter specializing in landing pages."},
+                      {role: "user", content: `Generate a compelling headline and a short paragraph for a landing page for a business named '${cfg.businessName}'. Their business is: ${cfg.businessDescription}. Additional instructions: ${cfg.aiInstructions}`},
+                    ],
+                  });
+                  const generatedText = completion.choices[0].message.content;
+                  if (generatedText) {
+                    const parts = generatedText.split("\n\n");
+                    viewData.headline = parts[0] || `Welcome to ${cfg.businessName}`;
+                    viewData.paragraph = parts[1] || cfg.businessDescription;
+                  }
+                } catch (error) {
+                  logger.error("Error generating content with OpenAI:", error);
+                }
+              } else {
+                logger.info("Skipping OpenAI content generation - OpenAI not initialized or missing required fields");
+              }
+
+              content = Mustache.render(content, viewData);
+            }
+
+            // Create file in new repository
+            await octokit.repos.createOrUpdateFileContents({
+              owner: GITHUB_OWNER,
+              repo: newRepoName,
+              path: file.path,
+              message: `Add ${file.path} from template`,
+              content: Buffer.from(content).toString("base64"),
+            });
+          }
+        } catch (error) {
+          logger.error("Error processing template:", error);
+          await event.data.ref.update({
+            status: "failed",
+            error: "Failed to process template",
+          });
+          return;
+        }
+
+        // Update Firestore document status to 'completed'
+        await event.data.ref.update({
+          status: "completed",
+          generatedAt: admin.firestore.FieldValue.serverTimestamp(),
+          repoName: newRepoName,
+          repoUrl: `https://github.com/${GITHUB_OWNER}/${newRepoName}`,
+          error: null,
+        });
+        logger.info(`Successfully created landing page repository: ${newRepoName}`);
+      } catch (error) {
+        logger.error(`Error processing landing page for ${event.params.id}:`, error);
+        try {
+          await event.data.ref.update({
+            status: "failed",
+            error: error.message || "An unknown error occurred during generation.",
+            failedAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+        } catch (dbError) {
+          logger.error(`Failed to update Firestore status to 'failed' for ${event.params.id}:`, dbError);
+        }
+      }
+    },
+);

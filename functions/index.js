@@ -24,8 +24,10 @@ admin.initializeApp();
 // Initialize Octokit (ensure GITHUB_TOKEN is set in Firebase config)
 // You'll need to set this via: firebase functions:config:set octokit.token="YOUR_TOKEN"
 // Force redeploy + rebuild 2025-05-18 (attempt 2)
+const functionsConfigOctokitTokenForDebug = process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN;
+logger.info("DEBUG: Octokit Token from env: ", functionsConfigOctokitTokenForDebug); // TEMPORARY DEBUG LOG - REMOVE IMMEDIATELY AFTER ONE TEST
 const octokit = new Octokit({
-  auth: process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN,
+  auth: functionsConfigOctokitTokenForDebug, // Use the variable we logged
 });
 
 // Initialize OpenAI (ensure OPENAI_API_KEY is set in Firebase config)

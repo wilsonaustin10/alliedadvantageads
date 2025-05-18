@@ -87,7 +87,7 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
 
       // Store in Firestore to trigger the landing page generation
       const landingPageRef = await admin.firestore()
-          .collection("landingPages") // Changed to 'landingPages'
+          .collection("landingPages") // Ensure this is "landingPages"
           .add(landingPageData);
 
       // Log the submission
@@ -203,7 +203,7 @@ exports.generateLanding = onDocumentCreated(
                   logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
                   const imageResponse = await openai.images.generate({
                     model: "dall-e-3",
-                    prompt: `A modern, professional, and clean logo for a real estate wholesaling business named "${cfg.businessName}". The logo should evoke trust and reliability. Color hints: primary ${cfg.primaryColor || 'blue'}, secondary ${cfg.secondaryColor || 'grey'}. Ensure the logo is suitable for web and branding, avoiding overly complex details. Focus on a strong, memorable mark or logotype. Format: Digital art. Style: Minimalist but impactful.`,
+                    prompt: `A modern, professional, and clean logo for a real estate wholesaling business named "${cfg.businessName}". The logo should evoke trust and reliability. Color hints: primary ${cfg.primaryColor || "blue"}, secondary ${cfg.secondaryColor || "grey"}. Ensure the logo is suitable for web and branding, avoiding overly complex details. Focus on a strong, memorable mark or logotype. Format: Digital art. Style: Minimalist but impactful.`,
                     n: 1,
                     size: "1024x1024", // DALL-E 3 supports 1024x1024, 1792x1024, or 1024x1792
                     response_format: "url",

@@ -7,6 +7,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
+const functions = require("firebase-functions"); // Ensure this is present
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
@@ -24,10 +25,8 @@ admin.initializeApp();
 // Initialize Octokit (ensure GITHUB_TOKEN is set in Firebase config)
 // You'll need to set this via: firebase functions:config:set octokit.token="YOUR_TOKEN"
 // Force redeploy + rebuild 2025-05-18 (attempt 2)
-const functionsConfigOctokitTokenForDebug = process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN;
-logger.info("DEBUG: Octokit Token from env: ", functionsConfigOctokitTokenForDebug); // TEMPORARY DEBUG LOG - REMOVE IMMEDIATELY AFTER ONE TEST
 const octokit = new Octokit({
-  auth: functionsConfigOctokitTokenForDebug, // Use the variable we logged
+  auth: process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN, // Reverted to use process.env directly
 });
 
 // Initialize OpenAI (ensure OPENAI_API_KEY is set in Firebase config)
@@ -137,7 +136,17 @@ exports.test = onRequest((request, response) => {
 exports.generateLanding = onDocumentCreated(
     "/landingPages/{id}",
     async (event) => {
-    // Retrieve the configuration object from the Firestore document
+      // Log config values for debugging
+      try {
+        const cfgDebugGithubOwner = functions.config().github?.owner;
+        const cfgDebugOctokitTokenExists = functions.config().octokit?.token ? "Token Present" : "Token NOT Present or undefined";
+        logger.info("DEBUG: functions.config().github.owner: ", cfgDebugGithubOwner);
+        logger.info("DEBUG: functions.config().octokit.token exists? ", cfgDebugOctokitTokenExists);
+      } catch (e) {
+        logger.error("DEBUG: Error accessing functions.config()", e);
+      }
+
+      // Retrieve the configuration object from the Firestore document
       const cfg = event.data.data();
 
       // Idempotency: Only process if status is 'pending'

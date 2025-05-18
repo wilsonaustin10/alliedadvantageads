@@ -23,6 +23,7 @@ admin.initializeApp();
 
 // Initialize Octokit (ensure GITHUB_TOKEN is set in Firebase config)
 // You'll need to set this via: firebase functions:config:set octokit.token="YOUR_TOKEN"
+// Force redeploy + rebuild 2025-05-18
 const octokit = new Octokit({
   auth: process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN,
 });

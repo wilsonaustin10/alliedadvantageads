@@ -203,12 +203,18 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
       repo: templateRepo,
       path: path,
     });
+    // Enhanced logging for the items received from getContent
+    logger.info(`[processTemplateItem DEBUG] getContent for path: '${path}' returned items: ${JSON.stringify(items, (key, value) => (key === 'content' || key === '_links') ? undefined : value, 2)}`);
 
-    // Ensure items is an array, as getContent returns an object for a single file
     const itemList = Array.isArray(items) ? items : [items];
+    if (path === "" && !Array.isArray(items)) {
+      logger.warn(`[processTemplateItem DEBUG] Root path ('') getContent response was not an array as expected. Type: ${typeof items}. This might indicate an issue with fetching root directory contents.`);
+    }
 
     for (const item of itemList) {
-      logger.info(`Inspecting item: ${item.path}, type: ${item.type}`);
+      // Enhanced logging for each item being processed
+      logger.info(`[processTemplateItem DEBUG] Inspecting item - Name: '${item.name}', Path: '${item.path}', Type: '${item.type}', Size: ${item.size}`);
+
       if (item.type === "file") {
         logger.info(`Fetching content for file: ${item.path}`);
         const {data: fileData} = await octokit.repos.getContent({

@@ -247,7 +247,11 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
         // Add other extensions as needed (e.g., .css, .js, .json, .md)
         const templatableExtensions = [".html", ".js", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
         // Add a list of files to exclude from templating
-        const filesToSkipTemplating = ["src/app/layout.tsx"];
+        const filesToSkipTemplating = [
+          "src/app/layout.tsx",
+          "src/components/header.tsx",
+          "src/context/formcontext.tsx",
+        ];
 
         if (templatableExtensions.some((ext) => item.path.endsWith(ext)) || !item.path.includes(".")) { // Also template files with no extension
           if (filesToSkipTemplating.includes(item.path)) {

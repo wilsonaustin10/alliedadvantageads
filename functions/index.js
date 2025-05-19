@@ -255,16 +255,32 @@ exports.generateLanding = onDocumentCreated(
           const {data: templateContents} = await octokit.repos.getContent({
             owner: GITHUB_OWNER,
             repo: TEMPLATE_REPO,
-            path: "",
+            path: "", // Get root directory contents
           });
 
           // Process each file from the template
           for (const file of templateContents) {
+            logger.info(`Inspecting template item: ${file.path}, type: ${file.type}`); // Added logging
+
+            if (file.type !== "file") { // UNCOMMENTED THIS BLOCK
+              logger.info(`Skipping non-file item in template: ${file.path} (type: ${file.type})`);
+              continue;
+            }
+
+            logger.info(`Fetching content for file: ${file.path}`);
             const {data: fileData} = await octokit.repos.getContent({
               owner: GITHUB_OWNER,
               repo: TEMPLATE_REPO,
               path: file.path,
             });
+
+            // Robust check for fileData and fileData.content
+            if (!fileData || typeof fileData.content !== "string") {
+              logger.error(`Error or missing content for template file: ${file.path}. Expected object with string 'content', got:`, fileData);
+              // Optionally, update Firestore status to indicate a partial failure or specific file error
+              // await event.data.ref.update({ status: "failed", error: `Failed to get content for ${file.path}` });
+              continue; // Skip this file
+            }
 
             let content = Buffer.from(fileData.content, "base64").toString("utf8");
 

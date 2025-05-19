@@ -246,31 +246,24 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
         // Apply Mustache templating to common text-based files
         // Add other extensions as needed (e.g., .css, .js, .json, .md)
         const templatableExtensions = [".html", ".js", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
+        // Add a list of files to exclude from templating
+        const filesToSkipTemplating = ["src/app/layout.tsx"];
+
         if (templatableExtensions.some((ext) => item.path.endsWith(ext)) || !item.path.includes(".")) { // Also template files with no extension
-          try {
-            const contentToTemplate = content;
-            if (item.path === "src/app/layout.tsx") {
-              logger.info(`[layout.tsx DEBUG] Content BEFORE Mustache for ${item.path}:\n${contentToTemplate}`);
-            }
+          if (filesToSkipTemplating.includes(item.path)) {
+            logger.info(`Skipping Mustache templating for designated file: ${item.path}`);
+          } else {
+            try {
+              const contentToTemplate = content;
+              // Removed the specific [layout.tsx DEBUG] logging from here as it's no longer templated
+              // The original file content will be used directly
 
-            content = Mustache.render(contentToTemplate, cfgForTemplating);
-            logger.info(`Successfully templated: ${item.path}`);
-
-            if (item.path === "src/app/layout.tsx") {
-              logger.info(`[layout.tsx DEBUG] Content AFTER Mustache for ${item.path}:\n${content}`);
-              if (contentToTemplate.includes("AW-17041108639") && !content.includes("AW-17041108639")) {
-                logger.warn(`[layout.tsx DEBUG] Specific GA code 'AW-17041108639' was LOST during templating for ${item.path}!`);
-              }
-              if (contentToTemplate.includes("__html:") && !content.includes("__html:")) {
-                logger.warn(`[layout.tsx DEBUG] '__html:' was LOST during templating for ${item.path}!`);
-              }
-              if (contentToTemplate.includes("dangerouslySetInnerHTML") && !content.includes("dangerouslySetInnerHTML={{__html")) {
-                logger.warn(`[layout.tsx DEBUG] 'dangerouslySetInnerHTML={{__html' structure seems to be corrupted for ${item.path}!`);
-              }
+              content = Mustache.render(contentToTemplate, cfgForTemplating);
+              logger.info(`Successfully templated: ${item.path}`);
+            } catch (renderError) {
+              logger.error(`Error rendering Mustache template for ${item.path}:`, renderError);
+              // Potentially skip this file or use original content, depending on desired behavior
             }
-          } catch (renderError) {
-            logger.error(`Error rendering Mustache template for ${item.path}:`, renderError);
-            // Potentially skip this file or use original content, depending on desired behavior
           }
         } else {
           logger.info(`Skipping templating for binary or non-text file: ${item.path}`);

@@ -194,7 +194,18 @@ exports.test = onRequest(async (request, response) => {
   });
 });
 
-// Helper function to recursively process template items (files and directories)
+/**
+ * Recursively processes template items (files and directories) from a source
+ * repository and populates them into a new repository, applying Mustache
+ * templating to text-based files.
+ * @param {string} owner The owner of the template repository.
+ * @param {string} templateRepo The name of the template repository.
+ * @param {string} newRepoName The name of the new repository to create files in.
+ * @param {string} path The current path within the template repository to process.
+ * @param {object} cfgForTemplating The configuration object for Mustache templating.
+ * @return {Promise<void>} A promise that resolves when processing is complete.
+ * @throws {Error} If processing any part of the template fails.
+ */
 async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgForTemplating) {
   logger.info(`Processing template item: ${path} in ${owner}/${templateRepo} for ${newRepoName}`);
   try {
@@ -204,11 +215,11 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
       path: path,
     });
     // Enhanced logging for the items received from getContent
-    logger.info(`[processTemplateItem DEBUG] getContent for path: '${path}' returned items: ${JSON.stringify(items, (key, value) => (key === 'content' || key === '_links') ? undefined : value, 2)}`);
+    logger.info(`[processTemplateItem DEBUG] getContent for path: "${path}" returned items: ${JSON.stringify(items, (key, value) => (key === "content" || key === "_links") ? undefined : value, 2)}`);
 
     const itemList = Array.isArray(items) ? items : [items];
     if (path === "" && !Array.isArray(items)) {
-      logger.warn(`[processTemplateItem DEBUG] Root path ('') getContent response was not an array as expected. Type: ${typeof items}. This might indicate an issue with fetching root directory contents.`);
+      logger.warn(`[processTemplateItem DEBUG] Root path ("") getContent response was not an array as expected. Type: ${typeof items}. This might indicate an issue with fetching root directory contents.`);
     }
 
     for (const item of itemList) {
@@ -257,7 +268,6 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
           content: Buffer.from(content).toString("base64"),
         });
         logger.info(`Successfully created/updated file: ${item.path} in ${newRepoName}`);
-
       } else if (item.type === "dir") {
         logger.info(`Recursively processing directory: ${item.path}`);
         // For directories, GitHub API createOrUpdateFileContents cannot create an empty directory.
@@ -314,7 +324,7 @@ exports.generateLanding = onDocumentCreated(
         // It will be augmented with logoUrl if generated
         const viewData = {
           ...cfg,
-          companyName: cfg.businessName, // Explicitly map for clarity if template uses 'companyName'
+          companyName: cfg.businessName, // Explicitly map for clarity if template uses "companyName"
           generatedAt: new Date().toISOString(),
           // logoUrl will be added here if generated successfully
         };
@@ -345,7 +355,7 @@ exports.generateLanding = onDocumentCreated(
             // Decide if logo generation failure is critical. For now, we continue without it.
           }
         } else {
-          logger.info(`Skipping logo generation: OpenAI not initialized or createLogo not 'yes'.`);
+          logger.info("Skipping logo generation: OpenAI not initialized or createLogo not 'yes'.");
         }
 
         // 1. Create a new repository

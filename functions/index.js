@@ -214,6 +214,10 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
       repo: templateRepo,
       path: path,
     });
+
+    // Ensure items is an array, as getContent returns an object for a single file
+    // const itemList = Array.isArray(items) ? items : [items];
+
     // Enhanced logging for the items received from getContent
     logger.info(`[processTemplateItem DEBUG] getContent for path: "${path}" returned items: ${JSON.stringify(items, (key, value) => (key === "content" || key === "_links") ? undefined : value, 2)}`);
 
@@ -236,16 +240,14 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
 
         if (!fileData || typeof fileData.content !== "string") {
           logger.error(`Error or missing content for template file: ${item.path}. Got:`, fileData);
-          // Decide if this should be a fatal error for the whole process or just skip this file
-          // For now, we'll log and skip.
           continue;
         }
 
         let content = Buffer.from(fileData.content, "base64").toString("utf8");
 
         // Apply Mustache templating to common text-based files
-        // Add other extensions as needed (e.g., .css, .js, .json, .md)
-        const templatableExtensions = [".html", ".js", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
+        // Add other extensions as needed
+        const templatableExtensions = [".html", ".js", ".ts", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
         // Files to skip templating entirely. Paths are case-sensitive!
         const filesToSkipTemplating = [
           "src/app/layout.tsx", // Does not need templating

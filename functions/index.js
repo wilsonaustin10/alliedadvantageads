@@ -7,7 +7,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-const functions = require("firebase-functions"); // Ensure this is present
+// const functions = require("firebase-functions"); // REMOVE THIS LINE
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
@@ -18,35 +18,94 @@ const {onDocumentCreated} = require("firebase-functions/v2/firestore");
 const {Octokit} = require("@octokit/rest");
 const Mustache = require("mustache");
 const OpenAI = require("openai");
+const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 
 // Initialize Firebase Admin
 admin.initializeApp();
 
-// Initialize Octokit (ensure GITHUB_TOKEN is set in Firebase config)
-// You'll need to set this via: firebase functions:config:set octokit.token="YOUR_TOKEN"
-// Force redeploy + rebuild 2025-05-18 (attempt 2)
-const octokit = new Octokit({
-  auth: process.env.FUNCTIONS_CONFIG_OCTOKIT_TOKEN, // Reverted to use process.env directly
+// Clients for dependent services, initialized by ensureClientsInitialized
+let GITHUB_OWNER;
+let TEMPLATE_REPO;
+
+// Initialize the Secret Manager client with explicit project ID
+const secretManagerClient = new SecretManagerServiceClient({
+  projectId: "allied-advantage-automation",
 });
 
-// Initialize OpenAI (ensure OPENAI_API_KEY is set in Firebase config)
-// You'll need to set this via: firebase functions:config:set openai.apikey="YOUR_KEY"
-let openai = null;
-try {
-  if (process.env.FUNCTIONS_CONFIG_OPENAI_APIKEY) {
-    openai = new OpenAI({
-      apiKey: process.env.FUNCTIONS_CONFIG_OPENAI_APIKEY,
-      dangerouslyAllowBrowser: true,
-    });
+/**
+ * Accesses the latest version of a secret from Google Cloud Secret Manager.
+ * @param {string} secretName The name of the secret to access.
+ * @return {Promise<string>} A promise that resolves with the secret payload as a string.
+ * @throws {Error} If accessing the secret fails.
+ */
+async function accessSecretVersion(secretName) {
+  try {
+    const name = `projects/${process.env.GCLOUD_PROJECT}/secrets/${secretName}/versions/latest`;
+    const [version] = await secretManagerClient.accessSecretVersion({name});
+    const payload = version.payload.data.toString("utf8");
+    logger.info(`Successfully accessed secret: ${secretName}`);
+    return payload;
+  } catch (error) {
+    logger.error(`Failed to access secret ${secretName}. Ensure it exists and the function service account has the 'Secret Manager Secret Accessor' role. Error: ${error.message}`);
+    throw error;
   }
-} catch (error) {
-  logger.warn("OpenAI initialization failed:", error);
 }
 
-// GitHub configuration (set these in Firebase config)
-// firebase functions:config:set github.owner="OWNER" github.templaterepo="REPO"
-const GITHUB_OWNER = process.env.FUNCTIONS_CONFIG_GITHUB_OWNER;
-const TEMPLATE_REPO = process.env.FUNCTIONS_CONFIG_GITHUB_TEMPLATEREPO;
+// Global client variables - will be initialized by ensureClientsInitialized
+let octokit;
+let openai;
+let clientsInitialized = false;
+
+/**
+ * Ensures that the Octokit and OpenAI clients are initialized using secrets
+ * from Google Cloud Secret Manager. This function is idempotent and will
+ * populate global variables for the clients and related configuration.
+ * It also handles partial initialization if some secrets (like OpenAI API key)
+ * are not available.
+ * @async
+ * @function ensureClientsInitialized
+ * @throws {Error} If initialization of critical clients (e.g., Octokit) fails due to missing secrets or access issues.
+ */
+async function ensureClientsInitialized() {
+  if (clientsInitialized) return;
+
+  try {
+    GITHUB_OWNER = await accessSecretVersion("GITHUB_OWNER_V2");
+    TEMPLATE_REPO = await accessSecretVersion("GITHUB_TEMPLATEREPO_V2");
+    const octokitToken = await accessSecretVersion("OCTOKIT_TOKEN_V2");
+
+    let openaiApiKey = null;
+    try {
+      openaiApiKey = await accessSecretVersion("OPENAI_APIKEY_V2");
+    } catch (error) {
+      logger.warn("OpenAI API Key secret (OPENAI_APIKEY_V2) not found or access failed. OpenAI features will be disabled.");
+    }
+
+    logger.info("DEBUG SM: GITHUB_OWNER: ", GITHUB_OWNER);
+    logger.info("DEBUG SM: GITHUB_TEMPLATEREPO: ", TEMPLATE_REPO);
+    logger.info("DEBUG SM: OCTOKIT_TOKEN: ", octokitToken ? "Present" : "UNDEFINED");
+    logger.info("DEBUG SM: OPENAI_APIKEY: ", openaiApiKey ? "Present" : "UNDEFINED");
+
+    octokit = new Octokit({auth: octokitToken});
+
+    if (openaiApiKey) {
+      openai = new OpenAI({
+        apiKey: openaiApiKey,
+        dangerouslyAllowBrowser: true,
+      });
+    } else {
+      openai = null;
+      logger.info("OpenAI client not initialized as API key is missing.");
+    }
+    clientsInitialized = true;
+    logger.info("Clients initialized successfully using Secret Manager values.");
+  } catch (error) {
+    logger.error("FATAL: Failed to initialize clients with secrets from Secret Manager:", error);
+    clientsInitialized = false; // Explicitly set to false on error
+    // Re-throw the error so the function execution fails clearly if critical secrets are missing
+    throw error;
+  }
+}
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
@@ -122,28 +181,37 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
 });
 
 // Test function
-exports.test = onRequest((request, response) => {
-  // Enable CORS for the test function as well
-  cors(request, response, () => {
-    logger.info("Test function invoked", {
-      headers: request.headers,
-      method: request.method,
-    });
-    response.send("Hello from Firebase Test Function!");
+exports.test = onRequest(async (request, response) => {
+  cors(request, response, async () => {
+    try {
+      await ensureClientsInitialized(); // Test client initialization
+      logger.info("Test function: Clients initialized. Octokit is ", octokit ? "defined" : "undefined");
+      response.send("Test function executed. Check logs for client initialization status.");
+    } catch (error) {
+      logger.error("Test function failed during client initialization:", error);
+      response.status(500).send("Test function failed. Check logs.");
+    }
   });
 });
 
 exports.generateLanding = onDocumentCreated(
     "/landingPages/{id}",
     async (event) => {
-      // Log config values for debugging
       try {
-        const cfgDebugGithubOwner = functions.config().github?.owner;
-        const cfgDebugOctokitTokenExists = functions.config().octokit?.token ? "Token Present" : "Token NOT Present or undefined";
-        logger.info("DEBUG: functions.config().github.owner: ", cfgDebugGithubOwner);
-        logger.info("DEBUG: functions.config().octokit.token exists? ", cfgDebugOctokitTokenExists);
-      } catch (e) {
-        logger.error("DEBUG: Error accessing functions.config()", e);
+        await ensureClientsInitialized(); // Ensure clients are ready
+      } catch (initError) {
+        logger.error("Client initialization failed in generateLanding. Aborting execution.", initError);
+        // Optionally update Firestore status to failed here if it makes sense
+        // await event.data.ref.update({ status: "failed", error: "Client initialization error" });
+        return; // Stop execution if clients can't be initialized
+      }
+
+      // Check if critical clients like Octokit were actually initialized
+      if (!octokit) {
+        logger.error("Octokit client is not initialized. Aborting landing page generation.");
+        // Optionally update Firestore status
+        // await event.data.ref.update({ status: "failed", error: "Octokit client not initialized" });
+        return;
       }
 
       // Retrieve the configuration object from the Firestore document

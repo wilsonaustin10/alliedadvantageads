@@ -246,12 +246,15 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
         // Apply Mustache templating to common text-based files
         // Add other extensions as needed (e.g., .css, .js, .json, .md)
         const templatableExtensions = [".html", ".js", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
-        // Add a list of files to exclude from templating
+        // Files to skip templating entirely. Paths are case-sensitive!
         const filesToSkipTemplating = [
-          "src/app/layout.tsx",
-          "src/components/header.tsx",
-          "src/context/formcontext.tsx",
+          "src/app/layout.tsx", // Does not need templating
+          // "src/components/Header.tsx" // Needs templating, so removed from skip list
+          // "src/context/FormContext.tsx" // Needs templating (or at least check if corrupted otherwise), so removed from skip list
         ];
+
+        // Define custom Mustache delimiters
+        const customMustacheDelimiters = ["<%", "%>"];
 
         if (templatableExtensions.some((ext) => item.path.endsWith(ext)) || !item.path.includes(".")) { // Also template files with no extension
           if (filesToSkipTemplating.includes(item.path)) {
@@ -259,14 +262,10 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
           } else {
             try {
               const contentToTemplate = content;
-              // Removed the specific [layout.tsx DEBUG] logging from here as it's no longer templated
-              // The original file content will be used directly
-
-              content = Mustache.render(contentToTemplate, cfgForTemplating);
-              logger.info(`Successfully templated: ${item.path}`);
+              content = Mustache.render(contentToTemplate, cfgForTemplating, {}, customMustacheDelimiters);
+              logger.info(`Successfully templated: ${item.path} using custom delimiters.`);
             } catch (renderError) {
               logger.error(`Error rendering Mustache template for ${item.path}:`, renderError);
-              // Potentially skip this file or use original content, depending on desired behavior
             }
           }
         } else {

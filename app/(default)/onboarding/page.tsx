@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { Inter } from 'next/font/google';
+import { storage } from '@/lib/firebase'; // Assuming lib directory is aliased as @/lib
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,6 +34,7 @@ const formatDollarAmount = (value: string) => {
 };
 
 export default function OnboardingPage() {
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     requestId: '',
     firstName: '',
@@ -49,6 +52,7 @@ export default function OnboardingPage() {
     zapierWebhookUrl: '',
     hasLogo: 'no',
     createLogo: 'no',
+    uploadedLogoUrl: '',
     primaryColor: '#1D4ED8',
     secondaryColor: '#FBBF24',
     publicPhone: '',
@@ -81,10 +85,16 @@ export default function OnboardingPage() {
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     
-    // Special handling for monthlyAdSpendBudget
-    if (name === 'monthlyAdSpendBudget') {
+    if (type === 'file') {
+      const files = (e.target as HTMLInputElement).files;
+      if (files && files.length > 0) {
+        setLogoFile(files[0]);
+      } else {
+        setLogoFile(null);
+      }
+    } else if (name === 'monthlyAdSpendBudget') {
       const formattedValue = formatDollarAmount(value);
       setFormData(prev => ({ ...prev, [name]: formattedValue }));
     } else {
@@ -94,12 +104,29 @@ export default function OnboardingPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    // Generate request ID at the beginning
+    const currentRequestId = formData.requestId || generateRequestId();
+    let logoUrl = '';
+
+    if (logoFile && currentRequestId) {
+      try {
+        const logoStorageRef = ref(storage, `logos/${currentRequestId}/${logoFile.name}`);
+        await uploadBytes(logoStorageRef, logoFile);
+        logoUrl = await getDownloadURL(logoStorageRef);
+      } catch (uploadError) {
+        console.error('Error uploading logo:', uploadError);
+        alert('Error uploading logo. Please try again or submit without a logo.');
+        // Optionally, you might want to stop form submission here
+        // or allow submission without the logo
+        return; // Example: stop submission if logo upload fails
+      }
+    }
+
     try {
-      // Generate request ID at submission time
-      const requestId = generateRequestId();
       const submissionData = {
         ...formData,
-        requestId
+        requestId: currentRequestId,
+        uploadedLogoUrl: logoUrl,
       };
 
       const response = await fetch('https://allied-advantage-automation.web.app/api/onboarding', {
@@ -116,7 +143,7 @@ export default function OnboardingPage() {
         throw new Error(data.error || 'Failed to submit form');
       }
 
-      alert(`Form submitted successfully!\nRequest ID: ${requestId}\nSubmission ID: ${data.submissionId}`);
+      alert(`Form submitted successfully!\nRequest ID: ${currentRequestId}\nSubmission ID: ${data.submissionId}${logoUrl ? '\nLogo URL: ' + logoUrl : ''}`);
       // Reset form
       setFormData({
         requestId: '',
@@ -135,6 +162,7 @@ export default function OnboardingPage() {
         zapierWebhookUrl: '',
         hasLogo: 'no',
         createLogo: 'no',
+        uploadedLogoUrl: '',
         primaryColor: '#1D4ED8',
         secondaryColor: '#FBBF24',
         publicPhone: '',
@@ -146,6 +174,7 @@ export default function OnboardingPage() {
         includeGeography: '',
         excludeGeography: ''
       });
+      setLogoFile(null);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');
@@ -463,7 +492,9 @@ export default function OnboardingPage() {
                 <input
                   type="file"
                   accept="image/png, image/jpeg, image/svg+xml"
+                  onChange={handleInputChange}
                   className="w-full"
+                  name="logoFile"
                 />
               </div>
 

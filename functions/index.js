@@ -362,13 +362,16 @@ exports.generateLanding = onDocumentCreated(
         // It will be augmented with logoUrl if generated
         const viewData = {
           ...cfg,
-          companyName: cfg.businessName, // Explicitly map for clarity if template uses "companyName"
+          companyName: cfg.businessName,
           generatedAt: new Date().toISOString(),
-          // logoUrl will be added here if generated successfully
+          // logoUrl will be determined next
         };
 
-        // Generate logo if requested and OpenAI client is available
-        if (cfg.createLogo === "yes" && openai) {
+        // Determine the logo URL to use
+        if (cfg.uploadedLogoUrl && typeof cfg.uploadedLogoUrl === 'string' && cfg.uploadedLogoUrl.trim() !== '') {
+          viewData.logoUrl = cfg.uploadedLogoUrl;
+          logger.info(`Using user-uploaded logo URL: ${viewData.logoUrl}`);
+        } else if (cfg.createLogo === "yes" && openai) {
           try {
             logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
             const imageResponse = await openai.images.generate({
@@ -379,21 +382,24 @@ exports.generateLanding = onDocumentCreated(
               response_format: "url",
             });
 
-            const logoUrl = imageResponse.data[0]?.url;
-            if (logoUrl) {
-              viewData.logoUrl = logoUrl; // Add to viewData for templating
-              logger.info(`Successfully generated logo. URL: ${logoUrl}`);
-              // Optionally, update Firestore with the logo URL immediately or as part of 'completed' status
-              // await event.data.ref.update({ logoUrl: logoUrl });
+            const generatedLogoUrl = imageResponse.data[0]?.url;
+            if (generatedLogoUrl) {
+              viewData.logoUrl = generatedLogoUrl;
+              logger.info(`Successfully generated logo. URL: ${viewData.logoUrl}`);
             } else {
               logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
+              // Optionally set a default placeholder if generation fails and no uploaded logo
+              // viewData.logoUrl = "/default-placeholder.png"; 
             }
           } catch (error) {
             logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
-            // Decide if logo generation failure is critical. For now, we continue without it.
+            // Optionally set a default placeholder if generation fails and no uploaded logo
+            // viewData.logoUrl = "/default-placeholder.png"; 
           }
         } else {
-          logger.info("Skipping logo generation: OpenAI not initialized or createLogo not 'yes'.");
+          logger.info("Skipping logo generation: No uploaded logo, and createLogo not 'yes' or OpenAI not available.");
+          // Optionally set a default placeholder if no logo is to be used/generated
+          // viewData.logoUrl = "/default-placeholder.png"; 
         }
 
         // 1. Create a new repository

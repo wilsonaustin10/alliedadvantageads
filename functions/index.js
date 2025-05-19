@@ -258,21 +258,43 @@ async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgFo
           logger.info(`Skipping templating for binary or non-text file: ${item.path}`);
         }
 
+        // Determine the target path in the new repository
+        let targetPathInNewRepo = item.path;
+        if (item.path.startsWith("src/")) {
+          targetPathInNewRepo = item.path.substring(4);
+          logger.info(`Hoisting item: Original path '${item.path}', New path '${targetPathInNewRepo}'`);
+        } else {
+          logger.info(`Using original path for item: '${item.path}'`);
+        }
+
+        // Skip creating if targetPathInNewRepo is empty (e.g. if item.path was just "src/")
+        if (!targetPathInNewRepo && item.type === "dir") {
+          logger.info(`Skipping creation of empty root directory from src/ for path: ${item.path}`);
+          // We still need to process its contents, so we call processTemplateItem for the original path
+          // but indicate that its children should be placed at the new root.
+          // The path for children will be correctly handled by subsequent calls to this logic.
+          await processTemplateItem(owner, templateRepo, newRepoName, item.path, cfgForTemplating);
+          continue; // Continue to the next item in the loop
+        }
+        if (!targetPathInNewRepo && item.type === "file") {
+          logger.warn(`File path became empty after stripping src/: ${item.path}. Skipping this file.`);
+          continue;
+        }
+
         // Create file in new repository, preserving path
-        logger.info(`Creating file in new repo: ${item.path}`);
+        logger.info(`Creating file in new repo: ${targetPathInNewRepo}`);
         await octokit.repos.createOrUpdateFileContents({
           owner: GITHUB_OWNER, // Assuming GITHUB_OWNER is the owner of the new repo
           repo: newRepoName,
-          path: item.path, // This should be the relative path within the repo
+          path: targetPathInNewRepo, // This is the adjusted path
           message: `Add ${item.path} from template`,
           content: Buffer.from(content).toString("base64"),
         });
-        logger.info(`Successfully created/updated file: ${item.path} in ${newRepoName}`);
+        logger.info(`Successfully created/updated file: ${targetPathInNewRepo} in ${newRepoName}`);
       } else if (item.type === "dir") {
+        // For directories, we just recurse. The path adjustment for children
+        // will happen when those children (files or sub-dirs) are processed.
         logger.info(`Recursively processing directory: ${item.path}`);
-        // For directories, GitHub API createOrUpdateFileContents cannot create an empty directory.
-        // Directories are implicitly created when files are added to them.
-        // So, we just recurse.
         await processTemplateItem(owner, templateRepo, newRepoName, item.path, cfgForTemplating);
       } else {
         logger.warn(`Skipping item ${item.path} of unknown type: ${item.type}`);

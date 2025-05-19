@@ -368,7 +368,7 @@ exports.generateLanding = onDocumentCreated(
         };
 
         // Determine the logo URL to use
-        if (cfg.uploadedLogoUrl && typeof cfg.uploadedLogoUrl === 'string' && cfg.uploadedLogoUrl.trim() !== '') {
+        if (cfg.uploadedLogoUrl && typeof cfg.uploadedLogoUrl === "string" && cfg.uploadedLogoUrl.trim() !== "") {
           viewData.logoUrl = cfg.uploadedLogoUrl;
           logger.info(`Using user-uploaded logo URL: ${viewData.logoUrl}`);
         } else if (cfg.createLogo === "yes" && openai) {
@@ -389,17 +389,17 @@ exports.generateLanding = onDocumentCreated(
             } else {
               logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
               // Optionally set a default placeholder if generation fails and no uploaded logo
-              // viewData.logoUrl = "/default-placeholder.png"; 
+              // viewData.logoUrl = "/default-placeholder.png";
             }
           } catch (error) {
             logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
             // Optionally set a default placeholder if generation fails and no uploaded logo
-            // viewData.logoUrl = "/default-placeholder.png"; 
+            // viewData.logoUrl = "/default-placeholder.png";
           }
         } else {
           logger.info("Skipping logo generation: No uploaded logo, and createLogo not 'yes' or OpenAI not available.");
           // Optionally set a default placeholder if no logo is to be used/generated
-          // viewData.logoUrl = "/default-placeholder.png"; 
+          // viewData.logoUrl = "/default-placeholder.png";
         }
 
         // 1. Create a new repository

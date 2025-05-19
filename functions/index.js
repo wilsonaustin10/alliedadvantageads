@@ -194,6 +194,81 @@ exports.test = onRequest(async (request, response) => {
   });
 });
 
+// Helper function to recursively process template items (files and directories)
+async function processTemplateItem(owner, templateRepo, newRepoName, path, cfgForTemplating) {
+  logger.info(`Processing template item: ${path} in ${owner}/${templateRepo} for ${newRepoName}`);
+  try {
+    const {data: items} = await octokit.repos.getContent({
+      owner: owner,
+      repo: templateRepo,
+      path: path,
+    });
+
+    // Ensure items is an array, as getContent returns an object for a single file
+    const itemList = Array.isArray(items) ? items : [items];
+
+    for (const item of itemList) {
+      logger.info(`Inspecting item: ${item.path}, type: ${item.type}`);
+      if (item.type === "file") {
+        logger.info(`Fetching content for file: ${item.path}`);
+        const {data: fileData} = await octokit.repos.getContent({
+          owner: owner,
+          repo: templateRepo,
+          path: item.path, // Use item.path as it's the full path from the repo root
+        });
+
+        if (!fileData || typeof fileData.content !== "string") {
+          logger.error(`Error or missing content for template file: ${item.path}. Got:`, fileData);
+          // Decide if this should be a fatal error for the whole process or just skip this file
+          // For now, we'll log and skip.
+          continue;
+        }
+
+        let content = Buffer.from(fileData.content, "base64").toString("utf8");
+
+        // Apply Mustache templating to common text-based files
+        // Add other extensions as needed (e.g., .css, .js, .json, .md)
+        const templatableExtensions = [".html", ".js", ".json", ".md", ".txt", ".css", ".jsx", ".tsx", ".vue", ".scss", ".yaml", ".yml", ".xml", "Dockerfile", ".sh"];
+        if (templatableExtensions.some((ext) => item.path.endsWith(ext)) || !item.path.includes(".")) { // Also template files with no extension
+          try {
+            content = Mustache.render(content, cfgForTemplating);
+            logger.info(`Successfully templated: ${item.path}`);
+          } catch (renderError) {
+            logger.error(`Error rendering Mustache template for ${item.path}:`, renderError);
+            // Potentially skip this file or use original content, depending on desired behavior
+          }
+        } else {
+          logger.info(`Skipping templating for binary or non-text file: ${item.path}`);
+        }
+
+        // Create file in new repository, preserving path
+        logger.info(`Creating file in new repo: ${item.path}`);
+        await octokit.repos.createOrUpdateFileContents({
+          owner: GITHUB_OWNER, // Assuming GITHUB_OWNER is the owner of the new repo
+          repo: newRepoName,
+          path: item.path, // This should be the relative path within the repo
+          message: `Add ${item.path} from template`,
+          content: Buffer.from(content).toString("base64"),
+        });
+        logger.info(`Successfully created/updated file: ${item.path} in ${newRepoName}`);
+
+      } else if (item.type === "dir") {
+        logger.info(`Recursively processing directory: ${item.path}`);
+        // For directories, GitHub API createOrUpdateFileContents cannot create an empty directory.
+        // Directories are implicitly created when files are added to them.
+        // So, we just recurse.
+        await processTemplateItem(owner, templateRepo, newRepoName, item.path, cfgForTemplating);
+      } else {
+        logger.warn(`Skipping item ${item.path} of unknown type: ${item.type}`);
+      }
+    }
+  } catch (error) {
+    logger.error(`Error processing template item ${path} for ${newRepoName}:`, error);
+    // Re-throw the error to be caught by the caller, potentially failing the specific landing page generation.
+    throw new Error(`Failed to process template item ${path}: ${error.message}`);
+  }
+}
+
 exports.generateLanding = onDocumentCreated(
     "/landingPages/{id}",
     async (event) => {
@@ -226,9 +301,46 @@ exports.generateLanding = onDocumentCreated(
       logger.info(`Processing landing page generation for document: ${event.params.id}`, {cfg});
 
       try {
-      // Generate a URL-friendly slug from the business name
         const slug = cfg.businessName.toLowerCase().replace(/\W+/g, "-");
-        const newRepoName = `landing-${slug}`; // This will be the name of the new repository
+        const newRepoName = `landing-${slug}`;
+
+        // Prepare view data for templating early, including generatedAt
+        // It will be augmented with logoUrl if generated
+        const viewData = {
+          ...cfg,
+          companyName: cfg.businessName, // Explicitly map for clarity if template uses 'companyName'
+          generatedAt: new Date().toISOString(),
+          // logoUrl will be added here if generated successfully
+        };
+
+        // Generate logo if requested and OpenAI client is available
+        if (cfg.createLogo === "yes" && openai) {
+          try {
+            logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
+            const imageResponse = await openai.images.generate({
+              model: "dall-e-3",
+              prompt: `A modern, professional, and clean logo for a real estate wholesaling business named "${cfg.businessName}". The logo should evoke trust and reliability. Color hints: primary ${cfg.primaryColor || "blue"}, secondary ${cfg.secondaryColor || "grey"}. Ensure the logo is suitable for web and branding, avoiding overly complex details. Focus on a strong, memorable mark or logotype. Format: Digital art. Style: Minimalist but impactful.`,
+              n: 1,
+              size: "1024x1024",
+              response_format: "url",
+            });
+
+            const logoUrl = imageResponse.data[0]?.url;
+            if (logoUrl) {
+              viewData.logoUrl = logoUrl; // Add to viewData for templating
+              logger.info(`Successfully generated logo. URL: ${logoUrl}`);
+              // Optionally, update Firestore with the logo URL immediately or as part of 'completed' status
+              // await event.data.ref.update({ logoUrl: logoUrl });
+            } else {
+              logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
+            }
+          } catch (error) {
+            logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
+            // Decide if logo generation failure is critical. For now, we continue without it.
+          }
+        } else {
+          logger.info(`Skipping logo generation: OpenAI not initialized or createLogo not 'yes'.`);
+        }
 
         // 1. Create a new repository
         logger.info(`Creating new repository: ${newRepoName}`);
@@ -236,108 +348,36 @@ exports.generateLanding = onDocumentCreated(
           await octokit.repos.createForAuthenticatedUser({
             name: newRepoName,
             description: `Landing page for ${cfg.businessName}`,
-            private: false, // or true if you want private repos
-            auto_init: false, // We don't want a README since we're templating
+            private: false,
+            auto_init: false, // Important: do not auto-initialize
           });
           logger.info(`Successfully created repository: ${newRepoName}`);
         } catch (error) {
           logger.error("Error creating repository:", error);
-          await event.data.ref.update({
-            status: "failed",
-            error: "Failed to create repository",
-          });
-          return;
+          if (error.status === 422) { // Repository already exists
+            logger.warn(`Repository ${newRepoName} already exists. Proceeding to populate/update.`);
+          } else {
+            await event.data.ref.update({
+              status: "failed",
+              error: `Failed to create repository: ${error.message || "Unknown error"}`,
+            });
+            return; // Stop if repository creation fails for other reasons
+          }
         }
 
-        // 2. Get template repository contents
-        logger.info(`Fetching template from ${GITHUB_OWNER}/${TEMPLATE_REPO}`);
+        // 2. Process template repository contents recursively
+        logger.info(`Starting to process template from ${GITHUB_OWNER}/${TEMPLATE_REPO} for ${newRepoName}`);
         try {
-          const {data: templateContents} = await octokit.repos.getContent({
-            owner: GITHUB_OWNER,
-            repo: TEMPLATE_REPO,
-            path: "", // Get root directory contents
-          });
-
-          // Process each file from the template
-          for (const file of templateContents) {
-            logger.info(`Inspecting template item: ${file.path}, type: ${file.type}`); // Added logging
-
-            if (file.type !== "file") { // UNCOMMENTED THIS BLOCK
-              logger.info(`Skipping non-file item in template: ${file.path} (type: ${file.type})`);
-              continue;
-            }
-
-            logger.info(`Fetching content for file: ${file.path}`);
-            const {data: fileData} = await octokit.repos.getContent({
-              owner: GITHUB_OWNER,
-              repo: TEMPLATE_REPO,
-              path: file.path,
-            });
-
-            // Robust check for fileData and fileData.content
-            if (!fileData || typeof fileData.content !== "string") {
-              logger.error(`Error or missing content for template file: ${file.path}. Expected object with string 'content', got:`, fileData);
-              // Optionally, update Firestore status to indicate a partial failure or specific file error
-              // await event.data.ref.update({ status: "failed", error: `Failed to get content for ${file.path}` });
-              continue; // Skip this file
-            }
-
-            let content = Buffer.from(fileData.content, "base64").toString("utf8");
-
-            // If this is an HTML file, process it with Mustache
-            if (file.path.endsWith(".html")) {
-            // Prepare view data
-              const viewData = {
-                ...cfg,
-                companyName: cfg.businessName,
-                generatedAt: new Date().toISOString(),
-              };
-
-              // Generate logo if requested
-              if (cfg.createLogo === "yes" && openai) {
-                try {
-                  logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
-                  const imageResponse = await openai.images.generate({
-                    model: "dall-e-3",
-                    prompt: `A modern, professional, and clean logo for a real estate wholesaling business named "${cfg.businessName}". The logo should evoke trust and reliability. Color hints: primary ${cfg.primaryColor || "blue"}, secondary ${cfg.secondaryColor || "grey"}. Ensure the logo is suitable for web and branding, avoiding overly complex details. Focus on a strong, memorable mark or logotype. Format: Digital art. Style: Minimalist but impactful.`,
-                    n: 1,
-                    size: "1024x1024", // DALL-E 3 supports 1024x1024, 1792x1024, or 1024x1792
-                    response_format: "url",
-                  });
-
-                  const logoUrl = imageResponse.data[0]?.url;
-                  if (logoUrl) {
-                    viewData.logoUrl = logoUrl;
-                    logger.info(`Successfully generated logo for ${cfg.businessName}. URL: ${logoUrl}`);
-                  } else {
-                    logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
-                  }
-                } catch (error) {
-                  logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
-                }
-              } else {
-                logger.info(`Skipping logo generation for ${cfg.businessName} - OpenAI not initialized or createLogo not set to 'yes'.`);
-              }
-
-              content = Mustache.render(content, viewData);
-            }
-
-            // Create file in new repository
-            await octokit.repos.createOrUpdateFileContents({
-              owner: GITHUB_OWNER,
-              repo: newRepoName,
-              path: file.path,
-              message: `Add ${file.path} from template`,
-              content: Buffer.from(content).toString("base64"),
-            });
-          }
-        } catch (error) {
-          logger.error("Error processing template:", error);
+          // Call the recursive helper function starting from the root of the template repo
+          await processTemplateItem(GITHUB_OWNER, TEMPLATE_REPO, newRepoName, "", viewData);
+          logger.info(`Successfully processed all template items for ${newRepoName}.`);
+        } catch (templateError) {
+          logger.error(`Error processing template for ${newRepoName}:`, templateError);
           await event.data.ref.update({
             status: "failed",
-            error: "Failed to process template",
+            error: `Failed to process template: ${templateError.message || "Unknown error"}`,
           });
-          return;
+          return; // Stop if template processing fails
         }
 
         // Update Firestore document status to 'completed'

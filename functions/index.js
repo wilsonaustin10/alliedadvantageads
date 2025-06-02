@@ -19,6 +19,8 @@ const {Octokit} = require("@octokit/rest");
 const Mustache = require("mustache");
 const OpenAI = require("openai");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
+const VercelDeploymentService = require("./vercelDeployment");
+const EnvironmentManager = require("./environmentManager");
 
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -54,6 +56,8 @@ async function accessSecretVersion(secretName) {
 // Global client variables - will be initialized by ensureClientsInitialized
 let octokit;
 let openai;
+let vercelService;
+let environmentManager;
 let clientsInitialized = false;
 
 /**
@@ -81,10 +85,29 @@ async function ensureClientsInitialized() {
       logger.warn("OpenAI API Key secret (OPENAI_APIKEY_V2) not found or access failed. OpenAI features will be disabled.");
     }
 
+    // Initialize Vercel-related secrets
+    let vercelApiToken = null;
+    let vercelTeamId = null;
+    try {
+      vercelApiToken = await accessSecretVersion("VERCEL_API_TOKEN");
+      logger.info("Successfully retrieved VERCEL_API_TOKEN");
+    } catch (error) {
+      logger.warn("VERCEL_API_TOKEN secret not found or access failed. Vercel deployment will be disabled.");
+    }
+
+    try {
+      vercelTeamId = await accessSecretVersion("VERCEL_TEAM_ID");
+      logger.info("Successfully retrieved VERCEL_TEAM_ID");
+    } catch (error) {
+      logger.info("VERCEL_TEAM_ID not found, will use personal account for Vercel deployments");
+    }
+
     logger.info("DEBUG SM: GITHUB_OWNER: ", GITHUB_OWNER);
     logger.info("DEBUG SM: GITHUB_TEMPLATEREPO: ", TEMPLATE_REPO);
     logger.info("DEBUG SM: OCTOKIT_TOKEN: ", octokitToken ? "Present" : "UNDEFINED");
     logger.info("DEBUG SM: OPENAI_APIKEY: ", openaiApiKey ? "Present" : "UNDEFINED");
+    logger.info("DEBUG SM: VERCEL_API_TOKEN: ", vercelApiToken ? "Present" : "UNDEFINED");
+    logger.info("DEBUG SM: VERCEL_TEAM_ID: ", vercelTeamId ? "Present" : "UNDEFINED");
 
     octokit = new Octokit({auth: octokitToken});
 
@@ -97,6 +120,18 @@ async function ensureClientsInitialized() {
       openai = null;
       logger.info("OpenAI client not initialized as API key is missing.");
     }
+
+    // Initialize Vercel service if API token is available
+    if (vercelApiToken) {
+      vercelService = new VercelDeploymentService(vercelApiToken, vercelTeamId);
+      environmentManager = new EnvironmentManager();
+      logger.info("Vercel deployment service initialized successfully");
+    } else {
+      vercelService = null;
+      environmentManager = null;
+      logger.info("Vercel deployment service not initialized as API token is missing.");
+    }
+
     clientsInitialized = true;
     logger.info("Clients initialized successfully using Secret Manager values.");
   } catch (error) {
@@ -440,14 +475,81 @@ exports.generateLanding = onDocumentCreated(
           return; // Stop if template processing fails
         }
 
+        // 3. Deploy to Vercel (if service is available)
+        let vercelProjectUrl = null;
+        let vercelDeploymentUrl = null;
+        
+        if (vercelService && environmentManager) {
+          try {
+            logger.info(`Starting Vercel deployment for ${newRepoName}`);
+            
+            // Get all environment variables for the deployment
+            const envVariables = await environmentManager.getAllVariablesForDeployment(cfg);
+            logger.info(`Prepared ${envVariables.length} environment variables for Vercel deployment`);
+            
+            // Create Vercel project with GitHub integration
+            const projectData = {
+              name: newRepoName,
+              gitRepository: `${GITHUB_OWNER}/${newRepoName}`,
+              environmentVariables: envVariables,
+              framework: "nextjs",
+            };
+            
+            const vercelProject = await vercelService.createProject(projectData);
+            logger.info(`Vercel project created successfully: ${vercelProject.name}`);
+            
+            // The initial deployment is automatically triggered when creating a project with GitHub integration
+            // We can store the project URL
+            vercelProjectUrl = `https://vercel.com/${vercelService.teamId ? `${vercelService.teamId}/` : ""}${vercelProject.name}`;
+            
+            // Get the initial deployment URL from the project
+            if (vercelProject.link && vercelProject.link.productionDeployment) {
+              vercelDeploymentUrl = `https://${vercelProject.link.productionDeployment}`;
+            } else {
+              // Fallback to default Vercel URL pattern
+              vercelDeploymentUrl = `https://${newRepoName}.vercel.app`;
+            }
+            
+            logger.info(`Vercel deployment initiated. Project URL: ${vercelProjectUrl}, Deployment URL: ${vercelDeploymentUrl}`);
+            
+            // Optionally add custom domain if specified
+            if (cfg.customDomain) {
+              try {
+                await vercelService.addDomain(newRepoName, cfg.customDomain);
+                logger.info(`Custom domain added: ${cfg.customDomain}`);
+              } catch (domainError) {
+                logger.error(`Failed to add custom domain ${cfg.customDomain}:`, domainError);
+                // Don't fail the entire process if domain addition fails
+              }
+            }
+            
+          } catch (vercelError) {
+            logger.error(`Error deploying to Vercel:`, vercelError);
+            // Don't fail the entire process if Vercel deployment fails
+            // The GitHub repository is still created successfully
+          }
+        } else {
+          logger.info("Vercel deployment skipped - service not initialized");
+        }
+
         // Update Firestore document status to 'completed'
-        await event.data.ref.update({
+        const updateData = {
           status: "completed",
           generatedAt: admin.firestore.FieldValue.serverTimestamp(),
           repoName: newRepoName,
           repoUrl: `https://github.com/${GITHUB_OWNER}/${newRepoName}`,
           error: null,
-        });
+        };
+        
+        // Add Vercel URLs if deployment was successful
+        if (vercelProjectUrl) {
+          updateData.vercelProjectUrl = vercelProjectUrl;
+        }
+        if (vercelDeploymentUrl) {
+          updateData.vercelDeploymentUrl = vercelDeploymentUrl;
+        }
+        
+        await event.data.ref.update(updateData);
         logger.info(`Successfully created landing page repository: ${newRepoName}`);
       } catch (error) {
         logger.error(`Error processing landing page for ${event.params.id}:`, error);

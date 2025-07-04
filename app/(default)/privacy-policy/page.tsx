@@ -187,9 +187,9 @@ export default function PrivacyPolicy() {
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
               <p className="text-gray-700 mb-2"><strong>Allied Advantage Ads</strong></p>
-              <p className="text-gray-700 mb-2">Email: privacy@alliedadvantageads.com</p>
-              <p className="text-gray-700 mb-2">Phone: (555) 123-4567</p>
-              <p className="text-gray-700">Address: [Your Business Address]</p>
+              <p className="text-gray-700 mb-2">Email: privacy@alliedleadgen.com</p>
+              <p className="text-gray-700 mb-2">Phone: (888) 524-4496</p>
+              <p className="text-gray-700">Address: 5900 Balcones Drive, Suite 12823, Austin, TX 78731</p>
             </div>
           </section>
 

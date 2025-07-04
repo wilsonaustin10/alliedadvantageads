@@ -13,10 +13,6 @@ export default function Services() {
             {/* Custom Landing Pages */}
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-lg">
               <h3 className="mb-4 text-2xl font-bold">Custom Landing Pages</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-blue-600">$250</span>
-                <span className="text-gray-600">/each</span>
-              </div>
               <p className="mb-6 text-gray-600">
                 Get a professionally designed, high-converting landing page tailored to your brand.
               </p>
@@ -36,10 +32,6 @@ export default function Services() {
                 </span>
               </div>
               <h3 className="mb-4 text-2xl font-bold">Google PPC Package</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-blue-600">$1,500</span>
-                <span className="text-gray-600">/month</span>
-              </div>
               <p className="mb-6 text-gray-600">
                 Drive quality leads with our Google PPC campaigns.
               </p>
@@ -54,10 +46,6 @@ export default function Services() {
             {/* Google + Facebook PPC Package */}
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-lg">
               <h3 className="mb-4 text-2xl font-bold">Google + Facebook PPC Package</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-blue-600">$2,200</span>
-                <span className="text-gray-600">/month</span>
-              </div>
               <p className="mb-6 text-gray-600">
                 Expand your reach with integrated Google and Facebook ads.
               </p>

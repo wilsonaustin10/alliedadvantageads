@@ -1,6 +1,7 @@
 import "./css/style.css";
 
 import { Inter } from "next/font/google";
+import SmoothScroll from "@/components/smooth-scroll";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,8 +50,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body className={`${inter.variable} font-inter antialiased bg-white tracking-tight`}>
+        <SmoothScroll />
         <div className="flex min-h-screen flex-col overflow-hidden">
           {children}
         </div>

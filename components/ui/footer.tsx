@@ -11,10 +11,11 @@ export default function Footer() {
           <div className="md:col-span-4">
             <Link href="/" className="mb-2 inline-block" aria-label="Allied Advantage Ads">
               <Image
-                src="/images/allied-logo-white.svg"
+                src="/AAA Logo.png"
                 width={150}
                 height={60}
                 alt="Allied Advantage Ads"
+                className="object-contain brightness-0 invert"
               />
             </Link>
             <div className="text-sm text-gray-400">
@@ -73,7 +74,7 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li className="mb-1">
-                  <Link href="/privacy" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">
+                  <Link href="/privacy-policy" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">
                     Privacy Policy
                   </Link>
                 </li>

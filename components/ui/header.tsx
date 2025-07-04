@@ -13,11 +13,12 @@ export default function Header() {
           <div className="shrink-0 mr-4">
             <Link href="/" className="block" aria-label="Allied Advantage Ads">
               <Image
-                src="/images/allied-logo.svg"
-                width={150}
+                src="/AAA Marquee.png"
+                width={180}
                 height={60}
                 alt="Allied Advantage Ads"
                 priority
+                className="object-contain"
               />
             </Link>
           </div>
@@ -56,8 +57,8 @@ export default function Header() {
             <ul className="flex justify-end flex-wrap items-center">
               <li>
                 <Link
-                  href="#get-started"
-                  className="btn-sm text-white bg-blue-600 hover:bg-blue-700 ml-3"
+                  href="#consultation-form"
+                  className="btn-sm text-white bg-blue-600 hover:bg-blue-700 ml-3 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
                 >
                   Get Started
                 </Link>

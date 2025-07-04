@@ -1,22 +1,22 @@
 export const metadata = {
-  title: 'Allied Advantage Ads - Real Estate Lead Generation',
-  description: 'Generate motivated seller leads for your real estate wholesaling business with Allied Advantage Ads. Cost-effective, nationwide lead generation services.',
+  title: 'Allied Advantage Ads - Get 50+ Motivated Seller Leads Monthly',
+  description: 'Stop wasting time on cold calling. Get high-quality, exclusive motivated seller leads for as low as $18 per lead. Start in 48 hours.',
 }
 
 import HeroHome from '@/components/hero-home'
-import ValueProposition from '@/components/value-proposition'
-import Services from '@/components/services'
+import Benefits from '@/components/benefits'
+import Testimonials from '@/components/testimonials'
+import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
-import ContactForm from '@/components/contact-form'
 
 export default function Home() {
   return (
     <>
       <HeroHome />
-      <ValueProposition />
-      <Services />
+      <Benefits />
+      <Testimonials />
+      <ConsultationForm />
       <FAQ />
-      <ContactForm />
     </>
   )
 }

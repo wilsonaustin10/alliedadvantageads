@@ -10,7 +10,7 @@ class EnvironmentManager {
 
   /**
    * Get global environment variables that are shared across all deployments
-   * @returns {Promise<Array>} Array of environment variable objects
+   * @return {Promise<Array>} Array of environment variable objects
    */
   async getGlobalVariables() {
     try {
@@ -55,7 +55,7 @@ class EnvironmentManager {
   /**
    * Generate unique environment variables for a specific deployment
    * @param {Object} businessData - Business data from the onboarding form
-   * @returns {Promise<Array>} Array of unique environment variable objects
+   * @return {Promise<Array>} Array of unique environment variable objects
    */
   async generateUniqueVariables(businessData) {
     const variables = [];
@@ -128,26 +128,26 @@ class EnvironmentManager {
    * Generate a unique reCAPTCHA site key for the business
    * In production, this would integrate with Google reCAPTCHA API
    * @param {string} businessName - Name of the business
-   * @returns {Promise<string>} Generated site key
+   * @return {Promise<string>} Generated site key
    */
   async generateRecaptchaSiteKey(businessName) {
     // TODO: Implement actual reCAPTCHA API integration
     // For now, return a placeholder that indicates it needs to be configured
     logger.info(`Generating reCAPTCHA site key for ${businessName}`);
-    
+
     // In production, you would:
     // 1. Call Google reCAPTCHA Enterprise API to create a new key
     // 2. Associate it with the domain
     // 3. Store the secret key in Secret Manager
     // 4. Return the site key
-    
+
     return `PLACEHOLDER_RECAPTCHA_KEY_${businessName.replace(/\W+/g, "_").toUpperCase()}`;
   }
 
   /**
    * Get secret value from Secret Manager
    * @param {string} secretName - Name of the secret
-   * @returns {Promise<string>} Secret value
+   * @return {Promise<string>} Secret value
    */
   async getSecretValue(secretName) {
     try {
@@ -163,7 +163,7 @@ class EnvironmentManager {
   /**
    * Combine global and unique variables
    * @param {Object} businessData - Business data from the onboarding form
-   * @returns {Promise<Array>} Combined array of environment variables
+   * @return {Promise<Array>} Combined array of environment variables
    */
   async getAllVariablesForDeployment(businessData) {
     const [globalVars, uniqueVars] = await Promise.all([
@@ -175,4 +175,4 @@ class EnvironmentManager {
   }
 }
 
-module.exports = EnvironmentManager; 
+module.exports = EnvironmentManager;

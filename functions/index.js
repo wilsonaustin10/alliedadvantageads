@@ -423,18 +423,18 @@ exports.generateLanding = onDocumentCreated(
               logger.info(`Successfully generated logo. URL: ${viewData.logoUrl}`);
             } else {
               logger.warn(`OpenAI DALL-E 3 did not return a logo URL for ${cfg.businessName}.`);
-              // Optionally set a default placeholder if generation fails and no uploaded logo
-              // viewData.logoUrl = "/default-placeholder.png";
+              // Set a default placeholder if generation fails and no uploaded logo
+              viewData.logoUrl = "https://via.placeholder.com/240x80/1D4ED8/FFFFFF?text=" + encodeURIComponent(cfg.businessName || "Logo");
             }
           } catch (error) {
             logger.error(`Error generating logo for ${cfg.businessName} with OpenAI DALL-E 3:`, error);
-            // Optionally set a default placeholder if generation fails and no uploaded logo
-            // viewData.logoUrl = "/default-placeholder.png";
+            // Set a default placeholder if generation fails and no uploaded logo
+            viewData.logoUrl = "https://via.placeholder.com/240x80/1D4ED8/FFFFFF?text=" + encodeURIComponent(cfg.businessName || "Logo");
           }
         } else {
           logger.info("Skipping logo generation: No uploaded logo, and createLogo not 'yes' or OpenAI not available.");
-          // Optionally set a default placeholder if no logo is to be used/generated
-          // viewData.logoUrl = "/default-placeholder.png";
+          // Set a default placeholder if no logo is to be used/generated
+          viewData.logoUrl = "https://via.placeholder.com/240x80/1D4ED8/FFFFFF?text=" + encodeURIComponent(cfg.businessName || "Logo");
         }
 
         // 1. Create a new repository
@@ -478,15 +478,15 @@ exports.generateLanding = onDocumentCreated(
         // 3. Deploy to Vercel (if service is available)
         let vercelProjectUrl = null;
         let vercelDeploymentUrl = null;
-        
+
         if (vercelService && environmentManager) {
           try {
             logger.info(`Starting Vercel deployment for ${newRepoName}`);
-            
+
             // Get all environment variables for the deployment
             const envVariables = await environmentManager.getAllVariablesForDeployment(cfg);
             logger.info(`Prepared ${envVariables.length} environment variables for Vercel deployment`);
-            
+
             // Create Vercel project with GitHub integration
             const projectData = {
               name: newRepoName,
@@ -494,14 +494,14 @@ exports.generateLanding = onDocumentCreated(
               environmentVariables: envVariables,
               framework: "nextjs",
             };
-            
+
             const vercelProject = await vercelService.createProject(projectData);
             logger.info(`Vercel project created successfully: ${vercelProject.name}`);
-            
+
             // The initial deployment is automatically triggered when creating a project with GitHub integration
             // We can store the project URL
             vercelProjectUrl = `https://vercel.com/${vercelService.teamId ? `${vercelService.teamId}/` : ""}${vercelProject.name}`;
-            
+
             // Get the initial deployment URL from the project
             if (vercelProject.link && vercelProject.link.productionDeployment) {
               vercelDeploymentUrl = `https://${vercelProject.link.productionDeployment}`;
@@ -509,9 +509,9 @@ exports.generateLanding = onDocumentCreated(
               // Fallback to default Vercel URL pattern
               vercelDeploymentUrl = `https://${newRepoName}.vercel.app`;
             }
-            
+
             logger.info(`Vercel deployment initiated. Project URL: ${vercelProjectUrl}, Deployment URL: ${vercelDeploymentUrl}`);
-            
+
             // Optionally add custom domain if specified
             if (cfg.customDomain) {
               try {
@@ -522,9 +522,8 @@ exports.generateLanding = onDocumentCreated(
                 // Don't fail the entire process if domain addition fails
               }
             }
-            
           } catch (vercelError) {
-            logger.error(`Error deploying to Vercel:`, vercelError);
+            logger.error("Error deploying to Vercel:", vercelError);
             // Don't fail the entire process if Vercel deployment fails
             // The GitHub repository is still created successfully
           }
@@ -540,7 +539,7 @@ exports.generateLanding = onDocumentCreated(
           repoUrl: `https://github.com/${GITHUB_OWNER}/${newRepoName}`,
           error: null,
         };
-        
+
         // Add Vercel URLs if deployment was successful
         if (vercelProjectUrl) {
           updateData.vercelProjectUrl = vercelProjectUrl;
@@ -548,7 +547,7 @@ exports.generateLanding = onDocumentCreated(
         if (vercelDeploymentUrl) {
           updateData.vercelDeploymentUrl = vercelDeploymentUrl;
         }
-        
+
         await event.data.ref.update(updateData);
         logger.info(`Successfully created landing page repository: ${newRepoName}`);
       } catch (error) {

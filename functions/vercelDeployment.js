@@ -15,11 +15,11 @@ class VercelDeploymentService {
   /**
    * Create a new Vercel project
    * @param {Object} projectData - Project configuration
-   * @returns {Promise<Object>} Created project data
+   * @return {Promise<Object>} Created project data
    */
   async createProject(projectData) {
-    const { name, gitRepository, environmentVariables, framework = "nextjs" } = projectData;
-    
+    const {name, gitRepository, environmentVariables, framework = "nextjs"} = projectData;
+
     const payload = {
       name,
       framework,
@@ -35,19 +35,19 @@ class VercelDeploymentService {
     };
 
     // Add team ID if provided
-    const url = this.teamId 
-      ? `${this.baseUrl}/v9/projects?teamId=${this.teamId}`
-      : `${this.baseUrl}/v9/projects`;
+    const url = this.teamId ?
+      `${this.baseUrl}/v9/projects?teamId=${this.teamId}` :
+      `${this.baseUrl}/v9/projects`;
 
     try {
-      const response = await axios.post(url, payload, { headers: this.headers });
-      logger.info(`Vercel project created: ${name}`, { projectId: response.data.id });
-      
+      const response = await axios.post(url, payload, {headers: this.headers});
+      logger.info(`Vercel project created: ${name}`, {projectId: response.data.id});
+
       // Set environment variables if provided
       if (environmentVariables && environmentVariables.length > 0) {
         await this.setEnvironmentVariables(response.data.id, environmentVariables);
       }
-      
+
       return response.data;
     } catch (error) {
       logger.error("Error creating Vercel project:", error.response?.data || error.message);
@@ -61,9 +61,9 @@ class VercelDeploymentService {
    * @param {Array} variables - Array of environment variable objects
    */
   async setEnvironmentVariables(projectId, variables) {
-    const url = this.teamId
-      ? `${this.baseUrl}/v10/projects/${projectId}/env?teamId=${this.teamId}`
-      : `${this.baseUrl}/v10/projects/${projectId}/env`;
+    const url = this.teamId ?
+      `${this.baseUrl}/v10/projects/${projectId}/env?teamId=${this.teamId}` :
+      `${this.baseUrl}/v10/projects/${projectId}/env`;
 
     try {
       for (const variable of variables) {
@@ -73,8 +73,8 @@ class VercelDeploymentService {
           type: variable.type || ["production", "preview", "development"],
           target: variable.target || ["production", "preview", "development"],
         };
-        
-        await axios.post(url, payload, { headers: this.headers });
+
+        await axios.post(url, payload, {headers: this.headers});
         logger.info(`Environment variable set: ${variable.key} for project ${projectId}`);
       }
     } catch (error) {
@@ -89,9 +89,9 @@ class VercelDeploymentService {
    * @param {string} gitBranch - Git branch to deploy (default: main)
    */
   async triggerDeployment(projectName, gitBranch = "main") {
-    const url = this.teamId
-      ? `${this.baseUrl}/v13/deployments?teamId=${this.teamId}`
-      : `${this.baseUrl}/v13/deployments`;
+    const url = this.teamId ?
+      `${this.baseUrl}/v13/deployments?teamId=${this.teamId}` :
+      `${this.baseUrl}/v13/deployments`;
 
     const payload = {
       name: projectName,
@@ -104,10 +104,10 @@ class VercelDeploymentService {
     };
 
     try {
-      const response = await axios.post(url, payload, { headers: this.headers });
-      logger.info(`Deployment triggered for project: ${projectName}`, { 
+      const response = await axios.post(url, payload, {headers: this.headers});
+      logger.info(`Deployment triggered for project: ${projectName}`, {
         deploymentId: response.data.id,
-        url: response.data.url 
+        url: response.data.url,
       });
       return response.data;
     } catch (error) {
@@ -122,16 +122,16 @@ class VercelDeploymentService {
    * @param {string} domain - Domain to add (e.g., "client.alliedleadgen.com")
    */
   async addDomain(projectName, domain) {
-    const url = this.teamId
-      ? `${this.baseUrl}/v9/projects/${projectName}/domains?teamId=${this.teamId}`
-      : `${this.baseUrl}/v9/projects/${projectName}/domains`;
+    const url = this.teamId ?
+      `${this.baseUrl}/v9/projects/${projectName}/domains?teamId=${this.teamId}` :
+      `${this.baseUrl}/v9/projects/${projectName}/domains`;
 
     const payload = {
       name: domain,
     };
 
     try {
-      const response = await axios.post(url, payload, { headers: this.headers });
+      const response = await axios.post(url, payload, {headers: this.headers});
       logger.info(`Domain added to project ${projectName}: ${domain}`);
       return response.data;
     } catch (error) {
@@ -145,12 +145,12 @@ class VercelDeploymentService {
    * @param {string} deploymentId - Vercel deployment ID
    */
   async getDeploymentStatus(deploymentId) {
-    const url = this.teamId
-      ? `${this.baseUrl}/v13/deployments/${deploymentId}?teamId=${this.teamId}`
-      : `${this.baseUrl}/v13/deployments/${deploymentId}`;
+    const url = this.teamId ?
+      `${this.baseUrl}/v13/deployments/${deploymentId}?teamId=${this.teamId}` :
+      `${this.baseUrl}/v13/deployments/${deploymentId}`;
 
     try {
-      const response = await axios.get(url, { headers: this.headers });
+      const response = await axios.get(url, {headers: this.headers});
       return {
         id: response.data.id,
         url: response.data.url,
@@ -164,4 +164,4 @@ class VercelDeploymentService {
   }
 }
 
-module.exports = VercelDeploymentService; 
+module.exports = VercelDeploymentService;

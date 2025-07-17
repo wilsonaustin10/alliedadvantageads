@@ -186,11 +186,16 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
           .collection("landingPages") // Ensure this is "landingPages"
           .add(landingPageData);
 
-      // Log the submission
+      // Log the submission with detailed information
       logger.info("New landing page request received, generation triggered.", {
         landingPageId: landingPageRef.id,
         businessName: formData.businessName,
         requestId: formData.requestId,
+        hasLogo: formData.hasLogo,
+        uploadedLogoUrl: formData.uploadedLogoUrl,
+        logoPresent: formData.uploadedLogoUrl ? 'YES' : 'NO',
+        createLogo: formData.createLogo,
+        timestamp: new Date().toISOString()
       });
 
       // Return success response
@@ -403,9 +408,18 @@ exports.generateLanding = onDocumentCreated(
         };
 
         // Determine the logo URL to use
+        logger.info("[LOGO PROCESSING] Starting logo determination", {
+          uploadedLogoUrl: cfg.uploadedLogoUrl,
+          uploadedLogoUrlType: typeof cfg.uploadedLogoUrl,
+          uploadedLogoUrlLength: cfg.uploadedLogoUrl ? cfg.uploadedLogoUrl.length : 0,
+          createLogo: cfg.createLogo,
+          hasLogo: cfg.hasLogo,
+          openaiAvailable: !!openai
+        });
+        
         if (cfg.uploadedLogoUrl && typeof cfg.uploadedLogoUrl === "string" && cfg.uploadedLogoUrl.trim() !== "") {
           viewData.logoUrl = cfg.uploadedLogoUrl;
-          logger.info(`Using user-uploaded logo URL: ${viewData.logoUrl}`);
+          logger.info(`[LOGO PROCESSING] Using user-uploaded logo URL: ${viewData.logoUrl}`);
         } else if (cfg.createLogo === "yes" && openai) {
           try {
             logger.info(`Generating logo for ${cfg.businessName} with OpenAI DALL-E 3...`);
@@ -485,7 +499,12 @@ exports.generateLanding = onDocumentCreated(
 
             // Get all environment variables for the deployment
             const envVariables = await environmentManager.getAllVariablesForDeployment(cfg);
-            logger.info(`Prepared ${envVariables.length} environment variables for Vercel deployment`);
+            logger.info(`[VERCEL DEPLOYMENT] Prepared ${envVariables.length} environment variables for Vercel deployment`, {
+              businessName: cfg.businessName,
+              repoName: newRepoName,
+              hasCustomDomain: !!cfg.customDomain,
+              customDomain: cfg.customDomain || 'none'
+            });
 
             // Create Vercel project with GitHub integration
             const projectData = {
@@ -495,8 +514,14 @@ exports.generateLanding = onDocumentCreated(
               framework: "nextjs",
             };
 
+            logger.info("[VERCEL DEPLOYMENT] Creating Vercel project", projectData);
             const vercelProject = await vercelService.createProject(projectData);
-            logger.info(`Vercel project created successfully: ${vercelProject.name}`);
+            logger.info(`[VERCEL DEPLOYMENT] Vercel project created successfully`, {
+              projectName: vercelProject.name,
+              projectId: vercelProject.id,
+              gitRepo: projectData.gitRepository,
+              framework: projectData.framework
+            });
 
             // The initial deployment is automatically triggered when creating a project with GitHub integration
             // We can store the project URL
@@ -510,7 +535,12 @@ exports.generateLanding = onDocumentCreated(
               vercelDeploymentUrl = `https://${newRepoName}.vercel.app`;
             }
 
-            logger.info(`Vercel deployment initiated. Project URL: ${vercelProjectUrl}, Deployment URL: ${vercelDeploymentUrl}`);
+            logger.info(`[VERCEL DEPLOYMENT] Deployment initiated successfully`, {
+              projectUrl: vercelProjectUrl,
+              deploymentUrl: vercelDeploymentUrl,
+              autoDeployEnabled: true,
+              gitIntegration: 'github'
+            });
 
             // Optionally add custom domain if specified
             if (cfg.customDomain) {
@@ -523,7 +553,13 @@ exports.generateLanding = onDocumentCreated(
               }
             }
           } catch (vercelError) {
-            logger.error("Error deploying to Vercel:", vercelError);
+            logger.error("[VERCEL DEPLOYMENT] Error deploying to Vercel:", {
+              error: vercelError.message,
+              response: vercelError.response?.data,
+              stack: vercelError.stack,
+              repoName: newRepoName,
+              businessName: cfg.businessName
+            });
             // Don't fail the entire process if Vercel deployment fails
             // The GitHub repository is still created successfully
           }

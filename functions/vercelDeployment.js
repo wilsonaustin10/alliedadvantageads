@@ -40,8 +40,21 @@ class VercelDeploymentService {
       `${this.baseUrl}/v9/projects`;
 
     try {
+      logger.info("[VERCEL API] Creating project", {
+        url,
+        projectName: name,
+        framework,
+        gitRepo: gitRepository,
+        hasTeamId: !!this.teamId
+      });
+      
       const response = await axios.post(url, payload, {headers: this.headers});
-      logger.info(`Vercel project created: ${name}`, {projectId: response.data.id});
+      logger.info(`[VERCEL API] Project created successfully: ${name}`, {
+        projectId: response.data.id,
+        projectName: response.data.name,
+        framework: response.data.framework,
+        gitRepo: response.data.link?.repo
+      });
 
       // Set environment variables if provided
       if (environmentVariables && environmentVariables.length > 0) {
@@ -50,7 +63,13 @@ class VercelDeploymentService {
 
       return response.data;
     } catch (error) {
-      logger.error("Error creating Vercel project:", error.response?.data || error.message);
+      logger.error("[VERCEL API] Error creating project:", {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        projectName: name,
+        gitRepo: gitRepository
+      });
       throw error;
     }
   }
@@ -74,11 +93,23 @@ class VercelDeploymentService {
           target: variable.target || ["production", "preview", "development"],
         };
 
+        logger.info(`[VERCEL API] Setting env variable: ${variable.key}`, {
+          projectId,
+          hasValue: !!variable.value,
+          type: variable.type,
+          target: variable.target
+        });
+        
         await axios.post(url, payload, {headers: this.headers});
-        logger.info(`Environment variable set: ${variable.key} for project ${projectId}`);
+        logger.info(`[VERCEL API] Environment variable set successfully: ${variable.key} for project ${projectId}`);
       }
     } catch (error) {
-      logger.error("Error setting environment variables:", error.response?.data || error.message);
+      logger.error("[VERCEL API] Error setting environment variables:", {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        projectId
+      });
       throw error;
     }
   }
@@ -104,14 +135,28 @@ class VercelDeploymentService {
     };
 
     try {
+      logger.info("[VERCEL API] Triggering deployment", {
+        projectName,
+        branch: gitBranch,
+        target: "production"
+      });
+      
       const response = await axios.post(url, payload, {headers: this.headers});
-      logger.info(`Deployment triggered for project: ${projectName}`, {
+      logger.info(`[VERCEL API] Deployment triggered successfully for project: ${projectName}`, {
         deploymentId: response.data.id,
-        url: response.data.url,
+        deploymentUrl: response.data.url,
+        readyState: response.data.readyState,
+        target: response.data.target
       });
       return response.data;
     } catch (error) {
-      logger.error("Error triggering deployment:", error.response?.data || error.message);
+      logger.error("[VERCEL API] Error triggering deployment:", {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        projectName,
+        branch: gitBranch
+      });
       throw error;
     }
   }
@@ -131,11 +176,27 @@ class VercelDeploymentService {
     };
 
     try {
+      logger.info("[VERCEL API] Adding domain", {
+        projectName,
+        domain,
+        hasTeamId: !!this.teamId
+      });
+      
       const response = await axios.post(url, payload, {headers: this.headers});
-      logger.info(`Domain added to project ${projectName}: ${domain}`);
+      logger.info(`[VERCEL API] Domain added successfully to project ${projectName}: ${domain}`, {
+        domain: response.data.name,
+        verified: response.data.verified,
+        configuredBy: response.data.configuredBy
+      });
       return response.data;
     } catch (error) {
-      logger.error("Error adding domain:", error.response?.data || error.message);
+      logger.error("[VERCEL API] Error adding domain:", {
+        error: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        projectName,
+        domain
+      });
       throw error;
     }
   }

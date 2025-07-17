@@ -106,20 +106,47 @@ export default function OnboardingPage() {
     e.preventDefault();
     // Generate request ID at the beginning
     const currentRequestId = formData.requestId || generateRequestId();
+    console.log('[ONBOARDING] Starting form submission', {
+      requestId: currentRequestId,
+      businessName: formData.businessName,
+      hasLogo: formData.hasLogo,
+      createLogo: formData.createLogo,
+      hasLogoFile: !!logoFile,
+      logoFileName: logoFile?.name,
+      timestamp: new Date().toISOString()
+    });
+    
     let logoUrl = '';
 
     if (logoFile && currentRequestId) {
       try {
+        console.log('[ONBOARDING] Uploading logo to Firebase Storage', {
+          fileName: logoFile.name,
+          fileSize: logoFile.size,
+          fileType: logoFile.type,
+          storagePath: `logos/${currentRequestId}/${logoFile.name}`
+        });
+        
         const logoStorageRef = ref(storage, `logos/${currentRequestId}/${logoFile.name}`);
         await uploadBytes(logoStorageRef, logoFile);
         logoUrl = await getDownloadURL(logoStorageRef);
+        
+        console.log('[ONBOARDING] Logo uploaded successfully', {
+          downloadUrl: logoUrl,
+          urlLength: logoUrl.length
+        });
       } catch (uploadError) {
-        console.error('Error uploading logo:', uploadError);
+        console.error('[ONBOARDING] Error uploading logo:', uploadError);
         alert('Error uploading logo. Please try again or submit without a logo.');
         // Optionally, you might want to stop form submission here
         // or allow submission without the logo
         return; // Example: stop submission if logo upload fails
       }
+    } else {
+      console.log('[ONBOARDING] No logo file to upload', {
+        hasLogoFile: !!logoFile,
+        hasRequestId: !!currentRequestId
+      });
     }
 
     try {
@@ -128,6 +155,15 @@ export default function OnboardingPage() {
         requestId: currentRequestId,
         uploadedLogoUrl: logoUrl,
       };
+      
+      console.log('[ONBOARDING] Preparing submission data', {
+        requestId: currentRequestId,
+        uploadedLogoUrl: logoUrl ? 'present' : 'empty',
+        logoUrlLength: logoUrl.length,
+        hasLogo: submissionData.hasLogo,
+        createLogo: submissionData.createLogo,
+        businessName: submissionData.businessName
+      });
 
       const response = await fetch('https://allied-advantage-automation.web.app/api/onboarding', {
         method: 'POST',
@@ -138,12 +174,18 @@ export default function OnboardingPage() {
       });
 
       const data = await response.json();
+      console.log('[ONBOARDING] Response received', {
+        ok: response.ok,
+        status: response.status,
+        data,
+        landingPageId: data.landingPageId || data.submissionId
+      });
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to submit form');
       }
 
-      alert(`Form submitted successfully!\nRequest ID: ${currentRequestId}\nSubmission ID: ${data.submissionId}${logoUrl ? '\nLogo URL: ' + logoUrl : ''}`);
+      alert(`Form submitted successfully!\nRequest ID: ${currentRequestId}\nSubmission ID: ${data.submissionId || data.landingPageId}${logoUrl ? '\nLogo URL: ' + logoUrl : ''}`);
       // Reset form
       setFormData({
         requestId: '',
@@ -176,7 +218,12 @@ export default function OnboardingPage() {
       });
       setLogoFile(null);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('[ONBOARDING] Error submitting form:', {
+        error: error instanceof Error ? error.message : error,
+        stack: error instanceof Error ? error.stack : undefined,
+        requestId: currentRequestId,
+        businessName: formData.businessName
+      });
       alert('Error submitting form. Please try again.');
     }
   };

@@ -1,7 +1,15 @@
 const axios = require("axios");
 const logger = require("firebase-functions/logger");
 
+/**
+ * Service for managing Vercel deployments via API
+ */
 class VercelDeploymentService {
+  /**
+   * Initialize Vercel deployment service
+   * @param {string} apiToken - Vercel API token
+   * @param {string|null} teamId - Optional Vercel team ID
+   */
   constructor(apiToken, teamId = null) {
     this.apiToken = apiToken;
     this.teamId = teamId;
@@ -45,15 +53,15 @@ class VercelDeploymentService {
         projectName: name,
         framework,
         gitRepo: gitRepository,
-        hasTeamId: !!this.teamId
+        hasTeamId: !!this.teamId,
       });
-      
+
       const response = await axios.post(url, payload, {headers: this.headers});
       logger.info(`[VERCEL API] Project created successfully: ${name}`, {
         projectId: response.data.id,
         projectName: response.data.name,
         framework: response.data.framework,
-        gitRepo: response.data.link?.repo
+        gitRepo: response.data.link?.repo,
       });
 
       // Set environment variables if provided
@@ -68,7 +76,7 @@ class VercelDeploymentService {
         response: error.response?.data,
         status: error.response?.status,
         projectName: name,
-        gitRepo: gitRepository
+        gitRepo: gitRepository,
       });
       throw error;
     }
@@ -97,9 +105,9 @@ class VercelDeploymentService {
           projectId,
           hasValue: !!variable.value,
           type: variable.type,
-          target: variable.target
+          target: variable.target,
         });
-        
+
         await axios.post(url, payload, {headers: this.headers});
         logger.info(`[VERCEL API] Environment variable set successfully: ${variable.key} for project ${projectId}`);
       }
@@ -108,7 +116,7 @@ class VercelDeploymentService {
         error: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        projectId
+        projectId,
       });
       throw error;
     }
@@ -138,15 +146,15 @@ class VercelDeploymentService {
       logger.info("[VERCEL API] Triggering deployment", {
         projectName,
         branch: gitBranch,
-        target: "production"
+        target: "production",
       });
-      
+
       const response = await axios.post(url, payload, {headers: this.headers});
       logger.info(`[VERCEL API] Deployment triggered successfully for project: ${projectName}`, {
         deploymentId: response.data.id,
         deploymentUrl: response.data.url,
         readyState: response.data.readyState,
-        target: response.data.target
+        target: response.data.target,
       });
       return response.data;
     } catch (error) {
@@ -155,7 +163,7 @@ class VercelDeploymentService {
         response: error.response?.data,
         status: error.response?.status,
         projectName,
-        branch: gitBranch
+        branch: gitBranch,
       });
       throw error;
     }
@@ -179,14 +187,14 @@ class VercelDeploymentService {
       logger.info("[VERCEL API] Adding domain", {
         projectName,
         domain,
-        hasTeamId: !!this.teamId
+        hasTeamId: !!this.teamId,
       });
-      
+
       const response = await axios.post(url, payload, {headers: this.headers});
       logger.info(`[VERCEL API] Domain added successfully to project ${projectName}: ${domain}`, {
         domain: response.data.name,
         verified: response.data.verified,
-        configuredBy: response.data.configuredBy
+        configuredBy: response.data.configuredBy,
       });
       return response.data;
     } catch (error) {
@@ -195,7 +203,7 @@ class VercelDeploymentService {
         response: error.response?.data,
         status: error.response?.status,
         projectName,
-        domain
+        domain,
       });
       throw error;
     }

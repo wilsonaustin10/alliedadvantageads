@@ -1,7 +1,13 @@
 const logger = require("firebase-functions/logger");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 
+/**
+ * Manages environment variables for deployments
+ */
 class EnvironmentManager {
+  /**
+   * Initialize environment manager
+   */
   constructor() {
     this.secretManagerClient = new SecretManagerServiceClient({
       projectId: "allied-advantage-automation",

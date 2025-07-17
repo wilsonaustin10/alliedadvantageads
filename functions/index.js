@@ -193,9 +193,9 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
         requestId: formData.requestId,
         hasLogo: formData.hasLogo,
         uploadedLogoUrl: formData.uploadedLogoUrl,
-        logoPresent: formData.uploadedLogoUrl ? 'YES' : 'NO',
+        logoPresent: formData.uploadedLogoUrl ? "YES" : "NO",
         createLogo: formData.createLogo,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       // Return success response
@@ -414,9 +414,9 @@ exports.generateLanding = onDocumentCreated(
           uploadedLogoUrlLength: cfg.uploadedLogoUrl ? cfg.uploadedLogoUrl.length : 0,
           createLogo: cfg.createLogo,
           hasLogo: cfg.hasLogo,
-          openaiAvailable: !!openai
+          openaiAvailable: !!openai,
         });
-        
+
         if (cfg.uploadedLogoUrl && typeof cfg.uploadedLogoUrl === "string" && cfg.uploadedLogoUrl.trim() !== "") {
           viewData.logoUrl = cfg.uploadedLogoUrl;
           logger.info(`[LOGO PROCESSING] Using user-uploaded logo URL: ${viewData.logoUrl}`);
@@ -503,7 +503,7 @@ exports.generateLanding = onDocumentCreated(
               businessName: cfg.businessName,
               repoName: newRepoName,
               hasCustomDomain: !!cfg.customDomain,
-              customDomain: cfg.customDomain || 'none'
+              customDomain: cfg.customDomain || "none",
             });
 
             // Create Vercel project with GitHub integration
@@ -516,11 +516,11 @@ exports.generateLanding = onDocumentCreated(
 
             logger.info("[VERCEL DEPLOYMENT] Creating Vercel project", projectData);
             const vercelProject = await vercelService.createProject(projectData);
-            logger.info(`[VERCEL DEPLOYMENT] Vercel project created successfully`, {
+            logger.info("[VERCEL DEPLOYMENT] Vercel project created successfully", {
               projectName: vercelProject.name,
               projectId: vercelProject.id,
               gitRepo: projectData.gitRepository,
-              framework: projectData.framework
+              framework: projectData.framework,
             });
 
             // The initial deployment is automatically triggered when creating a project with GitHub integration
@@ -535,12 +535,21 @@ exports.generateLanding = onDocumentCreated(
               vercelDeploymentUrl = `https://${newRepoName}.vercel.app`;
             }
 
-            logger.info(`[VERCEL DEPLOYMENT] Deployment initiated successfully`, {
+            logger.info("[VERCEL DEPLOYMENT] Deployment initiated successfully", {
               projectUrl: vercelProjectUrl,
               deploymentUrl: vercelDeploymentUrl,
               autoDeployEnabled: true,
-              gitIntegration: 'github'
+              gitIntegration: "github",
             });
+            
+            // Note: If the GitHub integration isn't connected, log instructions
+            if (!vercelProject.link?.repo) {
+              logger.warn("[VERCEL DEPLOYMENT] GitHub integration may not be connected. Manual connection required:", {
+                instruction: "Go to Vercel project settings > Git > Connect Git Repository",
+                projectUrl: vercelProjectUrl,
+                gitRepo: projectData.gitRepository
+              });
+            }
 
             // Optionally add custom domain if specified
             if (cfg.customDomain) {
@@ -558,7 +567,7 @@ exports.generateLanding = onDocumentCreated(
               response: vercelError.response?.data,
               stack: vercelError.stack,
               repoName: newRepoName,
-              businessName: cfg.businessName
+              businessName: cfg.businessName,
             });
             // Don't fail the entire process if Vercel deployment fails
             // The GitHub repository is still created successfully

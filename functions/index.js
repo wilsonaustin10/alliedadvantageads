@@ -541,13 +541,19 @@ exports.generateLanding = onDocumentCreated(
               autoDeployEnabled: true,
               gitIntegration: "github",
             });
-            
+
             // Note: If the GitHub integration isn't connected, log instructions
             if (!vercelProject.link?.repo) {
               logger.warn("[VERCEL DEPLOYMENT] GitHub integration may not be connected. Manual connection required:", {
                 instruction: "Go to Vercel project settings > Git > Connect Git Repository",
                 projectUrl: vercelProjectUrl,
-                gitRepo: projectData.gitRepository
+                gitRepo: projectData.gitRepository,
+              });
+
+              // Also log environment variables that may need to be set manually
+              logger.info("[VERCEL DEPLOYMENT] If env vars failed, set them manually in Vercel:", {
+                projectUrl: `${vercelProjectUrl}/settings/environment-variables`,
+                variableCount: envVariables.length,
               });
             }
 

@@ -67,12 +67,17 @@ class VercelDeploymentService {
       // Set environment variables if provided
       if (environmentVariables && environmentVariables.length > 0) {
         try {
+          // Wait a moment for the project to be fully created
+          logger.info("[VERCEL API] Waiting 2 seconds before setting environment variables...");
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+
           await this.setEnvironmentVariables(response.data.name || response.data.id, environmentVariables);
         } catch (envError) {
           logger.warn("[VERCEL API] Failed to set environment variables, but project was created:", {
             error: envError.message,
             projectName: response.data.name,
             projectId: response.data.id,
+            instruction: "Set environment variables manually in Vercel dashboard",
           });
           // Don't throw - project was created successfully
         }
@@ -97,23 +102,46 @@ class VercelDeploymentService {
    * @param {Array} variables - Array of environment variable objects
    */
   async setEnvironmentVariables(projectIdOrName, variables) {
-    // Try different API versions as Vercel might have changed
-    const urls = [
-      this.teamId ? `${this.baseUrl}/v10/projects/${projectIdOrName}/env?teamId=${this.teamId}` : `${this.baseUrl}/v10/projects/${projectIdOrName}/env`,
-      this.teamId ? `${this.baseUrl}/v9/projects/${projectIdOrName}/env?teamId=${this.teamId}` : `${this.baseUrl}/v9/projects/${projectIdOrName}/env`,
-      this.teamId ? `${this.baseUrl}/v8/projects/${projectIdOrName}/env?teamId=${this.teamId}` : `${this.baseUrl}/v8/projects/${projectIdOrName}/env`,
+    // Try different API endpoints and formats
+    const baseUrls = [
+      `${this.baseUrl}/v10/projects/${projectIdOrName}/env`, // Current API version
+      `${this.baseUrl}/v9/projects/${projectIdOrName}/env`,
+      `${this.baseUrl}/v8/projects/${projectIdOrName}/env`,
     ];
+
+    const urls = [];
+    for (const baseUrl of baseUrls) {
+      if (this.teamId) {
+        urls.push(`${baseUrl}?teamId=${this.teamId}`);
+      }
+      urls.push(baseUrl); // Also try without team ID
+    }
 
     try {
       for (const variable of variables) {
-        // Updated payload format for newer Vercel API
-        const payload = {
-          key: variable.key,
-          value: variable.value,
-          type: variable.type || ["production", "preview", "development"],
-          target: variable.target || ["production", "preview", "development"],
-          gitBranch: "main", // Add git branch
-        };
+        // Try different payload formats
+        const payloads = [
+          // Format 1: Correct v10 API format with type field
+          {
+            key: variable.key,
+            value: variable.value,
+            type: "encrypted", // Required field for v10 API
+            target: variable.target || variable.type || ["production", "preview", "development"],
+          },
+          // Format 2: Try with plain type
+          {
+            key: variable.key,
+            value: variable.value,
+            type: "plain",
+            target: variable.target || variable.type || ["production", "preview", "development"],
+          },
+          // Format 3: Legacy format (might work for older API versions)
+          {
+            key: variable.key,
+            value: variable.value,
+            target: variable.target || variable.type || ["production", "preview", "development"],
+          },
+        ];
 
         logger.info(`[VERCEL API] Setting env variable: ${variable.key}`, {
           projectIdOrName,
@@ -125,35 +153,37 @@ class VercelDeploymentService {
         let success = false;
         let lastError = null;
 
-        // Try different API endpoints
+        // Try different API endpoints and payload formats
         for (const url of urls) {
-          try {
-            await axios.post(url, payload, {headers: this.headers});
-            logger.info(`[VERCEL API] Environment variable set successfully: ${variable.key} for project ${projectIdOrName}`);
-            success = true;
-            break;
-          } catch (envError) {
-            lastError = envError;
-            logger.warn(`[VERCEL API] Failed with ${url}, trying next...`, {
-              status: envError.response?.status,
-              error: envError.response?.data?.error?.message || envError.message,
-            });
+          for (const payload of payloads) {
+            try {
+              await axios.post(url, payload, {headers: this.headers});
+              logger.info(`[VERCEL API] Environment variable set successfully: ${variable.key} for project ${projectIdOrName}`);
+              success = true;
+              break;
+            } catch (envError) {
+              lastError = envError;
+              logger.warn(`[VERCEL API] Failed with ${url}, trying next...`, {
+                status: envError.response?.status,
+                error: envError.response?.data?.error?.message || envError.message,
+              });
 
-            // If it's a 404, try the next URL
-            if (envError.response?.status === 404) {
-              continue;
+              // If it's a 404 or 403, try the next URL
+              if (envError.response?.status === 404 || envError.response?.status === 403) {
+                continue;
+              }
+
+              // For other errors, continue to next URL but log the error
+              logger.warn(`[VERCEL API] Error with ${url}:`, {
+                error: envError.message,
+                response: envError.response?.data,
+                status: envError.response?.status,
+                payload: {key: variable.key, hasValue: !!variable.value},
+              });
             }
-
-            // For other errors, log and throw
-            logger.error(`[VERCEL API] Failed to set env var ${variable.key}:`, {
-              error: envError.message,
-              response: envError.response?.data,
-              status: envError.response?.status,
-              url: url,
-              payload: {key: variable.key, hasValue: !!variable.value},
-            });
-            throw envError;
+            if (success) break;
           }
+          if (success) break;
         }
 
         if (!success && lastError) {

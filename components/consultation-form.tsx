@@ -9,6 +9,7 @@ export default function ConsultationForm() {
     email: '',
     phone: '',
     dealsPerMonth: '',
+    a2pConsent: false,
   });
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -41,6 +42,9 @@ export default function ConsultationForm() {
       case 'dealsPerMonth':
         if (!value) return 'Please select how many deals you close per month';
         return '';
+      case 'a2pConsent':
+        if (!value) return 'You must agree to receive text messages';
+        return '';
       default:
         return '';
     }
@@ -49,9 +53,10 @@ export default function ConsultationForm() {
   // Check form validity
   useEffect(() => {
     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'dealsPerMonth'];
-    const hasRequiredFields = requiredFields.every(field => formData[field as keyof typeof formData].trim());
+    const hasRequiredFields = requiredFields.every(field => formData[field as keyof typeof formData].toString().trim());
+    const hasA2PConsent = formData.a2pConsent === true;
     const hasNoErrors = Object.values(fieldErrors).every(error => !error);
-    setIsFormValid(hasRequiredFields && hasNoErrors);
+    setIsFormValid(hasRequiredFields && hasA2PConsent && hasNoErrors);
   }, [formData, fieldErrors]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,16 +87,17 @@ export default function ConsultationForm() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target as HTMLInputElement;
     
     // Update form data
+    const fieldValue = type === 'checkbox' ? checked : value;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: fieldValue
     });
 
     // Real-time validation
-    const error = validateField(name, value);
+    const error = validateField(name, fieldValue.toString());
     setFieldErrors(prev => ({
       ...prev,
       [name]: error
@@ -278,6 +284,34 @@ export default function ConsultationForm() {
               {fieldErrors.dealsPerMonth && (
                 <p id="dealsPerMonth-error" className="mt-1 text-sm text-red-600" role="alert">
                   {fieldErrors.dealsPerMonth}
+                </p>
+              )}
+            </div>
+
+            <div className="border-t pt-6">
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  name="a2pConsent"
+                  id="a2pConsent"
+                  required
+                  disabled={status === 'submitting'}
+                  checked={formData.a2pConsent}
+                  onChange={handleChange}
+                  className="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 transition-all duration-200 disabled:opacity-50"
+                  aria-describedby="a2pConsent-description"
+                />
+                <label htmlFor="a2pConsent" className="ml-3 text-sm text-gray-700">
+                  <span className="font-medium">I agree to receive text messages <span className="text-red-500">*</span></span>
+                  <p id="a2pConsent-description" className="mt-1 text-gray-600">
+                    By checking this box, you consent to receive autodialed promotional text messages from Allied Advantage Ads at the phone number provided above. 
+                    Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe. View our <a href="/terms" className="text-blue-600 hover:underline">Terms</a> and <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
+                  </p>
+                </label>
+              </div>
+              {fieldErrors.a2pConsent && (
+                <p className="mt-2 ml-8 text-sm text-red-600" role="alert">
+                  {fieldErrors.a2pConsent}
                 </p>
               )}
             </div>

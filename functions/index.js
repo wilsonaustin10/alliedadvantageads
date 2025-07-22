@@ -542,6 +542,31 @@ exports.generateLanding = onDocumentCreated(
               gitIntegration: "github",
             });
 
+            // Trigger initial deployment
+            try {
+              logger.info("[VERCEL DEPLOYMENT] Triggering initial deployment...");
+              const deployment = await vercelService.triggerDeployment(newRepoName, "main");
+              logger.info("[VERCEL DEPLOYMENT] Initial deployment triggered successfully", {
+                deploymentId: deployment.id,
+                deploymentUrl: deployment.url,
+                readyState: deployment.readyState,
+                target: deployment.target,
+              });
+
+              // Update deployment URL if we got a specific one from the deployment
+              if (deployment.url) {
+                vercelDeploymentUrl = `https://${deployment.url}`;
+              }
+            } catch (deploymentError) {
+              logger.warn("[VERCEL DEPLOYMENT] Failed to trigger initial deployment:", {
+                error: deploymentError.message,
+                response: deploymentError.response?.data,
+                status: deploymentError.response?.status,
+                instruction: "The project was created successfully but deployment needs to be triggered manually",
+              });
+              // Don't fail the entire process - project creation was successful
+            }
+
             // Note: If the GitHub integration isn't connected, log instructions
             if (!vercelProject.link?.repo) {
               logger.warn("[VERCEL DEPLOYMENT] GitHub integration may not be connected. Manual connection required:", {

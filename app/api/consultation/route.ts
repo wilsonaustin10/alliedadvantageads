@@ -4,10 +4,10 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    const { firstName, lastName, email, phone, dealsPerMonth } = body;
+    const { firstName, lastName, email, phone, dealsPerMonth, a2pConsent } = body;
     
     // Validate required fields
-    if (!firstName || !lastName || !email || !phone || !dealsPerMonth) {
+    if (!firstName || !lastName || !email || !phone || !dealsPerMonth || !a2pConsent) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       email,
       phone,
       dealsPerMonth,
+      a2pConsent,
       timestamp: new Date().toISOString()
     });
     

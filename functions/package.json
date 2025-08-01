@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.4.0",
+    "googleapis": "^154.1.0",
     "mustache": "^4.2.0",
     "node-fetch": "^2.6.7",
     "openai": "^4.100.0"

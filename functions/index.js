@@ -640,3 +640,26 @@ exports.generateLanding = onDocumentCreated(
       }
     },
 );
+
+// Import MidPrint functions
+const { syncAllUsersData } = require("./midprint");
+
+// Add scheduled function for MidPrint data sync
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+
+exports.scheduledMidPrintSync = onSchedule({
+  schedule: "0 7 * * *", // Run daily at 7 AM
+  timeZone: "America/New_York",
+  memory: "512MB",
+  timeoutSeconds: 540, // 9 minutes
+}, async (event) => {
+  logger.info("Starting scheduled MidPrint data sync");
+  
+  try {
+    await syncAllUsersData();
+    logger.info("MidPrint data sync completed successfully");
+  } catch (error) {
+    logger.error("Error in scheduled MidPrint sync:", error);
+    throw error; // Re-throw to mark the function execution as failed
+  }
+});

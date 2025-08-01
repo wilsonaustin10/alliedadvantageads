@@ -97,17 +97,20 @@ export default function HomePortal() {
               </div>
             </Link>
 
-            <div className="col-span-1 bg-white rounded-lg shadow p-6">
+            <Link
+              href="/midprint"
+              className="col-span-1 bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+            >
               <div className="text-center">
                 <div className="mx-auto h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
                   <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">Your Progress</h3>
-                <p className="mt-2 text-sm text-gray-500">Track your journey with us</p>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">MidPrint Dashboard</h3>
+                <p className="mt-2 text-sm text-gray-500">View your Google Ads performance</p>
               </div>
-            </div>
+            </Link>
 
             <div className="col-span-1 bg-white rounded-lg shadow p-6">
               <div className="text-center">

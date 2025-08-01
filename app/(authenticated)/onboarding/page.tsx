@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Inter } from 'next/font/google';
-import { storage } from '@/lib/firebase'; // Assuming lib directory is aliased as @/lib
+import { storage, auth } from '@/lib/firebase'; // Assuming lib directory is aliased as @/lib
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +36,9 @@ const formatDollarAmount = (value: string) => {
 };
 
 export default function OnboardingPage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     requestId: '',
@@ -83,6 +88,19 @@ export default function OnboardingPage() {
     { name: 'Bold & Energetic', primary: '#D946EF', secondary: '#F59E0B' },
     { name: 'Elegant Dark', primary: '#374151', secondary: '#A78BFA' }
   ];
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/signin");
+      } else {
+        setUser(user);
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -227,6 +245,17 @@ export default function OnboardingPage() {
       alert('Error submitting form. Please try again.');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`bg-gray-100 p-4 md:p-8 ${inter.className}`}>

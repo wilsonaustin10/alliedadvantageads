@@ -57,6 +57,14 @@ export default function Header() {
             <ul className="flex justify-end flex-wrap items-center">
               <li>
                 <Link
+                  href="/signin"
+                  className="text-gray-600 hover:text-gray-900 px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
+                >
+                  Sign In
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="#consultation-form"
                   className="btn-sm text-white bg-blue-600 hover:bg-blue-700 ml-3 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
                 >

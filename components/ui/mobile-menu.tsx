@@ -63,7 +63,16 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="#get-started"
+                href="/signin"
+                className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign In
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#consultation-form"
                 className="mt-2 block rounded bg-blue-600 px-4 py-2 text-center text-sm text-white hover:bg-blue-700"
                 onClick={() => setIsOpen(false)}
               >

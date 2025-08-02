@@ -4,12 +4,6 @@ import { google } from 'googleapis';
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/midprint/auth/callback`
-);
-
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -25,6 +19,13 @@ export async function GET(request: NextRequest) {
     if (!code || !state) {
       return NextResponse.redirect(new URL('/midprint?error=missing_params', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
     }
+
+    // Initialize OAuth2 client
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/midprint/auth/callback`
+    );
 
     // Exchange the authorization code for tokens
     const { tokens } = await oauth2Client.getToken(code);

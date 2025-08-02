@@ -31,6 +31,8 @@ export default function MidPrintDashboard() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [hasGoogleAdsAccess, setHasGoogleAdsAccess] = useState(false);
+  const [showAccountSelector, setShowAccountSelector] = useState(false);
+  const [availableAccounts, setAvailableAccounts] = useState<any[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<string>('all');
   const [dateRange, setDateRange] = useState({
@@ -51,6 +53,15 @@ export default function MidPrintDashboard() {
       if (firebaseUser) {
         setUser(firebaseUser);
         console.log('Your Firebase User ID:', firebaseUser.uid);
+        
+        // Check URL params for OAuth callback
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('oauth') === 'success' && urlParams.get('selectAccount') === 'true') {
+          // User just completed OAuth, fetch available accounts
+          setShowAccountSelector(true);
+          await fetchAvailableAccounts(firebaseUser.uid);
+        }
+        
         await checkGoogleAdsAccess(firebaseUser.uid);
         await fetchCampaigns(firebaseUser.uid);
         await fetchMetrics(firebaseUser.uid);
@@ -116,7 +127,19 @@ export default function MidPrintDashboard() {
   };
 
   const handleConnectGoogleAds = () => {
-    window.location.href = '/api/midprint/auth/google';
+    window.location.href = `/api/midprint/auth/google?userId=${user?.uid}`;
+  };
+
+  const fetchAvailableAccounts = async (userId: string) => {
+    try {
+      const response = await fetch(`/api/midprint/auth/list-accounts?userId=${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setAvailableAccounts(data.accounts || []);
+      }
+    } catch (error) {
+      console.error('Error fetching available accounts:', error);
+    }
   };
 
   useEffect(() => {
@@ -133,6 +156,47 @@ export default function MidPrintDashboard() {
     );
   }
 
+  if (showAccountSelector && availableAccounts.length > 0) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle>Select Your Google Ads Account</CardTitle>
+            <CardDescription>
+              Choose which Google Ads account to connect to Allied Advantage Ads.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {availableAccounts.map((account) => (
+              <div
+                key={account.customerId}
+                className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+                onClick={async () => {
+                  try {
+                    await setDoc(doc(db, 'users', user.uid), {
+                      googleAdsCustomerId: account.customerId,
+                      googleAdsAccountName: account.descriptiveName,
+                      updatedAt: new Date()
+                    }, { merge: true });
+                    setHasGoogleAdsAccess(true);
+                    setShowAccountSelector(false);
+                    window.location.href = '/midprint';
+                  } catch (error) {
+                    console.error('Error saving account:', error);
+                  }
+                }}
+              >
+                <div className="font-medium">{account.descriptiveName}</div>
+                <div className="text-sm text-gray-500">Customer ID: {account.customerId}</div>
+                <div className="text-sm text-gray-500">{account.currencyCode} • {account.timeZone}</div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   if (!hasGoogleAdsAccess) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -140,59 +204,16 @@ export default function MidPrintDashboard() {
           <CardHeader>
             <CardTitle>Connect Your Google Ads Account</CardTitle>
             <CardDescription>
-              To view your advertising performance metrics, please connect your Google Ads account to Allied Advantage Ads.
+              Click below to connect your Google Ads account. After authorization, you'll be able to select which account to use.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Google Ads Customer ID (10 digits)
-              </label>
-              <input
-                type="text"
-                placeholder="1234567890"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, '');
-                  e.target.value = value;
-                }}
-                maxLength={10}
-                id="customerIdInput"
-              />
-              <p className="mt-1 text-sm text-gray-500">
-                Find this in your Google Ads account (top right, without hyphens)
-              </p>
-            </div>
-            <Button 
-              onClick={async () => {
-                const input = document.getElementById('customerIdInput') as HTMLInputElement;
-                const customerId = input?.value;
-                if (customerId && customerId.length === 10) {
-                  try {
-                    await setDoc(doc(db, 'users', user.uid), {
-                      googleAdsCustomerId: customerId,
-                      updatedAt: new Date()
-                    }, { merge: true });
-                    setHasGoogleAdsAccess(true);
-                    window.location.reload();
-                  } catch (error) {
-                    console.error('Error saving customer ID:', error);
-                    alert('Error saving customer ID. Please try again.');
-                  }
-                } else {
-                  alert('Please enter a valid 10-digit Customer ID');
-                }
-              }} 
-              className="w-full"
-            >
-              Save Customer ID
+          <CardContent>
+            <Button onClick={handleConnectGoogleAds} className="w-full">
+              Connect Google Ads Account
             </Button>
-            <div className="text-center text-sm text-gray-500">
-              <p>After adding your Customer ID, you'll need to authorize access:</p>
-            </div>
-            <Button onClick={handleConnectGoogleAds} className="w-full" variant="outline">
-              Connect Google Account (OAuth)
-            </Button>
+            <p className="mt-4 text-sm text-gray-500 text-center">
+              You'll be redirected to Google to authorize access, then you can select which account to use.
+            </p>
           </CardContent>
         </Card>
       </div>

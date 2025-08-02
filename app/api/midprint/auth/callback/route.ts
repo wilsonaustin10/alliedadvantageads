@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
     console.log('Google Ads OAuth tokens received for user:', state);
     console.log('Refresh token available:', !!tokens.refresh_token);
 
-    // Redirect back to the MidPrint dashboard
-    return NextResponse.redirect(new URL('/midprint?success=connected', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
+    // Redirect to MidPrint dashboard with account selection prompt
+    return NextResponse.redirect(new URL('/midprint?oauth=success&selectAccount=true', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
   } catch (error) {
     console.error('Error in OAuth callback:', error);
     return NextResponse.redirect(new URL('/midprint?error=callback_failed', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));

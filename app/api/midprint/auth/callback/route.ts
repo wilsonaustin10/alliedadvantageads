@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google } from 'googleapis';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  `${process.env.NEXT_PUBLIC_BASE_URL}/api/midprint/auth/callback`
+  `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/midprint/auth/callback`
 );
 
 export async function GET(request: NextRequest) {
@@ -16,11 +19,11 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('OAuth error:', error);
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/midprint?error=auth_failed`);
+      return NextResponse.redirect(new URL('/midprint?error=auth_failed', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
     }
 
     if (!code || !state) {
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/midprint?error=missing_params`);
+      return NextResponse.redirect(new URL('/midprint?error=missing_params', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
     }
 
     // Exchange the authorization code for tokens
@@ -33,9 +36,9 @@ export async function GET(request: NextRequest) {
     console.log('Refresh token available:', !!tokens.refresh_token);
 
     // Redirect back to the MidPrint dashboard
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/midprint?success=connected`);
+    return NextResponse.redirect(new URL('/midprint?success=connected', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
   } catch (error) {
     console.error('Error in OAuth callback:', error);
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/midprint?error=callback_failed`);
+    return NextResponse.redirect(new URL('/midprint?error=callback_failed', process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
   }
 }

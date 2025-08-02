@@ -50,6 +50,7 @@ export default function MidPrintDashboard() {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
+        console.log('Your Firebase User ID:', firebaseUser.uid);
         await checkGoogleAdsAccess(firebaseUser.uid);
         await fetchCampaigns(firebaseUser.uid);
         await fetchMetrics(firebaseUser.uid);

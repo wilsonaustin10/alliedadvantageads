@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth, firestore as db } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
@@ -69,6 +69,15 @@ export default function MidPrintDashboard() {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         setHasGoogleAdsAccess(!!userData.googleAdsCustomerId);
+      } else {
+        // Create user document if it doesn't exist
+        console.log('Creating user document for:', userId);
+        await setDoc(doc(db, 'users', userId), {
+          email: user?.email,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+        setHasGoogleAdsAccess(false);
       }
     } catch (error) {
       console.error('Error checking Google Ads access:', error);
@@ -134,9 +143,55 @@ export default function MidPrintDashboard() {
               To view your advertising performance metrics, please connect your Google Ads account to Allied Advantage Ads.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <Button onClick={handleConnectGoogleAds} className="w-full">
-              Connect Google Ads Account
+          <CardContent className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Google Ads Customer ID (10 digits)
+              </label>
+              <input
+                type="text"
+                placeholder="1234567890"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '');
+                  e.target.value = value;
+                }}
+                maxLength={10}
+                id="customerIdInput"
+              />
+              <p className="mt-1 text-sm text-gray-500">
+                Find this in your Google Ads account (top right, without hyphens)
+              </p>
+            </div>
+            <Button 
+              onClick={async () => {
+                const input = document.getElementById('customerIdInput') as HTMLInputElement;
+                const customerId = input?.value;
+                if (customerId && customerId.length === 10) {
+                  try {
+                    await setDoc(doc(db, 'users', user.uid), {
+                      googleAdsCustomerId: customerId,
+                      updatedAt: new Date()
+                    }, { merge: true });
+                    setHasGoogleAdsAccess(true);
+                    window.location.reload();
+                  } catch (error) {
+                    console.error('Error saving customer ID:', error);
+                    alert('Error saving customer ID. Please try again.');
+                  }
+                } else {
+                  alert('Please enter a valid 10-digit Customer ID');
+                }
+              }} 
+              className="w-full"
+            >
+              Save Customer ID
+            </Button>
+            <div className="text-center text-sm text-gray-500">
+              <p>After adding your Customer ID, you'll need to authorize access:</p>
+            </div>
+            <Button onClick={handleConnectGoogleAds} className="w-full" variant="outline">
+              Connect Google Account (OAuth)
             </Button>
           </CardContent>
         </Card>

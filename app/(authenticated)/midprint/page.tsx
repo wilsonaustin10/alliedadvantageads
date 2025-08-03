@@ -222,9 +222,32 @@ export default function MidPrintDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">MidPrint Performance Dashboard</h1>
-        <p className="text-gray-600">Monitor your Google Ads campaign performance</p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">MidPrint Performance Dashboard</h1>
+          <p className="text-gray-600">Monitor your Google Ads campaign performance</p>
+        </div>
+        <Button 
+          variant="outline"
+          onClick={() => {
+            const newCustomerId = prompt('Enter your Google Ads Customer ID (10 digits):', '');
+            if (newCustomerId && newCustomerId.length === 10 && /^\d+$/.test(newCustomerId)) {
+              setDoc(doc(db, 'users', user.uid), {
+                googleAdsCustomerId: newCustomerId,
+                updatedAt: new Date()
+              }, { merge: true }).then(() => {
+                alert('Customer ID updated successfully!');
+                window.location.reload();
+              }).catch((error) => {
+                alert('Error updating Customer ID: ' + error.message);
+              });
+            } else if (newCustomerId) {
+              alert('Please enter a valid 10-digit Customer ID');
+            }
+          }}
+        >
+          Update Customer ID
+        </Button>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 mb-8">

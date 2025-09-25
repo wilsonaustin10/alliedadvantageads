@@ -10,16 +10,12 @@ export default function HeroHome() {
         <div className="pb-12 pt-32 md:pb-20 md:pt-40">
           {/* Section header */}
           <div className="pb-12 text-center md:pb-16">
-            {/* Logo */}
-            <div className="mb-6 flex justify-center" data-aos="zoom-y-out">
-              <Image
-                src="/AAA Marquee.png"
-                width={240}
-                height={80}
-                alt="Allied Advantage Ads Logo"
-                priority
-                className="object-contain"
-              />
+            {/* Brand Badge */}
+            <div className="mb-8 inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold" data-aos="zoom-y-out">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              AI-POWERED ADVERTISING REVOLUTION
             </div>
             
             <h1
@@ -27,19 +23,40 @@ export default function HeroHome() {
               data-aos="zoom-y-out"
               data-aos-delay={150}
             >
-              Get 50+ Motivated Seller Leads.
+              Allied Advantage:
               <br />
-              <span className="text-blue-600">Every Single Month.</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">AI Advertising</span>
             </h1>
             <div className="mx-auto max-w-3xl">
               <p
-                className="mb-10 text-xl text-gray-700 md:text-2xl"
+                className="mb-8 text-xl text-gray-700 md:text-2xl leading-relaxed"
                 data-aos="zoom-y-out"
                 data-aos-delay={300}
               >
-                Stop wasting time on cold calling. We deliver high-quality, exclusive leads 
-                directly to your inbox for <span className="font-bold text-blue-600">as low as $18 per lead</span>.
+                Revolutionary AI-powered methodology delivers <span className="font-bold text-blue-600">higher-quality leads</span> at 
+                <span className="font-bold text-purple-600"> lower costs</span> than any competitor. 
+                Built specifically for real estate wholesalers and home services businesses.
               </p>
+              <div className="mb-10 flex flex-col sm:flex-row gap-4 justify-center items-center text-lg" data-aos="zoom-y-out" data-aos-delay={350}>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-gray-700">Meta Campaigns</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-gray-700">Google Ads</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-gray-700">Custom Websites</span>
+                </div>
+              </div>
               <div className="relative">
                 <div
                   className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center"
@@ -47,11 +64,11 @@ export default function HeroHome() {
                   data-aos-delay={450}
                 >
                   <a
-                    className="btn group mb-4 w-full bg-blue-600 text-white shadow-xl hover:bg-blue-700 hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1 sm:mb-0 sm:w-auto px-10 py-5 text-xl font-bold rounded-full"
+                    className="btn group mb-4 w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1 sm:mb-0 sm:w-auto px-10 py-5 text-xl font-bold rounded-full"
                     href="#consultation-form"
                   >
                     <span className="relative inline-flex items-center">
-                      Get Your Free Consultation
+                      Unlock AI-Powered Growth
                       <span className="ml-3 tracking-normal transition-transform group-hover:translate-x-1">
                         →
                       </span>
@@ -60,7 +77,7 @@ export default function HeroHome() {
                 </div>
               </div>
               <p className="mt-4 text-gray-600" data-aos="zoom-y-out" data-aos-delay={500}>
-                🔒 No credit card required • 🚀 Start getting leads in 48 hours
+                🤖 AI-Enhanced Campaigns • 🎯 Proven Methodology • 🚀 Launch in 48 Hours
               </p>
             </div>
           </div>
@@ -71,18 +88,22 @@ export default function HeroHome() {
             data-aos="zoom-y-out"
             data-aos-delay={600}
           >
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-4">
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold text-gray-900">257+</div>
-                <p className="text-lg text-gray-600">Happy Wholesalers</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">45%</div>
+                <p className="text-lg text-gray-600">Lower Cost Per Lead</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold text-gray-900">15,000+</div>
-                <p className="text-lg text-gray-600">Leads Generated Monthly</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">3x</div>
+                <p className="text-lg text-gray-600">Higher Conversion Rate</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold text-gray-900">$23M+</div>
-                <p className="text-lg text-gray-600">In Closed Deals</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">500+</div>
+                <p className="text-lg text-gray-600">AI-Optimized Campaigns</p>
+              </div>
+              <div className="text-center">
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">98%</div>
+                <p className="text-lg text-gray-600">Client Retention Rate</p>
               </div>
             </div>
           </div>

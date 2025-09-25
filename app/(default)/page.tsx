@@ -1,10 +1,14 @@
 export const metadata = {
-  title: 'Allied Advantage Ads - Get 50+ Motivated Seller Leads Monthly',
-  description: 'Stop wasting time on cold calling. Get high-quality, exclusive motivated seller leads for as low as $18 per lead. Start in 48 hours.',
+  title: 'Allied Advantage: AI Advertising - Superior Leads at Lower Costs',
+  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services. Meta, Google Ads, custom websites, and landing pages.',
 }
 
 import HeroHome from '@/components/hero-home'
-import Benefits from '@/components/benefits'
+import ValueProposition from '@/components/value-proposition'
+import Services from '@/components/services'
+import AIAdvantage from '@/components/ai-advantage'
+import FutureInnovations from '@/components/future-innovations'
+import EducationalCourses from '@/components/educational-courses'
 import Testimonials from '@/components/testimonials'
 import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
@@ -13,7 +17,11 @@ export default function Home() {
   return (
     <>
       <HeroHome />
-      <Benefits />
+      <ValueProposition />
+      <Services />
+      <AIAdvantage />
+      <FutureInnovations />
+      <EducationalCourses />
       <Testimonials />
       <ConsultationForm />
       <FAQ />

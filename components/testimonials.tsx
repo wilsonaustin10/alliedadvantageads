@@ -19,7 +19,7 @@ export default function Testimonials() {
       highlight: "10x Lead Volume"
     },
     {
-      content: "The combination of Meta campaigns, Google Ads, and custom landing pages is unstoppable. Our conversion rate went from 2% to 8.4%. Best ROI we've ever seen.",
+      content: "Allied's Google Ads campaigns are unstoppable. Our conversion rate went from 2% to 8.4% with search traffic alone. Best ROI we've ever seen.",
       author: "James Chen",
       role: "Operations Director, Quick Cash Homes",
       location: "San Francisco, CA",

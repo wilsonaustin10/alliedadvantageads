@@ -48,17 +48,7 @@ export default function Footer() {
               <ul>
                 <li className="mb-1">
                   <Link href="#services" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">
-                    Landing Pages
-                  </Link>
-                </li>
-                <li className="mb-1">
-                  <Link href="#services" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">
-                    Google PPC
-                  </Link>
-                </li>
-                <li className="mb-1">
-                  <Link href="#services" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">
-                    Facebook PPC
+                    Google Ads Management
                   </Link>
                 </li>
               </ul>

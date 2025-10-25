@@ -15,26 +15,26 @@ export default function EducationalCourses() {
   };
   const courses = [
     {
-      title: "Facebook Ads Mastery",
+      title: "Google Ads Foundations",
       level: "Beginner to Advanced",
       duration: "8 weeks",
       modules: 12,
-      description: "Master Facebook advertising from scratch. Learn audience targeting, creative optimization, and scaling strategies.",
+      description: "Master Google Ads from the ground up. Build bulletproof account structures and launch high-converting campaigns.",
       topics: [
         "Campaign structure and objectives",
-        "Audience research and targeting",
-        "Ad creative best practices",
-        "Budget optimization and scaling"
+        "Keyword and audience research",
+        "Ad copy & extension best practices",
+        "Budget pacing and optimization"
       ],
       icon: "📘",
       color: "blue"
     },
     {
-      title: "Google Ads Domination",
+      title: "Search Ads Domination",
       level: "Intermediate",
       duration: "6 weeks",
       modules: 10,
-      description: "Conquer Google Ads with proven strategies for search, display, and YouTube advertising.",
+      description: "Conquer Google Ads search campaigns with proven strategies for high-intent traffic and conversion scaling.",
       topics: [
         "Keyword research mastery",
         "Quality score optimization",
@@ -45,30 +45,30 @@ export default function EducationalCourses() {
       color: "green"
     },
     {
-      title: "Landing Page Psychology",
+      title: "Conversion Tracking Blueprint",
       level: "All Levels",
       duration: "4 weeks",
       modules: 8,
-      description: "Design landing pages that convert using psychological triggers and proven frameworks.",
+      description: "Implement bulletproof conversion tracking that keeps your Google Ads campaigns optimized and accountable.",
       topics: [
-        "Conversion psychology principles",
-        "Copywriting that sells",
-        "Design for conversions",
-        "A/B testing strategies"
+        "Tag Manager and GA4 essentials",
+        "Offline conversion imports",
+        "Attribution modeling",
+        "Testing & troubleshooting"
       ],
       icon: "🧠",
       color: "purple"
     },
     {
-      title: "AI Marketing Revolution",
+      title: "AI Optimization for Google Ads",
       level: "Advanced",
       duration: "10 weeks",
       modules: 15,
-      description: "Leverage AI tools and automation to 10x your marketing results with less effort.",
+      description: "Leverage AI tools and automation to 10x your Google Ads performance with less effort.",
       topics: [
         "AI tool integration",
         "Automated campaign management",
-        "Predictive analytics",
+        "Predictive bid adjustments",
         "Machine learning basics"
       ],
       icon: "🤖",

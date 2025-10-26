@@ -14,6 +14,8 @@ import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
 
 export default function Home() {
+  const SHOW_TESTIMONIALS = false // Toggle to true when testimonials should reappear
+
   return (
     <>
       <HeroHome />
@@ -22,7 +24,7 @@ export default function Home() {
       <AIAdvantage />
       <FutureInnovations />
       <EducationalCourses />
-      <Testimonials />
+      {SHOW_TESTIMONIALS && <Testimonials />}
       <ConsultationForm />
       <FAQ />
     </>

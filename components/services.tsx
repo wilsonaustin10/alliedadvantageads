@@ -7,7 +7,7 @@ export default function Services() {
         </svg>
       ),
       title: "Google Ads Growth Engine",
-      description: "Dominate search results with our proven PPC strategies and advanced keyword optimization tailored for motivated sellers and home services leads",
+      description: "Dominate search results with our proven PPC strategies and advanced keyword optimization tailored for motivated sellers leads",
       features: [
         "Intent-based keyword research",
         "Quality score optimization",

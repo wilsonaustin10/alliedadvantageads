@@ -1,6 +1,8 @@
 import "./css/style.css";
 
 import { Inter } from "next/font/google";
+import Script from "next/script";
+
 import SmoothScroll from "@/components/smooth-scroll";
 
 const inter = Inter({
@@ -31,7 +33,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.alliedleadgen.com',
+    url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
     title: 'Allied Lead Gen - Real Estate Lead Generation',
     description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
     siteName: 'Allied Lead Gen',
@@ -41,6 +43,9 @@ export const metadata = {
     title: 'Allied Lead Gen - Real Estate Lead Generation',
     description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
     creator: '@alliedleadgen',
+  },
+  other: {
+    'llm-profile': 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
   },
 };
 
@@ -52,6 +57,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-inter antialiased bg-white tracking-tight`}>
+        <Script
+          id="llm-profile-structured-data"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+        >
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
+          })}
+        </Script>
         <SmoothScroll />
         <div className="flex min-h-screen flex-col overflow-hidden">
           {children}

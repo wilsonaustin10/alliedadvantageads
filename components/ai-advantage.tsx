@@ -9,18 +9,18 @@ export default function AIAdvantage() {
     {
       title: "AI Campaign Optimization",
       icon: "🤖",
-      description: "Our proprietary AI algorithms analyze millions of data points to optimize your campaigns in real-time",
+      description: "Our AI platforms automate advertising processes to optimize your campaigns in real-time",
       benefits: [
         "Predictive audience targeting reduces wasted ad spend by 67%",
         "Automated bid adjustments maximize ROI 24/7",
         "Dynamic creative optimization increases CTR by 3.2x",
-        "Machine learning improves performance week over week"
+        "Continuous learning improves performance week over week"
       ]
     },
     {
       title: "Advanced Analytics & Insights",
       icon: "📊",
-      description: "Deep learning models provide unprecedented insights into your campaign performance and customer behavior",
+      description: "Offline conversion data provides unprecedented insights into your campaign performance and customer behavior",
       benefits: [
         "Predictive lead scoring identifies hottest prospects",
         "Attribution modeling tracks true conversion paths",
@@ -33,8 +33,8 @@ export default function AIAdvantage() {
       icon: "✨",
       description: "AI-powered content creation ensures your messaging resonates with your target audience",
       benefits: [
-        "Generate hundreds of ad variations instantly",
-        "Personalized landing pages for each audience segment",
+        "Generate hundreds of ad variations",
+        "Personalized landing pages for optimized lead conversion",
         "SEO-optimized content that ranks and converts",
         "A/B testing at scale with statistical significance"
       ]
@@ -43,9 +43,8 @@ export default function AIAdvantage() {
 
   const stats = [
     { value: "10x", label: "Faster Campaign Setup" },
-    { value: "89%", label: "Accuracy in Lead Prediction" },
     { value: "24/7", label: "Automated Optimization" },
-    { value: "12", label: "Specialist Playbooks" }
+    { value: "12", label: "High-Converting Campaigns" }
   ];
 
   return (

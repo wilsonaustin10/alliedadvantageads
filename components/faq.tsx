@@ -6,17 +6,17 @@ const faqs = [
   {
     category: "AI Technology",
     question: "How does AI improve my advertising results?",
-    answer: "Our AI analyzes millions of data points in real-time to optimize your campaigns 24/7. It automatically adjusts bids, refines targeting, tests creative variations, and identifies the highest-converting audiences. This results in 45% lower cost per lead and 3.2x better conversion rates compared to traditional methods."
+    answer: "Our AI acts like a 24/7 marketing team that never sleeps. It analyzes performance data across platforms in real time — identifying patterns, testing new ad variations, and reallocating budget to what’s working fastest. By learning from every click and impression, it continually refines your targeting, messaging, and spend to reach the right audience at the right moment. The result: consistently lower costs, higher-quality leads, and campaigns that get smarter every single day."
   },
   {
     category: "Services",
     question: "What services do you offer?",
-    answer: "We focus exclusively on Google Ads management. Our team handles everything from keyword research and campaign structure to bid automation, ad copy testing, and conversion tracking — all tailored to real estate wholesalers and home services businesses."
+    answer: "We focus exclusively on Google Ads management. Our team handles everything from keyword research and campaign structure to bid automation, ad copy testing, and conversion tracking — all tailored to real estate wholesalers."
   },
   {
     category: "Results",
     question: "How quickly will I see results?",
-    answer: "Thanks to our AI-powered optimization, most clients start receiving high-quality leads within 48 hours of campaign launch. Our machine learning algorithms typically achieve optimal performance within the first week, continuously improving results over time. We've generated over 15,000 leads monthly across our client base."
+    answer: "Thanks to our AI-powered optimization, most clients start receiving high-quality leads within 48 hours of campaign launch. Our systems typically achieve optimal performance within the 60 days, continuously improving results over time. We've generated 1,000s leads across our client base."
   },
   {
     category: "Pricing",
@@ -31,17 +31,17 @@ const faqs = [
   {
     category: "Future Tools",
     question: "What upcoming tools will be available?",
-    answer: "In Fall 2025, we're launching three revolutionary tools: AI Keyword Generator ($29/month) for discovering high-converting keywords, Prompt Optimizer Pro ($49/month) for perfect ad copy creation, and Campaign Intelligence Suite ($99/month) for advanced analytics and optimization. Early adopters receive lifetime discounts."
+    answer: "In Winter 2025, we're launching three revolutionary tools: AI Keyword Generator ($29/month) for discovering high-converting keywords, Prompt Optimizer Pro ($49/month) for perfect ad copy creation, and Campaign Intelligence Suite ($99/month) for advanced analytics and optimization. Early adopters receive lifetime discounts."
   },
   {
     category: "Commitment",
     question: "Do you require long-term contracts?",
-    answer: "No, we operate on a month-to-month basis with no long-term contracts required. Our campaigns are built to deliver up to 10x return on ad spend, so clients choose to stay based on performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
+    answer: "No, we operate on a month-to-month basis after a 90-day campaign maturity period. Our campaigns are built to deliver up to 10x return on ad spend, so clients choose to stay based on performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
   },
   {
     category: "Coverage",
     question: "What industries and locations do you serve?",
-    answer: "We specialize in real estate wholesaling and home services businesses nationwide across the United States. Our AI can target specific cities, counties, or regions based on your needs. We've successfully managed over 500 campaigns in markets ranging from major metros to rural areas."
+    answer: "We specialize in real estate wholesaling nationwide across the United States. Our AI can target specific cities, counties, or regions based on your needs. We've successfully managed campaigns in markets ranging from major metros to rural areas."
   }
 ];
 

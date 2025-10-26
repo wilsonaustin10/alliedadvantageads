@@ -1,4 +1,4 @@
-# Logging Guide for Allied Lead Gen Landing
+# Logging Guide for Allied Advantage Ads Landing
 
 ## Overview
 This guide explains where to find logs for monitoring the onboarding to deployment workflow.

@@ -1,8 +1,8 @@
-# Allied Lead Gen Landing - Automated Landing Page System
+# Allied Advantage Ads Landing - Automated Landing Page System
 
 ## Overview
 
-The Allied Lead Gen Landing system automates the creation and deployment of customized landing pages for real estate wholesaling businesses. When a client completes the onboarding form, the system automatically:
+The Allied Advantage Ads Landing system automates the creation and deployment of customized landing pages for real estate wholesaling businesses. When a client completes the onboarding form, the system automatically:
 
 1. **Generates a GitHub Repository** - Creates a new repository from a template with customized content
 2. **Deploys to Vercel** - Automatically deploys the site with proper environment variables and configurations

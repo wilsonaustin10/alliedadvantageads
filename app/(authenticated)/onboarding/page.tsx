@@ -261,7 +261,7 @@ export default function OnboardingPage() {
     <div className={`bg-gray-100 p-4 md:p-8 ${inter.className}`}>
       <div className="max-w-3xl mx-auto">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-800">Allied LeadGen</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Allied Advantage Ads</h1>
           <p className="text-xl text-gray-600">New Client Onboarding</p>
         </header>
 

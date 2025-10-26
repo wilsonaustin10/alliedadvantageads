@@ -1,6 +1,6 @@
 # Vercel Auto-Deployment Guide
 
-This guide explains how to set up and use the automatic Vercel deployment feature for Allied Lead Gen Landing pages.
+This guide explains how to set up and use the automatic Vercel deployment feature for Allied Advantage Ads Landing pages.
 
 ## Overview
 

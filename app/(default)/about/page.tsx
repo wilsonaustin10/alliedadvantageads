@@ -59,7 +59,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-gray-900">Performance we stand behind</h2>
             <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-6">
               <p>
-                Across the campaigns we manage, wholesalers have seen a 35% decrease in cost per lead, doubled appointment rates, and a steady flow of motivated sellers who show up ready to talk numbers. We built Allied Advantage Ads to be a revenue engine—not a line item you have to justify every quarter.
+                Across the campaigns we manage, wholesalers have seen a 45% decrease in cost per lead, doubled appointment rates, and a steady flow of motivated sellers who show up ready to talk numbers. We built Allied Advantage Ads to be a revenue engine—not a line item you have to justify every quarter.
               </p>
             </div>
             <p>

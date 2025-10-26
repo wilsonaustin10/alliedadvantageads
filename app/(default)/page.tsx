@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Allied Advantage: AI Advertising - Superior Leads at Lower Costs',
-  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services. Meta, Google Ads, custom websites, and landing pages.',
+  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services through Google Ads management.',
 }
 
 import HeroHome from '@/components/hero-home'

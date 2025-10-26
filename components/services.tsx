@@ -34,7 +34,7 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl space-y-8">
+        <div className="max-w-3xl mx-auto grid gap-8">
           {services.map((service, index) => (
             <div
               key={index}

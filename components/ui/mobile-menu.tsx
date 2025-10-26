@@ -45,7 +45,7 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="#about"
+                href="/about"
                 className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >

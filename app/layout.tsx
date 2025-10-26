@@ -44,6 +44,7 @@ export const metadata = {
     description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
     creator: '@alliedadvantageads',
   },
+  manifest: 'https://alliedadvantage.co/.well-known/acp.json',
   other: {
     'llm-profile': 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
   },

@@ -117,6 +117,12 @@ The Allied Advantage Ads Landing system automates the creation and deployment of
    npm run deploy
    ```
 
+## ACP Manifest
+
+- The Allied Advantage Ads properties publish an Allied Commerce Profile (ACP) manifest so partner bots can verify business and advertising details.
+- The manifest is served from the public path `/.well-known/acp.json` and is currently hosted at `https://alliedadvantage.co/.well-known/acp.json`.
+- When deploying new environments or updating DNS, ensure the `.well-known` directory (and `acp.json`) is copied to the hosting provider so automated agents can continue to discover it.
+
 ## Usage
 
 ### Onboarding Form Fields

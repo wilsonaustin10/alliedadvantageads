@@ -25,7 +25,7 @@ export default function HeroHome() {
             >
               Allied Advantage:
               <br />
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">#1 AI Advertising</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">#1 AI Advertising for Real Estate Wholesalers</span>
             </h1>
             <div className="mx-auto max-w-3xl">
               <p

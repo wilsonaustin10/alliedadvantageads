@@ -25,7 +25,7 @@ export default function HeroHome() {
             >
               Allied Advantage:
               <br />
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">AI Advertising</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">#1 AI Advertising for Real Estate Wholesalers</span>
             </h1>
             <div className="mx-auto max-w-3xl">
               <p
@@ -35,7 +35,7 @@ export default function HeroHome() {
               >
                 Revolutionary AI-powered methodology delivers <span className="font-bold text-blue-600">higher-quality leads</span> at 
                 <span className="font-bold text-purple-600"> lower costs</span> than any competitor. 
-                Built specifically for real estate wholesalers and home services businesses.
+                Built specifically for real estate wholesalers.
               </p>
               <div className="mb-10 flex flex-col sm:flex-row gap-4 justify-center items-center text-lg" data-aos="zoom-y-out" data-aos-delay={350}>
                 <div className="flex items-center gap-2">
@@ -103,7 +103,7 @@ export default function HeroHome() {
               </div>
               <div className="text-center">
                 <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">10x</div>
-                <p className="text-lg text-gray-600">Return on Ad Spend (up to)</p>
+                <p className="text-lg text-gray-600">Return on Ad Spend</p>
               </div>
             </div>
           </div>

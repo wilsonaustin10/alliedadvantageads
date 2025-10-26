@@ -35,6 +35,26 @@ export default function ValueProposition() {
     }
   ];
 
+  const testimonialQuotes = [
+    {
+      quote: "Within 45 days we scaled from inconsistent lead flow to a calendar booked out two weeks in advance.",
+      author: "Michael Tran, RiverCity Holdings",
+      borderClass: "border-blue-500"
+    },
+    {
+      quote: "The Allied Advantage campaign system delivered our lowest cost-per-contract in five years of marketing.",
+      author: "Danielle Wright, Keystone Homebuyers",
+      borderClass: "border-purple-500"
+    },
+    {
+      quote: "We closed three wholesale deals in the first month — the AI targeting found sellers nobody else was reaching.",
+      author: "Rafael Ortiz, Summit Property Group",
+      borderClass: "border-indigo-500"
+    }
+  ];
+
+  const showTestimonials = testimonialQuotes.length > 0;
+
   return (
     <section className="py-20 bg-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">

@@ -42,19 +42,19 @@ export default function HeroHome() {
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-gray-700">Meta Campaigns</span>
+                  <span className="text-gray-700">AI-Optimized Google Ads</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-gray-700">Google Ads</span>
+                  <span className="text-gray-700">Intent-Driven Search Campaigns</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-gray-700">Custom Websites</span>
+                  <span className="text-gray-700">Real-Time Conversion Tracking</span>
                 </div>
               </div>
               <div className="relative">
@@ -98,12 +98,12 @@ export default function HeroHome() {
                 <p className="text-lg text-gray-600">Higher Conversion Rate</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">500+</div>
-                <p className="text-lg text-gray-600">AI-Optimized Campaigns</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">48h</div>
+                <p className="text-lg text-gray-600">Average Launch Timeline</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">98%</div>
-                <p className="text-lg text-gray-600">Client Retention Rate</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">10x</div>
+                <p className="text-lg text-gray-600">Return on Ad Spend (up to)</p>
               </div>
             </div>
           </div>

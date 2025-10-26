@@ -11,7 +11,7 @@ const faqs = [
   {
     category: "Services",
     question: "What services do you offer?",
-    answer: "We provide comprehensive digital marketing solutions including AI-optimized Meta (Facebook/Instagram) campaigns, Google Ads management, custom website development, and high-converting landing pages. Each service leverages our proprietary AI methodology specifically designed for real estate wholesalers and home services businesses."
+    answer: "We focus exclusively on Google Ads management. Our team handles everything from keyword research and campaign structure to bid automation, ad copy testing, and conversion tracking — all tailored to real estate wholesalers and home services businesses."
   },
   {
     category: "Results",
@@ -26,7 +26,7 @@ const faqs = [
   {
     category: "Education",
     question: "What are the free educational courses about?",
-    answer: "We offer comprehensive courses on Facebook Ads Mastery, Google Ads Domination, Landing Page Psychology, and AI Marketing Revolution. These courses provide lifetime access, weekly live Q&A sessions, and certificates of completion. We believe in empowering our clients with knowledge to maximize their marketing success."
+    answer: "We offer comprehensive Google Ads courses covering campaign fundamentals, advanced search strategies, conversion tracking, and AI-assisted optimization. Each course includes lifetime access, weekly live Q&A sessions, and certificates of completion so you can continuously sharpen your Google Ads skills."
   },
   {
     category: "Future Tools",
@@ -36,7 +36,7 @@ const faqs = [
   {
     category: "Commitment",
     question: "Do you require long-term contracts?",
-    answer: "No, we operate on a month-to-month basis with no long-term contracts required. Our 98% client retention rate speaks to our performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
+    answer: "No, we operate on a month-to-month basis with no long-term contracts required. Our campaigns are built to deliver up to 10x return on ad spend, so clients choose to stay based on performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
   },
   {
     category: "Coverage",

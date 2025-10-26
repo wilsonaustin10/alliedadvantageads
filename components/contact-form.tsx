@@ -237,9 +237,9 @@ export default function ContactForm() {
                 aria-describedby={fieldErrors.package ? 'package-error' : undefined}
               >
                 <option value="">Select a package</option>
-                <option value="landing-page">Custom Landing Page</option>
-                <option value="google-ppc">Google PPC Package - Most Popular</option>
-                <option value="google-facebook">Google + Facebook PPC Package - Best Value</option>
+                <option value="google-ads-management">Google Ads Management</option>
+                <option value="google-ads-accelerator">Google Ads Accelerator (High Volume)</option>
+                <option value="google-ads-enterprise">Google Ads Enterprise Partnership</option>
               </select>
               {fieldErrors.package && (
                 <p id="package-error" className="mt-1 text-sm text-red-600" role="alert">

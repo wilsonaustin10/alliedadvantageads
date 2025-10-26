@@ -35,7 +35,7 @@ export default function HeroHome() {
               >
                 Revolutionary AI-powered methodology delivers <span className="font-bold text-blue-600">higher-quality leads</span> at 
                 <span className="font-bold text-purple-600"> lower costs</span> than any competitor. 
-                Built specifically for real estate wholesalers and home services businesses.
+                Built specifically for real estate wholesalers.
               </p>
               <div className="mb-10 flex flex-col sm:flex-row gap-4 justify-center items-center text-lg" data-aos="zoom-y-out" data-aos-delay={350}>
                 <div className="flex items-center gap-2">

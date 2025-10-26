@@ -18,14 +18,14 @@ export async function GET(request: NextRequest) {
     const accounts = [
       {
         customerId: '1234567890',
-        descriptiveName: 'Allied Lead Gen - Main Account',
+        descriptiveName: 'Allied Advantage Ads - Main Account',
         currencyCode: 'USD',
         timeZone: 'America/New_York',
         canManageClients: false
       },
       {
         customerId: '0987654321',
-        descriptiveName: 'Allied Lead Gen - Test Account',
+        descriptiveName: 'Allied Advantage Ads - Test Account',
         currencyCode: 'USD',
         timeZone: 'America/New_York',
         canManageClients: false

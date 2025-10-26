@@ -1,7 +1,7 @@
-# Allied Lead Gen Landing - Agents Context
+# Allied Advantage Ads Landing - Agents Context
 
 ## Project Overview
-Allied Lead Gen Landing is an automated landing page system for real estate wholesaling businesses. The system has two main user flows:
+Allied Advantage Ads Landing is an automated landing page system for real estate wholesaling businesses. The system has two main user flows:
 
 1. **Lead Capture Flow**: Visitors fill out contact form → Lead goes to Go High Level CRM
 2. **Client Onboarding Flow**: New clients complete comprehensive onboarding → Firebase Functions generate custom landing pages

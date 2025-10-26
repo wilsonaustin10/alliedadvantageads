@@ -1,4 +1,4 @@
-High‑level architecture for adding a login feature to Allied Lead Gen Landing
+High‑level architecture for adding a login feature to Allied Advantage Ads Landing
 Current system overview
 The project currently automates the creation of customised landing pages for real‑estate wholesaling businesses. Users fill in an onboarding form and the system performs several steps:
 
@@ -134,4 +134,4 @@ Implement backend token verification – add a middleware in Firebase Functions 
 
 Seed the admin user – create the initial admin account in Firebase and add a users/<uid> document with role: "admin".
 
-By following this plan, the Allied Lead Gen Landing system will gain a robust authentication layer that is immediately useful for a single admin and scalable to support multiple users and roles in the future.
+By following this plan, the Allied Advantage Ads Landing system will gain a robust authentication layer that is immediately useful for a single admin and scalable to support multiple users and roles in the future.

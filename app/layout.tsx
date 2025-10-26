@@ -13,14 +13,14 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    template: '%s | Allied Lead Gen',
-    default: 'Allied Lead Gen - Real Estate Lead Generation',
+    template: '%s | Allied Advantage Ads',
+    default: 'Allied Advantage Ads - Real Estate Lead Generation',
   },
-  description: 'Generate motivated seller leads for your real estate wholesaling business with Allied Lead Gen. Cost-effective, nationwide lead generation services.',
+  description: 'Generate motivated seller leads for your real estate wholesaling business with Allied Advantage Ads. Cost-effective, nationwide lead generation services.',
   keywords: ['real estate leads', 'motivated seller leads', 'real estate wholesaling', 'lead generation', 'PPC advertising'],
-  authors: [{ name: 'Allied Lead Gen' }],
-  creator: 'Allied Lead Gen',
-  metadataBase: new URL('https://www.alliedleadgen.com'),
+  authors: [{ name: 'Allied Advantage Ads' }],
+  creator: 'Allied Advantage Ads',
+  metadataBase: new URL('https://www.alliedadvantageads.com'),
   icons: {
     icon: '/images/favicon.svg',
     shortcut: '/images/favicon.svg',
@@ -34,15 +34,15 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
-    title: 'Allied Lead Gen - Real Estate Lead Generation',
+    title: 'Allied Advantage Ads - Real Estate Lead Generation',
     description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
-    siteName: 'Allied Lead Gen',
+    siteName: 'Allied Advantage Ads',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Allied Lead Gen - Real Estate Lead Generation',
+    title: 'Allied Advantage Ads - Real Estate Lead Generation',
     description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
-    creator: '@alliedleadgen',
+    creator: '@alliedadvantageads',
   },
   other: {
     'llm-profile': 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',

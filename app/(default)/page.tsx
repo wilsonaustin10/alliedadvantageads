@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Allied Advantage: AI Advertising - Superior Leads at Lower Costs',
-  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services. Meta, Google Ads, custom websites, and landing pages.',
+  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services through Google Ads management.',
 }
 
 import HeroHome from '@/components/hero-home'
@@ -14,6 +14,8 @@ import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
 
 export default function Home() {
+  const SHOW_TESTIMONIALS = false // Toggle to true when testimonials should reappear
+
   return (
     <>
       <HeroHome />
@@ -22,7 +24,7 @@ export default function Home() {
       <AIAdvantage />
       <FutureInnovations />
       <EducationalCourses />
-      <Testimonials />
+      {SHOW_TESTIMONIALS && <Testimonials />}
       <ConsultationForm />
       <FAQ />
     </>

@@ -45,7 +45,7 @@ export default function AIAdvantage() {
     { value: "10x", label: "Faster Campaign Setup" },
     { value: "89%", label: "Accuracy in Lead Prediction" },
     { value: "24/7", label: "Automated Optimization" },
-    { value: "500+", label: "AI Models Deployed" }
+    { value: "12", label: "Specialist Playbooks" }
   ];
 
   return (
@@ -68,7 +68,7 @@ export default function AIAdvantage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl mx-auto justify-items-center">
           {stats.map((stat, index) => (
             <div
               key={index}

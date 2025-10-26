@@ -9,7 +9,7 @@ export default function ValueProposition() {
       title: "Higher Quality Leads",
       metric: "3.2x",
       description: "Our AI-powered methodology generates leads that convert 3.2x better than industry average",
-      proof: "Validated across 18 specialized markets"
+      proof: "Validated across 38 specialized markets"
     },
     {
       icon: (
@@ -31,26 +31,7 @@ export default function ValueProposition() {
       title: "Proven Methodology",
       metric: "10x",
       description: "Our tested approach delivers up to 10x return on ad spend with precise Google Ads scaling",
-      proof: "Case study highlight: $42K revenue from $4.2K ad spend"
-    }
-  ];
-
-  const showTestimonials = false;
-  const testimonialQuotes = [
-    {
-      quote: "Cut our cost per lead by 62% while doubling lead quality",
-      author: "Mike R., Phoenix Wholesaler",
-      borderClass: "border-blue-600"
-    },
-    {
-      quote: "Generated 147 qualified leads in our first month",
-      author: "Sarah L., Dallas HVAC Company",
-      borderClass: "border-purple-600"
-    },
-    {
-      quote: "Best ROI we've ever seen from digital marketing",
-      author: "Tom K., Atlanta Real Estate",
-      borderClass: "border-green-600"
+      proof: "Case study highlight: $24K revenue from $2.2K ad spend"
     }
   ];
 
@@ -65,7 +46,7 @@ export default function ValueProposition() {
             Why We Outperform Every Competitor
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Our unique AI-powered methodology is specifically designed for real estate wholesalers and home services businesses
+            Our unique AI-powered methodology is specifically designed for real estate wholesalers
           </p>
         </div>
 

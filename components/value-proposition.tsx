@@ -84,8 +84,12 @@ export default function ValueProposition() {
         </div>
 
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-12 border border-blue-200" data-aos="fade-up" data-aos-delay="600">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+          <div
+            className={`grid gap-12 ${
+              showTestimonials ? "md:grid-cols-2 items-start" : "md:grid-cols-1 md:justify-items-center"
+            }`}
+          >
+            <div className="max-w-3xl mx-auto">
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
                 Our Tested Lead Generation Methodology
               </h3>
@@ -116,29 +120,22 @@ export default function ValueProposition() {
                 </li>
               </ul>
             </div>
-            <div className="bg-white rounded-xl p-8 shadow-xl">
-              <h4 className="text-xl font-bold text-gray-900 mb-6">Real Results from Real Clients</h4>
-              <div className="space-y-6">
-                <div className="border-l-4 border-blue-600 pl-4">
-                  <p className="text-gray-700 italic mb-2">
-                    "Cut our cost per lead by 62% while doubling lead quality"
-                  </p>
-                  <p className="text-sm text-gray-600 font-semibold">- Mike R., Phoenix Wholesaler</p>
-                </div>
-                <div className="border-l-4 border-purple-600 pl-4">
-                  <p className="text-gray-700 italic mb-2">
-                    "Generated 147 qualified leads in our first month"
-                  </p>
-                  <p className="text-sm text-gray-600 font-semibold">- Sarah L., Dallas HVAC Company</p>
-                </div>
-                <div className="border-l-4 border-green-600 pl-4">
-                  <p className="text-gray-700 italic mb-2">
-                    "Best ROI we've ever seen from digital marketing"
-                  </p>
-                  <p className="text-sm text-gray-600 font-semibold">- Tom K., Atlanta Real Estate</p>
+            {showTestimonials && (
+              <div className="bg-white rounded-xl p-8 shadow-xl">
+                <h4 className="text-xl font-bold text-gray-900 mb-6">Real Results from Real Clients</h4>
+                <div className="space-y-6">
+                  {testimonialQuotes.map(({ quote, author, borderClass }) => (
+                    <div
+                      key={author}
+                      className={`border-l-4 pl-4 ${borderClass}`}
+                    >
+                      <p className="text-gray-700 italic mb-2">&ldquo;{quote}&rdquo;</p>
+                      <p className="text-sm text-gray-600 font-semibold">- {author}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

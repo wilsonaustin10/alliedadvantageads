@@ -67,7 +67,7 @@ export default function AIAdvantage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl mx-auto justify-items-center">
           {stats.map((stat, index) => (
             <div
               key={index}

@@ -46,7 +46,7 @@ export default function ValueProposition() {
             Why We Outperform Every Competitor
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Our unique AI-powered methodology is specifically designed for real estate wholesalers and home services businesses
+            Our unique AI-powered methodology is specifically designed for real estate wholesalers
           </p>
         </div>
 

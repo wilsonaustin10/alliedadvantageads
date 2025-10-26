@@ -9,7 +9,7 @@ export default function ValueProposition() {
       title: "Higher Quality Leads",
       metric: "3.2x",
       description: "Our AI-powered methodology generates leads that convert 3.2x better than industry average",
-      proof: "Verified by 500+ successful campaigns"
+      proof: "Validated across 18 specialized markets"
     },
     {
       icon: (
@@ -29,9 +29,9 @@ export default function ValueProposition() {
         </svg>
       ),
       title: "Proven Methodology",
-      metric: "98%",
-      description: "Our tested approach delivers consistent results with 98% client retention rate",
-      proof: "257+ happy clients and counting"
+      metric: "10x",
+      description: "Our tested approach delivers up to 10x return on ad spend with precise Google Ads scaling",
+      proof: "Case study highlight: $42K revenue from $4.2K ad spend"
     }
   ];
 

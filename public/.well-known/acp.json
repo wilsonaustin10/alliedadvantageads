@@ -1,0 +1,429 @@
+{
+  "version": "acp-2024-10",
+  "generatedAt": "2025-10-26T20:36:06.277Z",
+  "profile": {
+    "id": "68f9455cf540a350e4564dd9",
+    "displayName": "Allied Advantage Ads",
+    "firstName": "Austin",
+    "lastName": "Wilson",
+    "websiteName": null,
+    "websiteUrl": null,
+    "profileUrl": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+    "api": "http://api.getsphere.xyz/public/users/68f9455cf540a350e4564dd9"
+  },
+  "stats": {
+    "documentCount": 6
+  },
+  "documents": [
+    {
+      "id": "68fe85a3e734744870d6c5a4",
+      "slug": "general-overview",
+      "title": "General Overview",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#general-overview",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T20:33:39.043Z",
+        "updatedAt": "2025-10-26T20:35:52.384Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"general-overview\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "general-overview"
+        }
+      }
+    },
+    {
+      "id": "68fe672ae734744870d6c48e",
+      "slug": "promotions",
+      "title": "Promotions",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#promotions",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T18:23:38.521Z",
+        "updatedAt": "2025-10-26T20:33:03.249Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"promotions\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "promotions"
+        }
+      }
+    },
+    {
+      "id": "68fe5962e734744870d6c1cf",
+      "slug": "our-customers",
+      "title": "Our Customers",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#our-customers",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T17:24:50.181Z",
+        "updatedAt": "2025-10-26T18:23:28.409Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"our-customers\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "our-customers"
+        }
+      }
+    },
+    {
+      "id": "68f94690f540a350e4564df6",
+      "slug": "about",
+      "title": "About",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#about",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-22T21:03:12.747Z",
+        "updatedAt": "2025-10-26T06:22:22.369Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"about\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "about"
+        }
+      }
+    },
+    {
+      "id": "68fdb46456bf5d9a0491a36e",
+      "slug": "competitors",
+      "title": "Competitors",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "73468435d056ab68d937b1ae7ab84248b95e5fdf12aa68860de57814fa2135c0"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#competitors",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T05:40:52.521Z",
+        "updatedAt": "2025-10-26T06:22:16.917Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"competitors\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "73468435d056ab68d937b1ae7ab84248b95e5fdf12aa68860de57814fa2135c0",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "competitors"
+        }
+      }
+    },
+    {
+      "id": "68fdb4ea56bf5d9a0491a38d",
+      "slug": "services",
+      "title": "Services",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#services",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T05:43:06.214Z",
+        "updatedAt": "2025-10-26T06:22:09.341Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"services\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "services"
+        }
+      }
+    }
+  ],
+  "links": {
+    "profile": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+    "manifest": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/.well-known/acp.json",
+    "queries": {
+      "files": "http://api.getsphere.xyz/public/users/68f9455cf540a350e4564dd9/files"
+    }
+  },
+  "metadata": {
+    "issuer": "Sphere Public Profile Service",
+    "origin": "http://api.getsphere.xyz",
+    "cache": {
+      "policy": "public, max-age=300, stale-while-revalidate=60"
+    }
+  }
+}

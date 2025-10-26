@@ -98,8 +98,8 @@ export default function HeroHome() {
                 <p className="text-lg text-gray-600">Higher Conversion Rate</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">500+</div>
-                <p className="text-lg text-gray-600">AI-Optimized Campaigns</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">48h</div>
+                <p className="text-lg text-gray-600">Average Launch Timeline</p>
               </div>
               <div className="text-center">
                 <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">98%</div>

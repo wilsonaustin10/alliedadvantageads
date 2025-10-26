@@ -42,33 +42,37 @@ export default function Services() {
               data-aos="fade-up"
               data-aos-delay={300 + index * 100}
             >
-              <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-r ${service.gradient} text-white mb-6`}>
-                {service.icon}
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-r ${service.gradient} text-white flex-shrink-0`}>
+                  {service.icon}
+                </div>
+
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-gray-600 mb-6">
+                    {service.description}
+                  </p>
+
+                  <ul className="space-y-3">
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start">
+                        <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                {service.title}
-              </h3>
-              
-              <p className="text-gray-600 mb-6">
-                {service.description}
-              </p>
-              
-              <ul className="space-y-3">
-                {service.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <a
             href="#consultation-form"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-xl transform transition-all duration-200 hover:-translate-y-1"

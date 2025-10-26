@@ -9,7 +9,7 @@ export default function ValueProposition() {
       title: "Higher Quality Leads",
       metric: "3.2x",
       description: "Our AI-powered methodology generates leads that convert 3.2x better than industry average",
-      proof: "Verified by 500+ successful campaigns"
+      proof: "Validated across 18 specialized markets"
     },
     {
       icon: (

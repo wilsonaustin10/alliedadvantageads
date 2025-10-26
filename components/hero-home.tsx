@@ -102,8 +102,8 @@ export default function HeroHome() {
                 <p className="text-lg text-gray-600">Average Launch Timeline</p>
               </div>
               <div className="text-center">
-                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">98%</div>
-                <p className="text-lg text-gray-600">Client Retention Rate</p>
+                <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">10x</div>
+                <p className="text-lg text-gray-600">Return on Ad Spend (up to)</p>
               </div>
             </div>
           </div>

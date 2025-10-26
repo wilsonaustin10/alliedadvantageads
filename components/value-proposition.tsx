@@ -29,9 +29,9 @@ export default function ValueProposition() {
         </svg>
       ),
       title: "Proven Methodology",
-      metric: "98%",
-      description: "Our tested approach delivers consistent results with 98% client retention rate",
-      proof: "257+ happy clients and counting"
+      metric: "10x",
+      description: "Our tested approach delivers up to 10x return on ad spend with precise Google Ads scaling",
+      proof: "Case study highlight: $42K revenue from $4.2K ad spend"
     }
   ];
 

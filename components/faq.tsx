@@ -36,7 +36,7 @@ const faqs = [
   {
     category: "Commitment",
     question: "Do you require long-term contracts?",
-    answer: "No, we operate on a month-to-month basis with no long-term contracts required. Our 98% client retention rate speaks to our performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
+    answer: "No, we operate on a month-to-month basis with no long-term contracts required. Our campaigns are built to deliver up to 10x return on ad spend, so clients choose to stay based on performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
   },
   {
     category: "Coverage",

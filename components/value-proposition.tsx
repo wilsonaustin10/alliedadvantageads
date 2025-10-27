@@ -17,10 +17,10 @@ export default function ValueProposition() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: "Lower Cost Per Lead",
-      metric: "45%",
-      description: "Advanced AI optimization reduces your cost per lead by 45% compared to traditional agencies",
-      proof: "Average savings: $127 per lead"
+      title: "Flat Monthly Subscription",
+      metric: "$1,500",
+      description: "Predictable pricing means your management fee never scales with ad spend—keep every extra dollar working in-market",
+      proof: "Competitors charge 15-20% of ad spend"
     },
     {
       icon: (

@@ -7,13 +7,14 @@ export default function Services() {
         </svg>
       ),
       title: "Google Ads Growth Engine",
-      description: "Dominate search results with our proven PPC strategies and advanced keyword optimization tailored for motivated sellers leads",
+      description: "Dominate search results with our proven PPC strategies and advanced keyword optimization tailored for motivated sellers leads—all delivered under a flat monthly subscription so management fees never scale with your ad spend",
       features: [
         "Intent-based keyword research",
         "Quality score optimization",
         "Smart bidding strategies",
         "Landing page alignment",
-        "Conversion tracking & reporting"
+        "Conversion tracking & reporting",
+        "Predictable flat monthly management fee"
       ],
       gradient: "from-green-500 to-teal-600"
     }

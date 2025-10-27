@@ -34,11 +34,19 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
+    url: 'https://www.alliedadvantageads.com',
     title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',
     siteName: 'Allied Advantage Ads',
+    images: [
+      {
+        url: '/images/link-preview.svg',
+        width: 500,
+        height: 500,
+        alt: 'Allied Advantage Ads logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -46,6 +54,7 @@ export const metadata = {
     description:
       'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',
+    images: ['/images/link-preview.svg'],
   },
   manifest: 'https://alliedadvantage.co/.well-known/acp.json',
   other: {

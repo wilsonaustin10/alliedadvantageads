@@ -24,6 +24,11 @@ const faqs = [
     answer: "Our AI automation allows us to deliver superior results at lower costs. While traditional agencies charge premium prices for manual management, our technology enables us to reduce cost per lead by an average of 45% while maintaining higher quality. Plus, we offer transparent, performance-based pricing with no hidden fees."
   },
   {
+    category: "Pricing",
+    question: "Is the subscription really a fixed monthly investment?",
+    answer: "Yes — Allied Advantage Ads operates on a predictable flat monthly fee, so your management costs stay the same whether you're spending $3,000 or $30,000 on media. Most agencies tie their fees to your ad spend, meaning your invoice climbs every time you scale. We believe growth should reward you, not penalize you, which is why your subscription never inflates as your campaigns expand."
+  },
+  {
     category: "Education",
     question: "What are the free educational courses about?",
     answer: "We offer comprehensive Google Ads courses covering campaign fundamentals, advanced search strategies, conversion tracking, and AI-assisted optimization. Each course includes lifetime access, weekly live Q&A sessions, and certificates of completion so you can continuously sharpen your Google Ads skills."

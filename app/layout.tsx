@@ -34,7 +34,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.alliedadvantageads.com',
+    url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
     title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',

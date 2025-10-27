@@ -12,6 +12,7 @@ export default function AIAdvantage() {
       description: "Our AI platforms automate advertising processes to optimize your campaigns in real-time",
       benefits: [
         "Predictive audience targeting reduces wasted ad spend by 67%",
+        "Flat monthly subscription keeps savings in your campaigns while competitors skim percentages of spend",
         "Automated bid adjustments maximize ROI 24/7",
         "Dynamic creative optimization increases CTR by 3.2x",
         "Continuous learning improves performance week over week"

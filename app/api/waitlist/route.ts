@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
 
+type WaitlistRequest = {
+  email: string;
+  tool?: string;
+};
+
 const GHL_ENDPOINT = process.env.GHL_ENDPOINT;
 const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID;
 const GHL_API_KEY = process.env.GHL_API_KEY;
@@ -18,7 +23,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, tool } = await request.json();
+    const { email, tool }: WaitlistRequest = await request.json();
 
     if (!email || !email.includes('@')) {
       return NextResponse.json(
@@ -30,7 +35,7 @@ export async function POST(request: Request) {
     const localPart = email.split('@')[0] ?? '';
     const nameSegments = localPart
       .split(/[._-]+/)
-      .map((segment) => segment.trim())
+      .map((segment: string) => segment.trim())
       .filter(Boolean);
 
     const formatName = (value: string, fallback: string) =>

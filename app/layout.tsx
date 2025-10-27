@@ -14,9 +14,10 @@ const inter = Inter({
 export const metadata = {
   title: {
     template: '%s | Allied Advantage Ads',
-    default: 'Allied Advantage Ads - Real Estate Lead Generation',
+    default: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
   },
-  description: 'Generate motivated seller leads for your real estate wholesaling business with Allied Advantage Ads. Cost-effective, nationwide lead generation services.',
+  description:
+    'Discover why Allied Advantage Ads is the #1 PPC lead source for real estate wholesalers nationwide. Unlock motivated seller opportunities with proven advertising strategies.',
   keywords: ['real estate leads', 'motivated seller leads', 'real estate wholesaling', 'lead generation', 'PPC advertising'],
   authors: [{ name: 'Allied Advantage Ads' }],
   creator: 'Allied Advantage Ads',
@@ -34,14 +35,16 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
-    title: 'Allied Advantage Ads - Real Estate Lead Generation',
-    description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
+    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
+    description:
+      'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',
     siteName: 'Allied Advantage Ads',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Allied Advantage Ads - Real Estate Lead Generation',
-    description: 'Generate motivated seller leads for your real estate wholesaling business. Cost-effective, nationwide lead generation services.',
+    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
+    description:
+      'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',
   },
   manifest: 'https://alliedadvantage.co/.well-known/acp.json',

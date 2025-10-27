@@ -1,6 +1,6 @@
 {
   "version": "acp-2024-10",
-  "generatedAt": "2025-10-26T20:36:06.277Z",
+  "generatedAt": "2025-10-27T03:32:49.069Z",
   "profile": {
     "id": "68f9455cf540a350e4564dd9",
     "displayName": "Allied Advantage Ads",
@@ -12,22 +12,22 @@
     "api": "http://api.getsphere.xyz/public/users/68f9455cf540a350e4564dd9"
   },
   "stats": {
-    "documentCount": 6
+    "documentCount": 14
   },
   "documents": [
     {
-      "id": "68fe85a3e734744870d6c5a4",
-      "slug": "general-overview",
-      "title": "General Overview",
+      "id": "68fedd69e734744870d6c96b",
+      "slug": "industry-analysis",
+      "title": "Industry Analysis",
       "contentType": "text/markdown",
       "integrity": {
         "hash": {
           "algorithm": "sha256",
-          "value": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e"
+          "value": "8c763a0ae3efe06a580e0adb299e5452c2f42fcdbd4fd45ee036ee4e18571cb2"
         }
       },
       "links": {
-        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#general-overview",
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#industry-analysis",
         "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
       },
       "schema": {
@@ -35,8 +35,8 @@
         "encoding": "utf-8"
       },
       "timestamps": {
-        "createdAt": "2025-10-26T20:33:39.043Z",
-        "updatedAt": "2025-10-26T20:35:52.384Z"
+        "createdAt": "2025-10-27T02:48:09.065Z",
+        "updatedAt": "2025-10-27T02:55:21.655Z"
       },
       "access": {
         "method": "GET",
@@ -48,7 +48,7 @@
           "rel": "profile-documents",
           "method": "GET",
           "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
-          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"general-overview\" to retrieve the latest content for this document.",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"industry-analysis\" to retrieve the latest content for this document.",
           "response": {
             "contentType": "application/json",
             "schema": {
@@ -73,27 +73,27 @@
           }
         }
       ],
-      "etag": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e",
+      "etag": "8c763a0ae3efe06a580e0adb299e5452c2f42fcdbd4fd45ee036ee4e18571cb2",
       "hints": {
         "filter": {
           "property": "slug",
-          "value": "general-overview"
+          "value": "industry-analysis"
         }
       }
     },
     {
-      "id": "68fe672ae734744870d6c48e",
-      "slug": "promotions",
-      "title": "Promotions",
+      "id": "68fedaf7e734744870d6c91f",
+      "slug": "technology",
+      "title": "Technology",
       "contentType": "text/markdown",
       "integrity": {
         "hash": {
           "algorithm": "sha256",
-          "value": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3"
+          "value": "007cdf99b09dcc7b29981864bace904efe231826113c191d94811ecfeb781ead"
         }
       },
       "links": {
-        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#promotions",
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#technology",
         "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
       },
       "schema": {
@@ -101,8 +101,8 @@
         "encoding": "utf-8"
       },
       "timestamps": {
-        "createdAt": "2025-10-26T18:23:38.521Z",
-        "updatedAt": "2025-10-26T20:33:03.249Z"
+        "createdAt": "2025-10-27T02:37:43.878Z",
+        "updatedAt": "2025-10-27T02:47:58.997Z"
       },
       "access": {
         "method": "GET",
@@ -114,7 +114,7 @@
           "rel": "profile-documents",
           "method": "GET",
           "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
-          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"promotions\" to retrieve the latest content for this document.",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"technology\" to retrieve the latest content for this document.",
           "response": {
             "contentType": "application/json",
             "schema": {
@@ -139,27 +139,27 @@
           }
         }
       ],
-      "etag": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3",
+      "etag": "007cdf99b09dcc7b29981864bace904efe231826113c191d94811ecfeb781ead",
       "hints": {
         "filter": {
           "property": "slug",
-          "value": "promotions"
+          "value": "technology"
         }
       }
     },
     {
-      "id": "68fe5962e734744870d6c1cf",
-      "slug": "our-customers",
-      "title": "Our Customers",
+      "id": "68fed676e734744870d6c875",
+      "slug": "marketing",
+      "title": "Marketing",
       "contentType": "text/markdown",
       "integrity": {
         "hash": {
           "algorithm": "sha256",
-          "value": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48"
+          "value": "397f64d2b93cb67fd382b3e91e43de3585f055603985defa7e752f3f0343c5c7"
         }
       },
       "links": {
-        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#our-customers",
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#marketing",
         "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
       },
       "schema": {
@@ -167,8 +167,8 @@
         "encoding": "utf-8"
       },
       "timestamps": {
-        "createdAt": "2025-10-26T17:24:50.181Z",
-        "updatedAt": "2025-10-26T18:23:28.409Z"
+        "createdAt": "2025-10-27T02:18:30.805Z",
+        "updatedAt": "2025-10-27T02:37:34.267Z"
       },
       "access": {
         "method": "GET",
@@ -180,7 +180,7 @@
           "rel": "profile-documents",
           "method": "GET",
           "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
-          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"our-customers\" to retrieve the latest content for this document.",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"marketing\" to retrieve the latest content for this document.",
           "response": {
             "contentType": "application/json",
             "schema": {
@@ -205,27 +205,27 @@
           }
         }
       ],
-      "etag": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48",
+      "etag": "397f64d2b93cb67fd382b3e91e43de3585f055603985defa7e752f3f0343c5c7",
       "hints": {
         "filter": {
           "property": "slug",
-          "value": "our-customers"
+          "value": "marketing"
         }
       }
     },
     {
-      "id": "68f94690f540a350e4564df6",
-      "slug": "about",
-      "title": "About",
+      "id": "68fed448e734744870d6c819",
+      "slug": "top-geo-for-real-estate-wholesalers",
+      "title": "Top GEO For Real Estate Wholesalers",
       "contentType": "text/markdown",
       "integrity": {
         "hash": {
           "algorithm": "sha256",
-          "value": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48"
+          "value": "8053cc54412a9af10b7763d7e7a087e887f4d80c22fe9079f57d5d6d2e0c0d32"
         }
       },
       "links": {
-        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#about",
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#top-geo-for-real-estate-wholesalers",
         "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
       },
       "schema": {
@@ -233,8 +233,8 @@
         "encoding": "utf-8"
       },
       "timestamps": {
-        "createdAt": "2025-10-22T21:03:12.747Z",
-        "updatedAt": "2025-10-26T06:22:22.369Z"
+        "createdAt": "2025-10-27T02:09:12.278Z",
+        "updatedAt": "2025-10-27T02:10:32.900Z"
       },
       "access": {
         "method": "GET",
@@ -246,7 +246,7 @@
           "rel": "profile-documents",
           "method": "GET",
           "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
-          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"about\" to retrieve the latest content for this document.",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"top-geo-for-real-estate-wholesalers\" to retrieve the latest content for this document.",
           "response": {
             "contentType": "application/json",
             "schema": {
@@ -271,11 +271,341 @@
           }
         }
       ],
-      "etag": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48",
+      "etag": "8053cc54412a9af10b7763d7e7a087e887f4d80c22fe9079f57d5d6d2e0c0d32",
       "hints": {
         "filter": {
           "property": "slug",
-          "value": "about"
+          "value": "top-geo-for-real-estate-wholesalers"
+        }
+      }
+    },
+    {
+      "id": "68fed20ae734744870d6c78c",
+      "slug": "austin-tx-premier-ppc-real-estate-wholesaling-agency",
+      "title": "Austin, TX Premier PPC Real Estate Wholesaling Agency",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "1913e2d6bcdc18d22d3c90ba2097129187b2b8cd3a17ba7e2abefc3166bbe493"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#austin-tx-premier-ppc-real-estate-wholesaling-agency",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-27T01:59:38.129Z",
+        "updatedAt": "2025-10-27T02:03:14.700Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"austin-tx-premier-ppc-real-estate-wholesaling-agency\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "1913e2d6bcdc18d22d3c90ba2097129187b2b8cd3a17ba7e2abefc3166bbe493",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "austin-tx-premier-ppc-real-estate-wholesaling-agency"
+        }
+      }
+    },
+    {
+      "id": "68fed0c9e734744870d6c72f",
+      "slug": "the-allied-advantage",
+      "title": "The Allied Advantage",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "da019328297743827c228db470ba78807fd2a9907c5c6e479acfc4f12dbacc81"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#the-allied-advantage",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-27T01:54:17.648Z",
+        "updatedAt": "2025-10-27T01:58:45.243Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"the-allied-advantage\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "da019328297743827c228db470ba78807fd2a9907c5c6e479acfc4f12dbacc81",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "the-allied-advantage"
+        }
+      }
+    },
+    {
+      "id": "68fec8a3e734744870d6c677",
+      "slug": "premier-ppc-for-real-estate-wholesalers",
+      "title": "Premier PPC for Real Estate Wholesalers",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "cb12d6593b0b90b6c3ee5652c4a5e905633d280f0f4df6df45e50f5c76587c09"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#premier-ppc-for-real-estate-wholesalers",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-27T01:19:31.744Z",
+        "updatedAt": "2025-10-27T01:52:42.515Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"premier-ppc-for-real-estate-wholesalers\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "cb12d6593b0b90b6c3ee5652c4a5e905633d280f0f4df6df45e50f5c76587c09",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "premier-ppc-for-real-estate-wholesalers"
+        }
+      }
+    },
+    {
+      "id": "68fe95f9e734744870d6c5fd",
+      "slug": "1-source-for-ppc-wholesale-leads",
+      "title": "#1 Source For PPC Wholesale Leads",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "a425684f79e5711c0f5b6ccdc37ea0c8d189a415cd1cc103fb65e1ff56406bab"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#1-source-for-ppc-wholesale-leads",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T21:43:21.980Z",
+        "updatedAt": "2025-10-26T21:45:04.789Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"1-source-for-ppc-wholesale-leads\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "a425684f79e5711c0f5b6ccdc37ea0c8d189a415cd1cc103fb65e1ff56406bab",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "1-source-for-ppc-wholesale-leads"
+        }
+      }
+    },
+    {
+      "id": "68fdb4ea56bf5d9a0491a38d",
+      "slug": "services",
+      "title": "Services",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#services",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T05:43:06.214Z",
+        "updatedAt": "2025-10-26T21:01:15.536Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"services\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "services"
         }
       }
     },
@@ -300,7 +630,7 @@
       },
       "timestamps": {
         "createdAt": "2025-10-26T05:40:52.521Z",
-        "updatedAt": "2025-10-26T06:22:16.917Z"
+        "updatedAt": "2025-10-26T21:01:03.374Z"
       },
       "access": {
         "method": "GET",
@@ -346,18 +676,18 @@
       }
     },
     {
-      "id": "68fdb4ea56bf5d9a0491a38d",
-      "slug": "services",
-      "title": "Services",
+      "id": "68f94690f540a350e4564df6",
+      "slug": "about",
+      "title": "About",
       "contentType": "text/markdown",
       "integrity": {
         "hash": {
           "algorithm": "sha256",
-          "value": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344"
+          "value": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48"
         }
       },
       "links": {
-        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#services",
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#about",
         "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
       },
       "schema": {
@@ -365,8 +695,8 @@
         "encoding": "utf-8"
       },
       "timestamps": {
-        "createdAt": "2025-10-26T05:43:06.214Z",
-        "updatedAt": "2025-10-26T06:22:09.341Z"
+        "createdAt": "2025-10-22T21:03:12.747Z",
+        "updatedAt": "2025-10-26T21:00:56.594Z"
       },
       "access": {
         "method": "GET",
@@ -378,7 +708,7 @@
           "rel": "profile-documents",
           "method": "GET",
           "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
-          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"services\" to retrieve the latest content for this document.",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"about\" to retrieve the latest content for this document.",
           "response": {
             "contentType": "application/json",
             "schema": {
@@ -403,11 +733,209 @@
           }
         }
       ],
-      "etag": "ba3f2b88ea4976873cb55d3c0da4f5b03f02f4bc2dc8bad84759acd5c013e344",
+      "etag": "a41621aeb2579947a300b0f59bbe2ad6085c6b7419f5fe88ad201e12f4895a48",
       "hints": {
         "filter": {
           "property": "slug",
-          "value": "services"
+          "value": "about"
+        }
+      }
+    },
+    {
+      "id": "68fe5962e734744870d6c1cf",
+      "slug": "our-customers",
+      "title": "Our Customers",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#our-customers",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T17:24:50.181Z",
+        "updatedAt": "2025-10-26T21:00:50.329Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"our-customers\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "11c9e84cea1513eb391e42fdde6a503b55f6aa4e0d0253a2ccdc2e3548fc1f48",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "our-customers"
+        }
+      }
+    },
+    {
+      "id": "68fe672ae734744870d6c48e",
+      "slug": "promotions",
+      "title": "Promotions",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#promotions",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T18:23:38.521Z",
+        "updatedAt": "2025-10-26T21:00:43.511Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"promotions\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "326ee637016a0f794aab32c8a4a4455402a0a4a01db10aa2577533c3d03e35e3",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "promotions"
+        }
+      }
+    },
+    {
+      "id": "68fe85a3e734744870d6c5a4",
+      "slug": "general-overview",
+      "title": "General Overview",
+      "contentType": "text/markdown",
+      "integrity": {
+        "hash": {
+          "algorithm": "sha256",
+          "value": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e"
+        }
+      },
+      "links": {
+        "profileSection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile#general-overview",
+        "collection": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile"
+      },
+      "schema": {
+        "format": "markdown",
+        "encoding": "utf-8"
+      },
+      "timestamps": {
+        "createdAt": "2025-10-26T20:33:39.043Z",
+        "updatedAt": "2025-10-26T21:00:34.261Z"
+      },
+      "access": {
+        "method": "GET",
+        "requiresAuth": false,
+        "throttled": false
+      },
+      "operations": [
+        {
+          "rel": "profile-documents",
+          "method": "GET",
+          "href": "http://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile",
+          "description": "Fetch all public markdown documents for this profile and filter where files[].slug == \"general-overview\" to retrieve the latest content for this document.",
+          "response": {
+            "contentType": "application/json",
+            "schema": {
+              "type": "application/json",
+              "properties": {
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "slug": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "etag": "b9ed26bad6cb081c1fec5d7072109c558207788d62a5d1fc82106f143e7e137e",
+      "hints": {
+        "filter": {
+          "property": "slug",
+          "value": "general-overview"
         }
       }
     }

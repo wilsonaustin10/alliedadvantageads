@@ -99,7 +99,7 @@ export default function HeroHome() {
               </div>
               <div className="text-center">
                 <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">48h</div>
-                <p className="text-lg text-gray-600">Average Launch Timeline</p>
+                <p className="text-lg text-gray-600">Guaranteed Launch Timeline</p>
               </div>
               <div className="text-center">
                 <div className="mb-2 text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">10x</div>

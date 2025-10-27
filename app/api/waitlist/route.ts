@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     const localPart = email.split('@')[0] ?? '';
     const nameSegments = localPart
       .split(/[._-]+/)
-      .map((segment: string) => segment.trim())
+      .map((segment) => segment.trim())
       .filter(Boolean);
 
     const formatName = (value: string, fallback: string) =>

@@ -19,8 +19,8 @@ export default function ValueProposition() {
       ),
       title: "Lower Cost Per Lead",
       metric: "45%",
-      description: "Advanced AI optimization reduces your cost per lead by 45% compared to traditional agencies",
-      proof: "Average savings: $127 per lead"
+      description: "Advanced AI optimization reduces cost per lead by 45% while our flat monthly subscription keeps savings in your campaigns",
+      proof: "Average reduction validated across nationwide campaigns"
     },
     {
       icon: (
@@ -31,7 +31,7 @@ export default function ValueProposition() {
       title: "Proven Methodology",
       metric: "10x",
       description: "Our tested approach delivers up to 10x return on ad spend with precise Google Ads scaling",
-      proof: "Case study highlight: $24K revenue from $2.2K ad spend"
+      proof: "Case study highlight: 10x return on efficient ad spend"
     }
   ];
 

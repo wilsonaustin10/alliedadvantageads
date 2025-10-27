@@ -39,6 +39,14 @@ export const metadata = {
     description:
       'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',
     siteName: 'Allied Advantage Ads',
+    images: [
+      {
+        url: '/images/link-preview.svg',
+        width: 500,
+        height: 500,
+        alt: 'Allied Advantage Ads logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -46,6 +54,7 @@ export const metadata = {
     description:
       'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',
+    images: ['/images/link-preview.svg'],
   },
   manifest: 'https://alliedadvantage.co/.well-known/acp.json',
   other: {

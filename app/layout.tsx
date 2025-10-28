@@ -21,7 +21,7 @@ export const metadata = {
   keywords: ['real estate leads', 'motivated seller leads', 'real estate wholesaling', 'lead generation', 'PPC advertising'],
   authors: [{ name: 'Allied Advantage Ads' }],
   creator: 'Allied Advantage Ads',
-  metadataBase: new URL('https://www.alliedadvantageads.com'),
+  metadataBase: new URL('https://alliedadvantage.co'),
   icons: {
     icon: '/images/favicon.svg',
     shortcut: '/images/favicon.svg',
@@ -34,8 +34,8 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
-    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
+    url: 'https://alliedadvantage.co',
+    title: 'Allied Advantage Ads: #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',
     siteName: 'Allied Advantage Ads',
@@ -50,7 +50,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
+    title: 'Allied Advantage Ads: #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',

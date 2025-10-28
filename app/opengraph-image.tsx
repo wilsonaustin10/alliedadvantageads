@@ -24,9 +24,9 @@ export default async function OgImage() {
           justifyContent: "space-between",
           alignItems: "stretch",
         }}
-      >
-        <div
-          style={{
+            >
+              <div
+                style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -77,8 +77,8 @@ export default async function OgImage() {
                 height: 6,
                 backgroundColor: "#38bdf8",
                 borderRadius: 9999,
-              }}
-            />
+                }}
+              />
             <div
               style={{
                 fontSize: 26,
@@ -133,7 +133,7 @@ export default async function OgImage() {
                 height: 200,
                 borderRadius: "50%",
                 background:
-                  "conic-gradient(from 180deg at 50% 50%, rgba(56,189,248,0.9), rgba(14,165,233,0.8), rgba(59,130,246,0.85), rgba(56,189,248,0.9))",
+                  "radial-gradient(circle at 50% 50%, rgba(56,189,248,0.92), rgba(14,165,233,0.82) 55%, rgba(59,130,246,0.88) 90%)",
                 boxShadow: "0 20px 40px rgba(15,23,42,0.6)",
               }}
             />

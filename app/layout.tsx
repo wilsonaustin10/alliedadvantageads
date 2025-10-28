@@ -5,7 +5,7 @@ import Script from "next/script";
 
 import SmoothScroll from "@/components/smooth-scroll";
 
-const previewImageUrl = "/images/link-preview.svg";
+const previewImageUrl = "/opengraph-image";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,8 +44,8 @@ export const metadata = {
     images: [
       {
         url: previewImageUrl,
-        width: 500,
-        height: 500,
+        width: 1200,
+        height: 630,
         alt: 'Allied Advantage Ads logo',
       },
     ],

@@ -5,6 +5,8 @@ import Script from "next/script";
 
 import SmoothScroll from "@/components/smooth-scroll";
 
+const previewImageUrl = "/images/link-preview.svg";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -41,7 +43,7 @@ export const metadata = {
     siteName: 'Allied Advantage Ads',
     images: [
       {
-        url: '/images/link-preview.svg',
+        url: previewImageUrl,
         width: 500,
         height: 500,
         alt: 'Allied Advantage Ads logo',
@@ -54,7 +56,7 @@ export const metadata = {
     description:
       'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',
-    images: ['/images/link-preview.svg'],
+    images: [previewImageUrl],
   },
   manifest: 'https://alliedadvantage.co/.well-known/acp.json',
   other: {

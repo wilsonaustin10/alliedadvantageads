@@ -50,7 +50,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
+    title: 'Allied Advantage Ads: #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Scale your real estate wholesaling deals with Allied Advantage Ads, delivering top PPC lead performance nationwide.',
     creator: '@alliedadvantageads',

@@ -101,4 +101,4 @@ Allow: /
 User-agent: *
 Disallow:
 
-Sitemap: https://www.alliedadvantage.co/sitemap.xml
+Sitemap: https://alliedadvantage.co/sitemap.xml

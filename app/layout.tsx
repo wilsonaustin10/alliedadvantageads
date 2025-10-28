@@ -35,7 +35,7 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://alliedadvantage.co',
-    title: 'Allied Advantage Ads: #1 PPC Leads for Real Estate Wholesalers',
+    title: 'Allied Advantage Ads – #1 PPC Leads for Real Estate Wholesalers',
     description:
       'Partner with Allied Advantage Ads to capture motivated seller leads through top-performing PPC campaigns tailored for real estate wholesalers.',
     siteName: 'Allied Advantage Ads',

@@ -83,6 +83,36 @@ export default function RootLayout({
             url: 'https://api.getsphere.xyz/users/68f9455cf540a350e4564dd9/profile',
           })}
         </Script>
+        <Script id="affiliate-tracking" strategy="afterInteractive">
+          {`(function () {
+            var initAffiliate = function () {
+              if (typeof window === 'undefined') {
+                return;
+              }
+
+              var manager = window.affiliateManager;
+
+              if (manager && typeof manager.init === 'function') {
+                manager.init('GbOoP9eUwGI1Eb30Baex', 'https://backend.leadconnectorhq.com', '.www.alliedadvantage.co');
+              }
+            };
+
+            if (typeof window === 'undefined') {
+              return;
+            }
+
+            initAffiliate();
+
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = 'https://link.msgsndr.com/js/am.js';
+            script.onload = initAffiliate;
+
+            var firstScript = document.getElementsByTagName('script')[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+          })();`}
+        </Script>
         <SmoothScroll />
         <div className="flex min-h-screen flex-col overflow-hidden">
           {children}

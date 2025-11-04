@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 
-const ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/24118417/ustvu60/';
+const ZAPIER_WEBHOOK_URL = process.env.ZAPIER_WEBHOOK_URL;
+
+if (!ZAPIER_WEBHOOK_URL) {
+  throw new Error(
+    'Missing ZAPIER_WEBHOOK_URL environment variable. Please set it to your Zapier webhook URL.'
+  );
+}
 
 export async function POST(request: Request) {
   try {

@@ -1,25 +1,9 @@
 import { NextResponse } from 'next/server';
 
-// Go High Level API Configuration
-const GHL_ENDPOINT = process.env.GHL_ENDPOINT;
-const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID;
-const GHL_API_KEY = process.env.GHL_API_KEY;
+const ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/24118417/ustvu60/';
 
 export async function POST(request: Request) {
   try {
-    // Validate required environment variables
-    if (!GHL_ENDPOINT || !GHL_LOCATION_ID || !GHL_API_KEY) {
-      console.error('Missing required environment variables:', {
-        GHL_ENDPOINT: !!GHL_ENDPOINT,
-        GHL_LOCATION_ID: !!GHL_LOCATION_ID,
-        GHL_API_KEY: !!GHL_API_KEY,
-      });
-      return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      );
-    }
-
     const body = await request.json();
     const { name, email, phone, company, message, package: selectedPackage } = body;
 
@@ -33,52 +17,33 @@ export async function POST(request: Request) {
       selectedPackage,
     });
 
-    // Split name into first and last name
-    const nameParts = name.trim().split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
-
-    // Create contact in Go High Level
-    const ghlContact = {
-      firstName,
-      lastName,
+    const payload = {
+      name,
       email,
       phone,
-      companyName: company,
-      locationId: GHL_LOCATION_ID,
-      source: 'Contact Form',
-      type: 'lead',
-      tags: ['Website Lead', 'Contact Form'],
-      customField: [
-        {
-          id: 'package_interest', // Replace with your actual custom field ID in GHL
-          value: selectedPackage
-        },
-        {
-          id: 'initial_message', // Replace with your actual custom field ID in GHL
-          value: message
-        }
-      ]
+      company,
+      message,
+      package: selectedPackage,
     };
 
-    // Make the API call to Go High Level
-    const ghlResponse = await fetch(GHL_ENDPOINT, {
+    const zapierResponse = await fetch(ZAPIER_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${GHL_API_KEY}`,
         'Content-Type': 'application/json',
-        'Version': '2021-07-28'
+        Accept: 'application/json',
       },
-      body: JSON.stringify(ghlContact)
+      body: JSON.stringify(payload),
     });
 
-    if (!ghlResponse.ok) {
-      const error = await ghlResponse.json();
-      throw new Error(error.message || 'Failed to create contact in GHL');
+    if (!zapierResponse.ok) {
+      const errorText = await zapierResponse.text();
+      throw new Error(
+        `Zapier webhook request failed with status ${zapierResponse.status}: ${errorText}`
+      );
     }
 
-    const ghlData = await ghlResponse.json();
-    console.log('Contact created in GHL:', ghlData);
+    const responseText = await zapierResponse.text();
+    console.log('Contact forwarded to Zapier:', responseText);
 
     return NextResponse.json(
       { message: 'Form submitted successfully. We will be in touch soon!' },
@@ -91,4 +56,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}

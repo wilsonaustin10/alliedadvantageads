@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
 
-const ZAPIER_WEBHOOK_URL = process.env.ZAPIER_WEBHOOK_URL;
+function getZapierWebhookUrl(): string {
+  const url = process.env.ZAPIER_WEBHOOK_URL;
 
-if (!ZAPIER_WEBHOOK_URL) {
-  throw new Error(
-    'Missing ZAPIER_WEBHOOK_URL environment variable. Please set it to your Zapier webhook URL.'
-  );
+  if (!url) {
+    throw new Error(
+      'Missing ZAPIER_WEBHOOK_URL environment variable. Please set it to your Zapier webhook URL.'
+    );
+  }
+
+  return url;
 }
+
+const ZAPIER_WEBHOOK_URL = getZapierWebhookUrl();
 
 export async function POST(request: Request) {
   try {

@@ -124,12 +124,12 @@ export default function ConsultationForm() {
           
           <div className="bg-white rounded-lg shadow-xl p-8">
             {/* Calendly embed */}
-            <div className="calendly-inline-widget" data-url="https://calendly.com/alliedadvantageads/consultation" style={{minWidth: '320px', height: '700px'}}></div>
+            <div className="calendly-inline-widget" data-url="https://calendly.com/austin-alliedleadvantage-ads/30min" style={{minWidth: '320px', height: '700px'}}></div>
             <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-            
+
             {/* Fallback message if Calendly doesn't load */}
             <div className="text-center mt-8 text-gray-600">
-              <p>Having trouble loading the calendar? <a href="https://calendly.com/alliedadvantageads/consultation" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Click here to schedule directly</a>.</p>
+              <p>Having trouble loading the calendar? <a href="https://calendly.com/austin-alliedleadvantage-ads/30min" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Click here to schedule directly</a>.</p>
             </div>
           </div>
         </div>

@@ -44,6 +44,49 @@ export async function POST(request: Request) {
       );
     }
 
+    // Helper function to get base URL
+    const getGHLBaseUrl = () => {
+      if (GHL_ENDPOINT.includes('rest.gohighlevel.com')) {
+        return 'https://rest.gohighlevel.com/v1';
+      } else if (GHL_ENDPOINT.includes('services.leadconnectorhq.com')) {
+        return 'https://services.leadconnectorhq.com';
+      }
+      const url = new URL(GHL_ENDPOINT);
+      return `${url.protocol}//${url.host}${url.pathname.split('/contacts')[0]}`;
+    };
+
+    // First, try to lookup existing contact by email
+    const baseUrl = getGHLBaseUrl();
+    const lookupUrl = `${baseUrl}/contacts/lookup`;
+    let contactId: string | null = null;
+
+    try {
+      const lookupResponse = await fetch(
+        `${lookupUrl}?email=${encodeURIComponent(email)}&locationId=${GHL_LOCATION_ID}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${GHL_API_KEY}`,
+            'Content-Type': 'application/json',
+            Version: '2021-07-28',
+          },
+        }
+      );
+
+      if (lookupResponse.ok) {
+        const lookupData = await lookupResponse.json();
+        // Handle different response formats
+        if (lookupData.contact?.id) {
+          contactId = lookupData.contact.id;
+        } else if (lookupData.contacts && lookupData.contacts.length > 0) {
+          contactId = lookupData.contacts[0].id;
+        }
+        console.log('Found existing contact in GHL:', contactId);
+      }
+    } catch (lookupError) {
+      console.warn('Error looking up contact, will attempt to create new:', lookupError);
+    }
+
     const ghlPayload = {
       firstName,
       lastName,
@@ -72,17 +115,36 @@ export async function POST(request: Request) {
       phone,
       dealsPerMonth,
       a2pConsent,
+      existingContact: !!contactId,
     });
 
-    const ghlResponse = await fetch(GHL_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${GHL_API_KEY}`,
-        'Content-Type': 'application/json',
-        Version: '2021-07-28',
-      },
-      body: JSON.stringify(ghlPayload),
-    });
+    let ghlResponse: Response;
+    let ghlData: any;
+
+    if (contactId) {
+      // Update existing contact
+      const updateUrl = `${baseUrl}/contacts/${contactId}`;
+      ghlResponse = await fetch(updateUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${GHL_API_KEY}`,
+          'Content-Type': 'application/json',
+          Version: '2021-07-28',
+        },
+        body: JSON.stringify(ghlPayload),
+      });
+    } else {
+      // Create new contact
+      ghlResponse = await fetch(GHL_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${GHL_API_KEY}`,
+          'Content-Type': 'application/json',
+          Version: '2021-07-28',
+        },
+        body: JSON.stringify(ghlPayload),
+      });
+    }
 
     if (!ghlResponse.ok) {
       let errorPayload: unknown = null;
@@ -97,6 +159,7 @@ export async function POST(request: Request) {
         status: ghlResponse.status,
         statusText: ghlResponse.statusText,
         body: errorPayload,
+        method: contactId ? 'PUT' : 'POST',
       });
 
       const errorMessage =
@@ -110,8 +173,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const ghlData = await ghlResponse.json();
-    console.log('Consultation submitted to GHL:', ghlData);
+    ghlData = await ghlResponse.json();
+    console.log('Consultation submitted to GHL:', {
+      contactId: ghlData.contact?.id || contactId,
+      method: contactId ? 'updated' : 'created',
+      data: ghlData,
+    });
 
     return NextResponse.json(
       { message: 'Consultation request received successfully' },

@@ -46,21 +46,43 @@ export async function POST(request: Request) {
 
     // Helper function to get base URL
     const getGHLBaseUrl = () => {
+      if (!GHL_ENDPOINT) {
+        throw new Error('GHL_ENDPOINT is not configured');
+      }
+      
       if (GHL_ENDPOINT.includes('rest.gohighlevel.com')) {
         return 'https://rest.gohighlevel.com/v1';
       } else if (GHL_ENDPOINT.includes('services.leadconnectorhq.com')) {
         return 'https://services.leadconnectorhq.com';
       }
-      const url = new URL(GHL_ENDPOINT);
-      return `${url.protocol}//${url.host}${url.pathname.split('/contacts')[0]}`;
+      
+      // Try to parse the endpoint URL
+      try {
+        const url = new URL(GHL_ENDPOINT);
+        return `${url.protocol}//${url.host}${url.pathname.split('/contacts')[0]}`;
+      } catch (urlError) {
+        // If URL parsing fails, try to extract base URL manually
+        const match = GHL_ENDPOINT.match(/^(https?:\/\/[^\/]+)/);
+        if (match) {
+          return match[1];
+        }
+        throw new Error(`Invalid GHL_ENDPOINT format: ${GHL_ENDPOINT}`);
+      }
     };
 
     // First, try to lookup existing contact by email
-    const baseUrl = getGHLBaseUrl();
-    const lookupUrl = `${baseUrl}/contacts/lookup`;
+    let baseUrl: string;
     let contactId: string | null = null;
 
     try {
+      baseUrl = getGHLBaseUrl();
+    } catch (urlError) {
+      console.error('Failed to get GHL base URL:', urlError);
+      throw new Error(`Invalid GHL endpoint configuration: ${urlError instanceof Error ? urlError.message : 'Unknown error'}`);
+    }
+
+    try {
+      const lookupUrl = `${baseUrl}/contacts/lookup`;
       const lookupResponse = await fetch(
         `${lookupUrl}?email=${encodeURIComponent(email)}&locationId=${GHL_LOCATION_ID}`,
         {
@@ -82,8 +104,12 @@ export async function POST(request: Request) {
           contactId = lookupData.contacts[0].id;
         }
         console.log('Found existing contact in GHL:', contactId);
+      } else {
+        // Lookup failed but that's okay, we'll create a new contact
+        console.log('Contact lookup returned non-OK status, will create new contact');
       }
     } catch (lookupError) {
+      // If lookup fails, we'll still try to create a new contact
       console.warn('Error looking up contact, will attempt to create new:', lookupError);
     }
 
@@ -186,8 +212,15 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error('Error processing consultation request:', error);
+    
+    // Provide more detailed error information in development
+    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+    const errorDetails = process.env.NODE_ENV === 'development' 
+      ? { message: errorMessage, stack: error instanceof Error ? error.stack : undefined }
+      : { message: 'Internal server error' };
+    
     return NextResponse.json(
-      { error: 'Internal server error' },
+      errorDetails,
       { status: 500 }
     );
   }

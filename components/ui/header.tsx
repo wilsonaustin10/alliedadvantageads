@@ -65,6 +65,14 @@ export default function Header() {
               </li>
               <li>
                 <Link
+                  href="/bateman-comparison"
+                  className="btn-sm text-blue-600 border border-blue-600 bg-white hover:bg-blue-50 ml-3 shadow-sm hover:shadow-md transform transition-all duration-200 hover:-translate-y-0.5"
+                >
+                  Allied vs. Bateman
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="#consultation-form"
                   className="btn-sm text-white bg-blue-600 hover:bg-blue-700 ml-3 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
                 >

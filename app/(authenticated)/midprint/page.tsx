@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { auth, firestore as db } from '@/lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useCallback, useEffect, useState } from 'react';
+import { doc, setDoc } from 'firebase/firestore';
+
 import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+import { firestore as db } from '@/lib/firebase';
+import { useMidprintAuthGuard } from './useMidprintAuthGuard';
 
 interface Campaign {
   id: string;
@@ -27,17 +27,20 @@ interface Metrics {
 }
 
 export default function MidPrintDashboard() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [hasGoogleAdsAccess, setHasGoogleAdsAccess] = useState(false);
-  const [showAccountSelector, setShowAccountSelector] = useState(false);
-  const [availableAccounts, setAvailableAccounts] = useState<any[]>([]);
+  const {
+    loading,
+    user,
+    hasGoogleAdsAccess,
+    showAccountSelector,
+    availableAccounts,
+    handleConnectGoogleAds,
+    handleAccountSelection,
+  } = useMidprintAuthGuard();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<string>('all');
   const [dateRange, setDateRange] = useState({
     from: new Date(new Date().setDate(new Date().getDate() - 7)),
-    to: new Date()
+    to: new Date(),
   });
   const [metrics, setMetrics] = useState<Metrics>({
     impressions: 0,
@@ -45,57 +48,10 @@ export default function MidPrintDashboard() {
     cost: 0,
     conversions: 0,
     ctr: 0,
-    cpc: 0
+    cpc: 0,
   });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        console.log('Your Firebase User ID:', firebaseUser.uid);
-        
-        // Check URL params for OAuth callback
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('oauth') === 'success' && urlParams.get('selectAccount') === 'true') {
-          // User just completed OAuth, fetch available accounts
-          setShowAccountSelector(true);
-          await fetchAvailableAccounts(firebaseUser.uid);
-        }
-        
-        await checkGoogleAdsAccess(firebaseUser.uid);
-        await fetchCampaigns(firebaseUser.uid);
-        await fetchMetrics(firebaseUser.uid);
-      } else {
-        router.push('/signin?redirect=/midprint');
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [router]);
-
-  const checkGoogleAdsAccess = async (userId: string) => {
-    try {
-      const userDoc = await getDoc(doc(db, 'users', userId));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        setHasGoogleAdsAccess(!!userData.googleAdsCustomerId);
-      } else {
-        // Create user document if it doesn't exist
-        console.log('Creating user document for:', userId);
-        await setDoc(doc(db, 'users', userId), {
-          email: user?.email,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        });
-        setHasGoogleAdsAccess(false);
-      }
-    } catch (error) {
-      console.error('Error checking Google Ads access:', error);
-    }
-  };
-
-  const fetchCampaigns = async (userId: string) => {
+  const fetchCampaigns = useCallback(async (userId: string) => {
     try {
       const response = await fetch(`/api/midprint/campaigns?userId=${userId}`);
       if (response.ok) {
@@ -105,48 +61,41 @@ export default function MidPrintDashboard() {
     } catch (error) {
       console.error('Error fetching campaigns:', error);
     }
-  };
+  }, []);
 
-  const fetchMetrics = async (userId: string) => {
-    try {
-      const params = new URLSearchParams({
-        userId,
-        campaignId: selectedCampaign,
-        startDate: dateRange.from.toISOString(),
-        endDate: dateRange.to.toISOString()
-      });
+  const fetchMetrics = useCallback(
+    async (userId: string) => {
+      try {
+        const params = new URLSearchParams({
+          userId,
+          campaignId: selectedCampaign,
+          startDate: dateRange.from.toISOString(),
+          endDate: dateRange.to.toISOString(),
+        });
 
-      const response = await fetch(`/api/midprint/metrics?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        setMetrics(data.metrics);
+        const response = await fetch(`/api/midprint/metrics?${params}`);
+        if (response.ok) {
+          const data = await response.json();
+          setMetrics(data.metrics);
+        }
+      } catch (error) {
+        console.error('Error fetching metrics:', error);
       }
-    } catch (error) {
-      console.error('Error fetching metrics:', error);
-    }
-  };
+    },
+    [dateRange.from, dateRange.to, selectedCampaign],
+  );
 
-  const handleConnectGoogleAds = () => {
-    window.location.href = `/api/midprint/auth/google?userId=${user?.uid}`;
-  };
-
-  const fetchAvailableAccounts = async (userId: string) => {
-    try {
-      const response = await fetch(`/api/midprint/auth/list-accounts?userId=${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setAvailableAccounts(data.accounts || []);
-      }
-    } catch (error) {
-      console.error('Error fetching available accounts:', error);
+  useEffect(() => {
+    if (user) {
+      fetchCampaigns(user.uid);
     }
-  };
+  }, [fetchCampaigns, user]);
 
   useEffect(() => {
     if (user && hasGoogleAdsAccess) {
       fetchMetrics(user.uid);
     }
-  }, [selectedCampaign, dateRange, user, hasGoogleAdsAccess]);
+  }, [fetchMetrics, hasGoogleAdsAccess, user]);
 
   if (loading) {
     return (
@@ -156,7 +105,7 @@ export default function MidPrintDashboard() {
     );
   }
 
-  if (showAccountSelector && availableAccounts.length > 0) {
+  if (showAccountSelector && user) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Card className="max-w-2xl mx-auto">
@@ -167,30 +116,23 @@ export default function MidPrintDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {availableAccounts.map((account) => (
-              <div
-                key={account.customerId}
-                className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                onClick={async () => {
-                  try {
-                    await setDoc(doc(db, 'users', user.uid), {
-                      googleAdsCustomerId: account.customerId,
-                      googleAdsAccountName: account.descriptiveName,
-                      updatedAt: new Date()
-                    }, { merge: true });
-                    setHasGoogleAdsAccess(true);
-                    setShowAccountSelector(false);
-                    window.location.href = '/midprint';
-                  } catch (error) {
-                    console.error('Error saving account:', error);
-                  }
-                }}
-              >
-                <div className="font-medium">{account.descriptiveName}</div>
-                <div className="text-sm text-gray-500">Customer ID: {account.customerId}</div>
-                <div className="text-sm text-gray-500">{account.currencyCode} • {account.timeZone}</div>
-              </div>
-            ))}
+            {availableAccounts.length > 0 ? (
+              availableAccounts.map((account) => (
+                <div
+                  key={account.customerId}
+                  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => handleAccountSelection(account, user.uid)}
+                >
+                  <div className="font-medium">{account.descriptiveName}</div>
+                  <div className="text-sm text-gray-500">Customer ID: {account.customerId}</div>
+                  <div className="text-sm text-gray-500">{account.currencyCode} • {account.timeZone}</div>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-gray-500">
+                No Google Ads accounts were returned. Please try reconnecting your Google Ads account.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -208,7 +150,7 @@ export default function MidPrintDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={handleConnectGoogleAds} className="w-full">
+            <Button onClick={() => handleConnectGoogleAds(user?.uid)} className="w-full">
               Connect Google Ads Account
             </Button>
             <p className="mt-4 text-sm text-gray-500 text-center">
@@ -227,20 +169,26 @@ export default function MidPrintDashboard() {
           <h1 className="text-3xl font-bold mb-2">MidPrint Performance Dashboard</h1>
           <p className="text-gray-600">Monitor your Google Ads campaign performance</p>
         </div>
-        <Button 
+        <Button
           variant="outline"
           onClick={() => {
             const newCustomerId = prompt('Enter your Google Ads Customer ID (10 digits):', '');
             if (newCustomerId && newCustomerId.length === 10 && /^\d+$/.test(newCustomerId)) {
-              setDoc(doc(db, 'users', user.uid), {
-                googleAdsCustomerId: newCustomerId,
-                updatedAt: new Date()
-              }, { merge: true }).then(() => {
-                alert('Customer ID updated successfully!');
-                window.location.reload();
-              }).catch((error) => {
-                alert('Error updating Customer ID: ' + error.message);
-              });
+              setDoc(
+                doc(db, 'users', user!.uid),
+                {
+                  googleAdsCustomerId: newCustomerId,
+                  updatedAt: new Date(),
+                },
+                { merge: true },
+              )
+                .then(() => {
+                  alert('Customer ID updated successfully!');
+                  window.location.reload();
+                })
+                .catch((error) => {
+                  alert('Error updating Customer ID: ' + error.message);
+                });
             } else if (newCustomerId) {
               alert('Please enter a valid 10-digit Customer ID');
             }
@@ -265,11 +213,7 @@ export default function MidPrintDashboard() {
           </SelectContent>
         </Select>
 
-        <DateRangePicker
-          value={dateRange}
-          onChange={setDateRange}
-          className="w-full md:w-auto"
-        />
+        <DateRangePicker value={dateRange} onChange={setDateRange} className="w-full md:w-auto" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -331,9 +275,7 @@ export default function MidPrintDashboard() {
       <Card>
         <CardHeader>
           <CardTitle>Performance Trends</CardTitle>
-          <CardDescription>
-            View your campaign performance over time
-          </CardDescription>
+          <CardDescription>View your campaign performance over time</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-64 flex items-center justify-center text-gray-500">

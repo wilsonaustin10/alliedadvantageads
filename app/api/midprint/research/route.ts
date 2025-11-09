@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
-import type { Timestamp } from 'firebase-admin/firestore';
+import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
 import researchScoringConfig from '@/config/midprintResearchScoring.json';
 import { auth, db } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
-const STALE_AFTER_MS = 24 * 60 * 60 * 1000; // 24 hours
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+const STALE_AFTER_MS = CACHE_TTL_MS;
 const MIN_REQUEST_INTERVAL_MS = 60 * 1000; // 1 minute
 const DEFAULT_LIMIT = 25;
 const MAX_LIMIT = 100;
@@ -43,6 +44,15 @@ type QueryDocument = {
   summary?: Record<string, unknown> | null;
   lastComputedAt?: FirestoreTimestamp | Date | string | null;
   lastRequestedAt?: FirestoreTimestamp | Date | string | null;
+  expiresAt?: FirestoreTimestamp | Date | string | null;
+};
+
+type StatusDocument = {
+  state?: string | null;
+  startedAt?: FirestoreTimestamp | Date | string | null;
+  completedAt?: FirestoreTimestamp | Date | string | null;
+  lastUpdatedAt?: FirestoreTimestamp | Date | string | null;
+  error?: unknown;
 };
 
 type KeywordResearchQueuePayload = {
@@ -110,6 +120,15 @@ type Pagination = {
   total: number;
   hasMore: boolean;
   nextOffset: number | null;
+  nextPageToken: string | null;
+};
+
+type SerializedStatus = {
+  state: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  lastUpdatedAt: string | null;
+  error: string | null;
 };
 
 function parseNumericParam(value: string | null): number | null {
@@ -621,20 +640,88 @@ function computeAggregates(records: ResearchRecord[]): Aggregates {
   };
 }
 
-function parsePagination(searchParams: URLSearchParams, total: number): Pagination {
+function clampLimit(value: number | null | undefined): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    return DEFAULT_LIMIT;
+  }
+
+  const normalized = Math.floor(value);
+  if (normalized <= 0) {
+    return DEFAULT_LIMIT;
+  }
+
+  return Math.min(normalized, MAX_LIMIT);
+}
+
+function decodePageToken(token: string | null): { offset: number; limit?: number } | null {
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const payload = Buffer.from(token, 'base64url').toString('utf8');
+    const parsed = JSON.parse(payload) as Record<string, unknown>;
+
+    if (!parsed || typeof parsed !== 'object') {
+      return null;
+    }
+
+    const offset = Number(parsed.offset);
+    const limit = parsed.limit !== undefined ? Number(parsed.limit) : undefined;
+
+    if (!Number.isFinite(offset) || offset < 0) {
+      return null;
+    }
+
+    return {
+      offset: Math.floor(offset),
+      ...(limit !== undefined && Number.isFinite(limit) ? { limit: Math.floor(limit) } : {}),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function encodePageToken(offset: number, limit: number): string {
+  const payload = JSON.stringify({ offset, limit });
+  return Buffer.from(payload).toString('base64url');
+}
+
+function resolvePaginationParams(
+  searchParams: URLSearchParams,
+  total: number,
+): { limit: number; offset: number } {
+  const decodedToken = decodePageToken(searchParams.get('pageToken'));
   const limitParam = parseNumericParam(searchParams.get('limit'));
   const offsetParam = parseNumericParam(searchParams.get('offset') || searchParams.get('cursor'));
 
-  const limit = Math.min(Math.max(limitParam ?? DEFAULT_LIMIT, 1), MAX_LIMIT);
-  const offset = Math.max(offsetParam ?? 0, 0);
-  const end = Math.min(offset + limit, total);
+  const limit = clampLimit(decodedToken?.limit ?? limitParam ?? undefined);
+  let offset = decodedToken?.offset ?? (Number.isFinite(offsetParam) && offsetParam !== null ? offsetParam : 0);
+
+  if (!Number.isFinite(offset) || offset === null || offset < 0) {
+    offset = 0;
+  }
+
+  offset = Math.floor(offset);
+
+  if (offset > total) {
+    offset = total > 0 ? Math.max(0, total - limit) : 0;
+  }
+
+  return { limit, offset };
+}
+
+function buildPagination(params: { limit: number; offset: number; total: number }): Pagination {
+  const end = Math.min(params.offset + params.limit, params.total);
+  const hasMore = end < params.total;
 
   return {
-    limit,
-    offset,
-    total,
-    hasMore: end < total,
-    nextOffset: end < total ? end : null,
+    limit: params.limit,
+    offset: params.offset,
+    total: params.total,
+    hasMore,
+    nextOffset: hasMore ? end : null,
+    nextPageToken: hasMore ? encodePageToken(end, params.limit) : null,
   };
 }
 
@@ -715,6 +802,32 @@ function extractAuthToken(request: NextRequest): string | null {
   return cookieToken?.value ?? null;
 }
 
+function formatStatusDocument(doc: StatusDocument | null): SerializedStatus | null {
+  if (!doc) {
+    return null;
+  }
+
+  const startedAt = coerceToDate(doc.startedAt);
+  const completedAt = coerceToDate(doc.completedAt);
+  const lastUpdatedAt = coerceToDate(doc.lastUpdatedAt);
+  const rawError = doc.error;
+
+  let errorMessage: string | null = null;
+  if (typeof rawError === 'string') {
+    errorMessage = rawError;
+  } else if (rawError && typeof rawError === 'object' && 'message' in rawError) {
+    errorMessage = String((rawError as { message?: unknown }).message);
+  }
+
+  return {
+    state: typeof doc.state === 'string' ? doc.state : null,
+    startedAt: startedAt ? startedAt.toISOString() : null,
+    completedAt: completedAt ? completedAt.toISOString() : null,
+    lastUpdatedAt: lastUpdatedAt ? lastUpdatedAt.toISOString() : null,
+    error: errorMessage,
+  };
+}
+
 function buildProcessingResponse(params: {
   queryId: string;
   keyword: string | null;
@@ -724,6 +837,8 @@ function buildProcessingResponse(params: {
   lastRequestedAt: Date | null;
   lastComputedAt: Date | null;
   enqueued: boolean;
+  statusDetails?: SerializedStatus | null;
+  cacheExpiresAt?: Date | null;
 }) {
   return NextResponse.json({
     status: 'processing',
@@ -735,6 +850,8 @@ function buildProcessingResponse(params: {
     lastRequestedAt: params.lastRequestedAt ? params.lastRequestedAt.toISOString() : null,
     lastComputedAt: params.lastComputedAt ? params.lastComputedAt.toISOString() : null,
     enqueued: params.enqueued,
+    statusDetails: params.statusDetails ?? null,
+    cacheExpiresAt: params.cacheExpiresAt ? params.cacheExpiresAt.toISOString() : null,
     nextRecommendedPollMs: 15_000,
   });
 }
@@ -819,14 +936,22 @@ export async function GET(request: NextRequest) {
 
     const queryId = explicitQueryId || computeQueryHash(keywordParam as string, matchTypeParam, deviceParam, marketCodes);
     const queryRef = db.collection('midprintResearch').doc(userId).collection('queries').doc(queryId);
-    const snapshot = await queryRef.get();
+    const [snapshot, statusSnapshot] = await Promise.all([
+      queryRef.get(),
+      queryRef.collection('status').doc('current').get(),
+    ]);
     const data = (snapshot.exists ? (snapshot.data() as QueryDocument) : null) || null;
+    const statusDoc = statusSnapshot.exists ? (statusSnapshot.data() as StatusDocument) : null;
+    const statusDetails = formatStatusDocument(statusDoc);
+    const statusState = statusDetails?.state ?? null;
 
     const lastComputedAt = coerceToDate(data?.lastComputedAt) || coerceToDate(data?.summary?.computedAt);
     const lastRequestedAt = coerceToDate(data?.lastRequestedAt);
+    const expiresAt = coerceToDate(data?.expiresAt);
     const now = Date.now();
 
-    let needsRefresh = !snapshot.exists || !lastComputedAt || now - lastComputedAt.getTime() > STALE_AFTER_MS;
+    const hasFreshCache = Boolean(lastComputedAt && expiresAt && expiresAt.getTime() > now);
+    let needsRefresh = !snapshot.exists || !lastComputedAt || !hasFreshCache;
     let marketsSnapshot = null;
 
     if (!needsRefresh) {
@@ -838,6 +963,7 @@ export async function GET(request: NextRequest) {
 
       if (successCount === 0) {
         needsRefresh = true;
+        marketsSnapshot = null;
       }
     }
 
@@ -848,35 +974,86 @@ export async function GET(request: NextRequest) {
       ? data!.markets!
       : marketCodes.map((marketCode) => ({ marketCode }));
 
+    const cacheExpiresAt = expiresAt || null;
+
     if (needsRefresh) {
-      const marketsForRequest = effectiveMarkets.length ? effectiveMarkets : marketCodes.map((marketCode) => ({ marketCode }));
+      const marketsForRequest = effectiveMarkets.length
+        ? effectiveMarkets
+        : marketCodes.map((marketCode) => ({ marketCode }));
       const canEnqueue =
-        effectiveKeyword && marketsForRequest.length && (!lastRequestedAt || now - lastRequestedAt.getTime() > MIN_REQUEST_INTERVAL_MS);
+        effectiveKeyword &&
+        marketsForRequest.length &&
+        (!lastRequestedAt || now - lastRequestedAt.getTime() > MIN_REQUEST_INTERVAL_MS);
+
+      const isProcessing = statusState === 'running' || statusState === 'queued';
+      const fallbackStatus: SerializedStatus = statusDetails ?? {
+        state: isProcessing && statusState ? statusState : 'pending',
+        startedAt: null,
+        completedAt: null,
+        lastUpdatedAt: null,
+        error: null,
+      };
+
+      if (isProcessing || !canEnqueue) {
+        return buildProcessingResponse({
+          queryId,
+          keyword: effectiveKeyword,
+          matchType: effectiveMatchType,
+          device: effectiveDevice,
+          markets: marketsForRequest,
+          lastRequestedAt,
+          lastComputedAt,
+          enqueued: false,
+          statusDetails: statusDetails ?? fallbackStatus,
+          cacheExpiresAt,
+        });
+      }
 
       let enqueued = false;
+      let responseStatusDetails: SerializedStatus = fallbackStatus;
+      const enqueueTimestamp = FieldValue.serverTimestamp();
+      const approximateNow = new Date();
 
-      if (canEnqueue) {
-        try {
-          await triggerKeywordResearch({
-            userId,
-            keyword: effectiveKeyword,
-            matchType: effectiveMatchType || undefined,
-            device: effectiveDevice || undefined,
-            markets: marketsForRequest,
-          });
-          enqueued = true;
-        } catch (error) {
-          console.error('Failed to enqueue keyword research request:', error);
-          return NextResponse.json(
+      try {
+        await Promise.all([
+          queryRef.set({ lastRequestedAt: enqueueTimestamp }, { merge: true }),
+          queryRef.collection('status').doc('current').set(
             {
-              error: {
-                code: 'enqueue_failed',
-                message: 'Unable to queue keyword research refresh. Please try again later.',
-              },
+              state: 'queued',
+              startedAt: enqueueTimestamp,
+              completedAt: null,
+              error: null,
+              lastUpdatedAt: enqueueTimestamp,
             },
-            { status: 500 },
-          );
-        }
+            { merge: true },
+          ),
+        ]);
+        await triggerKeywordResearch({
+          userId,
+          keyword: effectiveKeyword,
+          matchType: effectiveMatchType || undefined,
+          device: effectiveDevice || undefined,
+          markets: marketsForRequest,
+        });
+        enqueued = true;
+        responseStatusDetails = {
+          state: 'queued',
+          startedAt: approximateNow.toISOString(),
+          completedAt: null,
+          lastUpdatedAt: approximateNow.toISOString(),
+          error: null,
+        };
+      } catch (error) {
+        console.error('Failed to enqueue keyword research request:', error);
+        return NextResponse.json(
+          {
+            error: {
+              code: 'enqueue_failed',
+              message: 'Unable to queue keyword research refresh. Please try again later.',
+            },
+          },
+          { status: 500 },
+        );
       }
 
       return buildProcessingResponse({
@@ -888,6 +1065,8 @@ export async function GET(request: NextRequest) {
         lastRequestedAt,
         lastComputedAt,
         enqueued,
+        statusDetails: responseStatusDetails,
+        cacheExpiresAt,
       });
     }
 
@@ -941,8 +1120,16 @@ export async function GET(request: NextRequest) {
     const filteredRecords = applyFilters(scoredRecords, filters);
     const { field: sortField, direction } = resolveSort(searchParams);
     const sortedRecords = sortRecords(filteredRecords, sortField, direction);
-    const pagination = parsePagination(searchParams, sortedRecords.length);
-    const paginatedRecords = sortedRecords.slice(pagination.offset, pagination.offset + pagination.limit);
+    const paginationParams = resolvePaginationParams(searchParams, filteredRecords.length);
+    const paginatedRecords = sortedRecords.slice(
+      paginationParams.offset,
+      paginationParams.offset + paginationParams.limit,
+    );
+    const pagination = buildPagination({
+      limit: paginationParams.limit,
+      offset: paginationParams.offset,
+      total: filteredRecords.length,
+    });
     const aggregates = computeAggregates(filteredRecords);
 
     const scoringMetadata: AppliedScoringMetadata = {
@@ -962,11 +1149,13 @@ export async function GET(request: NextRequest) {
       matchType: effectiveMatchType,
       device: effectiveDevice,
       lastComputedAt: lastComputedAt ? lastComputedAt.toISOString() : null,
+      cacheExpiresAt: cacheExpiresAt ? cacheExpiresAt.toISOString() : null,
       data: paginatedRecords,
       pagination,
       aggregates,
       summary: formatSummary(data?.summary),
       scoring: scoringMetadata,
+      statusDetails: statusDetails ?? null,
     });
   } catch (error) {
     console.error('Unexpected error handling keyword research request:', error);

@@ -245,12 +245,27 @@ exports.requestKeywordResearch = onRequest(async (request, response) => {
     }
 
     try {
+      logger.info("Keyword research request accepted", {
+        userId,
+        keyword,
+        marketCount: Array.isArray(markets) ? markets.length : 0,
+        matchType: matchType || "BROAD",
+        device: device || "DESKTOP",
+      });
+
       const result = await collectKeywordMarketMetrics({
         userId,
         keyword,
         matchType,
         device,
         markets,
+      });
+
+      logger.info("Keyword research request completed", {
+        userId,
+        keyword,
+        queryId: result?.queryId,
+        marketCount: Array.isArray(result?.markets) ? result.markets.length : 0,
       });
 
       return response.status(200).json({

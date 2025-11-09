@@ -53,7 +53,15 @@ type AppliedFilters = {
   minScore: number | null;
 };
 
-type ProcessingInfo = {
+type StatusDetails = {
+  state?: string | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  lastUpdatedAt?: string | null;
+  error?: string | null;
+};
+
+type ProcessingInfo = StatusDetails & {
   enqueued?: boolean;
   lastRequestedAt?: string | null;
   lastComputedAt?: string | null;
@@ -103,15 +111,17 @@ export default function MidprintResearchPage() {
   const [aggregates, setAggregates] = useState<Aggregates | null>(null);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
   const [processingInfo, setProcessingInfo] = useState<ProcessingInfo | null>(null);
+  const [cacheExpiresAt, setCacheExpiresAt] = useState<Date | null>(null);
 
   const [sortField, setSortField] = useState<ResearchSortField>('score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(25);
   const [activeQueryId, setActiveQueryId] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState<QueryState | null>(null);
 
   const pollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
   const clearPendingPoll = useCallback(() => {
     if (pollTimeoutRef.current) {
@@ -151,6 +161,8 @@ export default function MidprintResearchPage() {
       offset?: number;
       limit?: number;
       newQuery?: boolean;
+      append?: boolean;
+      pageToken?: string | null;
       sort?: { field: ResearchSortField; direction: 'asc' | 'desc' };
     }) => {
       if (!user) {
@@ -165,12 +177,18 @@ export default function MidprintResearchPage() {
 
       const effectiveFilters = options?.filters ?? appliedFilters;
       const effectiveLimit = options?.limit ?? pageSize;
-      const effectiveOffset = options?.offset ?? page * effectiveLimit;
+      const append = options?.append ?? false;
+      const defaultOffset = append ? results.length : 0;
+      const effectiveOffset = options?.offset ?? defaultOffset;
       const effectiveSortField = options?.sort?.field ?? sortField;
       const effectiveSortDirection = options?.sort?.direction ?? sortDirection;
       const effectiveQueryId = options?.queryId ?? (options?.newQuery ? null : activeQueryId);
 
-      setStatus('loading');
+      if (append) {
+        setIsFetchingMore(true);
+      } else {
+        setStatus('loading');
+      }
       setError(null);
       clearPendingPoll();
 
@@ -183,6 +201,9 @@ export default function MidprintResearchPage() {
         params.set('device', effectiveQuery.device);
         params.set('markets', effectiveQuery.markets.join(','));
         params.set('limit', String(effectiveLimit));
+        if (options?.pageToken) {
+          params.set('pageToken', options.pageToken);
+        }
         params.set('offset', String(effectiveOffset));
         params.set('sort', effectiveSortField);
         params.set('sortOrder', effectiveSortDirection);
@@ -223,7 +244,13 @@ export default function MidprintResearchPage() {
             enqueued: payload.enqueued,
             lastRequestedAt: payload.lastRequestedAt,
             lastComputedAt: payload.lastComputedAt,
+            state: payload.statusDetails?.state,
+            startedAt: payload.statusDetails?.startedAt,
+            completedAt: payload.statusDetails?.completedAt,
+            lastUpdatedAt: payload.statusDetails?.lastUpdatedAt,
+            error: payload.statusDetails?.error,
           });
+          setCacheExpiresAt(payload.cacheExpiresAt ? new Date(payload.cacheExpiresAt) : null);
           clearPendingPoll();
           const delay = typeof payload.nextRecommendedPollMs === 'number' ? payload.nextRecommendedPollMs : 15000;
           pollTimeoutRef.current = setTimeout(() => {
@@ -236,17 +263,36 @@ export default function MidprintResearchPage() {
               sort: { field: effectiveSortField, direction: effectiveSortDirection },
             });
           }, delay);
+          setIsFetchingMore(false);
           return;
         }
 
         if (payload.status === 'ready') {
           setStatus('ready');
-          setResults(Array.isArray(payload.data) ? payload.data : []);
-          setPagination(payload.pagination || null);
+          setResults((previous) =>
+            append && Array.isArray(payload.data)
+              ? [...previous, ...payload.data]
+              : Array.isArray(payload.data)
+              ? payload.data
+              : [],
+          );
+          setPagination((prev) => {
+            if (!payload.pagination) {
+              return null;
+            }
+            if (!append || !prev) {
+              return payload.pagination;
+            }
+            return {
+              ...payload.pagination,
+              offset: 0,
+            };
+          });
           setAggregates(payload.aggregates || null);
           setActiveQueryId(payload.queryId || null);
           setProcessingInfo(null);
           setLastRefreshedAt(payload.lastComputedAt ? new Date(payload.lastComputedAt) : null);
+          setCacheExpiresAt(payload.cacheExpiresAt ? new Date(payload.cacheExpiresAt) : null);
           return;
         }
 
@@ -255,6 +301,10 @@ export default function MidprintResearchPage() {
         console.error('Failed to fetch research:', err);
         setStatus('error');
         setError(err instanceof Error ? err.message : 'Failed to fetch keyword research.');
+      } finally {
+        if (append) {
+          setIsFetchingMore(false);
+        }
       }
     },
     [
@@ -262,8 +312,8 @@ export default function MidprintResearchPage() {
       appliedFilters,
       clearPendingPoll,
       lastQuery,
-      page,
       pageSize,
+      results,
       sortDirection,
       sortField,
       user,
@@ -296,15 +346,15 @@ export default function MidprintResearchPage() {
 
     setLastQuery(query);
     setActiveQueryId(null);
-    setPage(0);
     setStatus('loading');
     setResults([]);
     setPagination(null);
     setProcessingInfo(null);
+    setCacheExpiresAt(null);
+    setIsFetchingMore(false);
     fetchResearch({
       query,
       filters: numericFilters,
-      offset: 0,
       limit: pageSize,
       newQuery: true,
       sort: { field: sortField, direction: sortDirection },
@@ -337,12 +387,10 @@ export default function MidprintResearchPage() {
       const nextDirection = sortField === field ? (sortDirection === 'desc' ? 'asc' : 'desc') : 'desc';
       setSortField(field);
       setSortDirection(nextDirection);
-      setPage(0);
       fetchResearch({
         query: lastQuery,
         filters: appliedFilters,
         queryId: activeQueryId,
-        offset: 0,
         limit: pageSize,
         sort: { field, direction: nextDirection },
       });
@@ -350,42 +398,89 @@ export default function MidprintResearchPage() {
     [activeQueryId, appliedFilters, fetchResearch, lastQuery, pageSize, sortDirection, sortField],
   );
 
-  const handlePageChange = useCallback(
-    (nextPage: number) => {
-      setPage(nextPage);
-      if (!lastQuery) {
-        return;
-      }
-      fetchResearch({
-        query: lastQuery,
-        filters: appliedFilters,
-        queryId: activeQueryId,
-        offset: nextPage * pageSize,
-        limit: pageSize,
-        sort: { field: sortField, direction: sortDirection },
-      });
-    },
-    [activeQueryId, appliedFilters, fetchResearch, lastQuery, pageSize, sortDirection, sortField],
-  );
+  const handlePageChange = useCallback(() => {
+    // Pagination is driven by infinite scroll; manual page changes are no-ops.
+  }, []);
 
   const handlePageSizeChange = useCallback(
     (nextSize: number) => {
       setPageSize(nextSize);
-      setPage(0);
       if (!lastQuery) {
         return;
       }
+      setIsFetchingMore(false);
       fetchResearch({
         query: lastQuery,
         filters: appliedFilters,
         queryId: activeQueryId,
-        offset: 0,
         limit: nextSize,
         sort: { field: sortField, direction: sortDirection },
       });
     },
     [activeQueryId, appliedFilters, fetchResearch, lastQuery, sortDirection, sortField],
   );
+
+  const loadMore = useCallback(() => {
+    if (
+      !lastQuery ||
+      !pagination?.hasMore ||
+      !pagination.nextPageToken ||
+      isFetchingMore
+    ) {
+      return;
+    }
+
+    fetchResearch({
+      query: lastQuery,
+      filters: appliedFilters,
+      queryId: activeQueryId,
+      offset: results.length,
+      limit: pageSize,
+      append: true,
+      pageToken: pagination.nextPageToken,
+      sort: { field: sortField, direction: sortDirection },
+    });
+  }, [
+    activeQueryId,
+    appliedFilters,
+    fetchResearch,
+    isFetchingMore,
+    lastQuery,
+    pagination?.hasMore,
+    pagination?.nextPageToken,
+    pageSize,
+    results.length,
+    sortDirection,
+    sortField,
+  ]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) {
+      return;
+    }
+
+    if (status !== 'ready' || !pagination?.hasMore || !pagination.nextPageToken || isFetchingMore) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry?.isIntersecting) {
+          observer.unobserve(entry.target);
+          loadMore();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isFetchingMore, loadMore, pagination?.hasMore, pagination?.nextPageToken, status]);
 
   const disableRunButton =
     !keyword.trim() || !selectedMarkets.length || status === 'loading' || status === 'processing';
@@ -396,6 +491,13 @@ export default function MidprintResearchPage() {
     }
     return lastRefreshedAt.toLocaleString();
   }, [lastRefreshedAt]);
+
+  const formattedCacheExpiry = useMemo(() => {
+    if (!cacheExpiresAt) {
+      return null;
+    }
+    return cacheExpiresAt.toLocaleString();
+  }, [cacheExpiresAt]);
 
   const renderStatusMessage = () => {
     if (status === 'processing' && processingInfo) {
@@ -412,6 +514,17 @@ export default function MidprintResearchPage() {
             <p className="mt-1 text-xs text-amber-700">
               Last completed: {new Date(processingInfo.lastComputedAt).toLocaleString()}
             </p>
+          ) : null}
+          {processingInfo.state ? (
+            <p className="mt-1 text-xs text-amber-700">Current job state: {processingInfo.state}</p>
+          ) : null}
+          {processingInfo.startedAt ? (
+            <p className="mt-1 text-xs text-amber-700">
+              Started at: {new Date(processingInfo.startedAt).toLocaleString()}
+            </p>
+          ) : null}
+          {processingInfo.error ? (
+            <p className="mt-1 text-xs text-red-700">Last error: {processingInfo.error}</p>
           ) : null}
           {processingInfo.enqueued ? (
             <p className="mt-1 text-xs text-amber-700">Keyword research job successfully queued.</p>
@@ -677,6 +790,11 @@ export default function MidprintResearchPage() {
             Last refreshed: {formattedLastRefreshed}
           </div>
         ) : null}
+        {formattedCacheExpiry ? (
+          <div className="rounded-md border border-sky-200 bg-sky-50 p-3 text-sm text-sky-700">
+            Cache valid until: {formattedCacheExpiry}
+          </div>
+        ) : null}
 
         {renderStatusMessage()}
 
@@ -740,13 +858,16 @@ export default function MidprintResearchPage() {
             sortField={sortField}
             sortDirection={sortDirection}
             onSort={handleSort}
-            currentPage={page}
             pageSize={pageSize}
             onPageChange={handlePageChange}
             onPageSizeChange={handlePageSizeChange}
             topRankCount={3}
+            mode="infinite"
+            isFetchingMore={isFetchingMore}
+            totalLoaded={results.length}
           />
         ) : null}
+        <div ref={sentinelRef} className="h-4 w-full" aria-hidden="true" />
       </div>
     </div>
   );

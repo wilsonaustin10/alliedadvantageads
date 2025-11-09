@@ -15,6 +15,11 @@ const secretManagerClient = new SecretManagerServiceClient({
 });
 
 const marketConfigByCode = new Map(keywordMarkets.map((market) => [market.marketCode, market]));
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+
+function getStatusRef(queryRef) {
+  return queryRef.collection("status").doc("current");
+}
 
 /**
  * Splits an array into chunks of a specific size.
@@ -310,61 +315,81 @@ async function collectKeywordMarketMetrics({userId, keyword, matchType = "BROAD"
       .digest("hex");
 
   const queryRef = db.collection("midprintResearch").doc(userId).collection("queries").doc(queryHash);
+  const statusRef = getStatusRef(queryRef);
 
-  const {oauth2Client, userData, credentials} = await getUserAuthContext(userId);
+  const runStart = admin.firestore.FieldValue.serverTimestamp();
 
-  const accessTokenResponse = await oauth2Client.getAccessToken();
-  const accessToken = typeof accessTokenResponse === "string" ? accessTokenResponse : accessTokenResponse?.token;
+  await Promise.all([
+    queryRef.set({
+      keyword,
+      matchType: matchType.toUpperCase(),
+      device: device.toUpperCase(),
+      markets: uniqueMarkets.map(({marketCode, locationId, languageCode, currencyCode}) => ({
+        marketCode,
+        locationId,
+        languageCode,
+        currencyCode,
+      })),
+      lastRequestedAt: runStart,
+    }, {merge: true}),
+    statusRef.set({
+      state: "running",
+      startedAt: runStart,
+      completedAt: null,
+      error: null,
+      lastUpdatedAt: runStart,
+    }, {merge: true}),
+  ]);
 
-  if (!accessToken) {
-    throw new Error("Unable to generate an access token for Google Ads");
-  }
-
-  await queryRef.set({
+  logger.info("Starting keyword market research run", {
+    userId,
+    queryHash,
     keyword,
-    matchType: matchType.toUpperCase(),
-    device: device.toUpperCase(),
-    markets: uniqueMarkets.map(({marketCode, locationId, languageCode, currencyCode}) => ({
-      marketCode,
-      locationId,
-      languageCode,
-      currencyCode,
-    })),
-    lastRequestedAt: admin.firestore.FieldValue.serverTimestamp(),
-  }, {merge: true});
+    marketCount: uniqueMarkets.length,
+  });
 
-  const CHUNK_SIZE = 5;
-  const marketChunks = chunkArray(uniqueMarkets, CHUNK_SIZE);
-  const allResults = [];
+  try {
+    const {oauth2Client, userData, credentials} = await getUserAuthContext(userId);
 
-  for (const chunk of marketChunks) {
-    const chunkResults = await Promise.all(
-        chunk.map((market) => fetchMetricsForMarket({
-          keyword,
-          matchType: matchType.toUpperCase(),
-          device: device.toUpperCase(),
-          market,
-          userData,
-          credentials,
-          accessToken,
-        })),
-    );
+    const accessTokenResponse = await oauth2Client.getAccessToken();
+    const accessToken = typeof accessTokenResponse === "string" ? accessTokenResponse : accessTokenResponse?.token;
 
-    for (const result of chunkResults) {
-      const marketDocRef = queryRef.collection("markets").doc(result.marketCode);
-      await marketDocRef.set({
-        ...result,
-        computedAt: admin.firestore.FieldValue.serverTimestamp(),
-      }, {merge: true});
-      allResults.push(result);
+    if (!accessToken) {
+      throw new Error("Unable to generate an access token for Google Ads");
     }
 
-    if (marketChunks.length > 1) {
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    }
-  }
+    const CHUNK_SIZE = 5;
+    const marketChunks = chunkArray(uniqueMarkets, CHUNK_SIZE);
+    const allResults = [];
 
-  const successfulResults = allResults.filter((item) => item.status === "success");
+    for (const chunk of marketChunks) {
+      const chunkResults = await Promise.all(
+          chunk.map((market) => fetchMetricsForMarket({
+            keyword,
+            matchType: matchType.toUpperCase(),
+            device: device.toUpperCase(),
+            market,
+            userData,
+            credentials,
+            accessToken,
+          })),
+      );
+
+      for (const result of chunkResults) {
+        const marketDocRef = queryRef.collection("markets").doc(result.marketCode);
+        await marketDocRef.set({
+          ...result,
+          computedAt: admin.firestore.FieldValue.serverTimestamp(),
+        }, {merge: true});
+        allResults.push(result);
+      }
+
+      if (marketChunks.length > 1) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+      }
+    }
+
+    const successfulResults = allResults.filter((item) => item.status === "success");
   const numericSearchVolumes = successfulResults
       .map((item) => (item.avgMonthlySearches === null || item.avgMonthlySearches === undefined ? null : Number(item.avgMonthlySearches)))
       .filter((value) => value !== null && !Number.isNaN(value));
@@ -402,27 +427,67 @@ async function collectKeywordMarketMetrics({userId, keyword, matchType = "BROAD"
     scoringConfigVersion: researchScoringConfig?.version || null,
   };
 
-  const computedAt = admin.firestore.FieldValue.serverTimestamp();
+    const computedAt = admin.firestore.FieldValue.serverTimestamp();
+    const expiresAtDate = new Date(Date.now() + CACHE_TTL_MS);
 
-  await queryRef.set({
-    summary: {
-      ...summaryMetrics,
-      computedAt,
-      ...scoringSummary,
-    },
-    lastComputedAt: computedAt,
-  }, {merge: true});
+    await Promise.all([
+      queryRef.set({
+        summary: {
+          ...summaryMetrics,
+          computedAt,
+          ...scoringSummary,
+        },
+        lastComputedAt: computedAt,
+        expiresAt: admin.firestore.Timestamp.fromDate(expiresAtDate),
+      }, {merge: true}),
+      statusRef.set({
+        state: "success",
+        completedAt: computedAt,
+        lastUpdatedAt: computedAt,
+        error: null,
+      }, {merge: true}),
+    ]);
 
-  return {
-    queryId: queryHash,
-    summary: {
-      ...summaryMetrics,
-      computedAt: new Date().toISOString(),
-      ...scoringSummary,
-    },
-    markets: allResults,
-    scoring: scoringSummary,
-  };
+    logger.info("Keyword market research run completed", {
+      userId,
+      queryHash,
+      keyword,
+      marketCount: uniqueMarkets.length,
+      successfulMarkets: successfulResults.length,
+      totalMarkets: allResults.length,
+    });
+
+    return {
+      queryId: queryHash,
+      summary: {
+        ...summaryMetrics,
+        computedAt: new Date().toISOString(),
+        ...scoringSummary,
+        expiresAt: expiresAtDate.toISOString(),
+      },
+      markets: allResults,
+      scoring: scoringSummary,
+    };
+  } catch (error) {
+    const failureTimestamp = admin.firestore.FieldValue.serverTimestamp();
+
+    await statusRef.set({
+      state: "error",
+      error: error?.message || error,
+      completedAt: failureTimestamp,
+      lastUpdatedAt: failureTimestamp,
+    }, {merge: true});
+
+    logger.error("Keyword market research run failed", {
+      userId,
+      queryHash,
+      keyword,
+      marketCount: uniqueMarkets.length,
+      error: error?.message || error,
+    });
+
+    throw error;
+  }
 }
 
 module.exports = {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import type { Timestamp } from 'firebase-admin/firestore';
 
+import researchScoringConfig from '@/config/midprintResearchScoring.json';
 import { auth, db } from '@/lib/firebase-admin';
 
 export const dynamic = 'force-dynamic';
@@ -60,13 +61,47 @@ type ResearchRecord = {
   topOfPageBidHigh: number | null;
   averageCpc: number | null;
   competitionIndex: number | null;
+  normalizedSearchVolume: number | null;
+  normalizedAverageCpc: number | null;
+  normalizedCompetitionIndex: number | null;
+  score: number | null;
+  scoreRationale: string[];
 };
 
 type Aggregates = {
   minAverageCpc: number | null;
   maxAverageCpc: number | null;
   medianCompetitionIndex: number | null;
+  minScore: number | null;
+  maxScore: number | null;
+  averageScore: number | null;
   totalResults: number;
+};
+
+type ScoringWeights = {
+  searchVolume: number;
+  averageCpc: number;
+  competitionIndex: number;
+};
+
+type NormalizationRange = { min: number; max: number } | null;
+
+type NormalizationStats = {
+  searchVolume: NormalizationRange;
+  averageCpc: NormalizationRange;
+  competitionIndex: NormalizationRange;
+};
+
+type ScoringThresholds = typeof researchScoringConfig.scoring.thresholds;
+
+type AppliedScoringMetadata = {
+  weights: ScoringWeights;
+  normalization: NormalizationStats;
+  thresholds: ScoringThresholds;
+  configVersion: string | number | null;
+  model: string;
+  minimumScore: number | null;
+  rationaleLabels: Record<string, string> | undefined;
 };
 
 type Pagination = {
@@ -132,6 +167,54 @@ function coerceNumber(value: unknown): number | null {
   return null;
 }
 
+const HARD_CODED_DEFAULT_WEIGHTS: ScoringWeights = {
+  searchVolume: 0.5,
+  averageCpc: 0.3,
+  competitionIndex: 0.2,
+};
+
+function normalizeWeightMap(weights: ScoringWeights): ScoringWeights {
+  const sanitized: ScoringWeights = {
+    searchVolume: Number.isFinite(weights.searchVolume) && weights.searchVolume > 0 ? weights.searchVolume : 0,
+    averageCpc: Number.isFinite(weights.averageCpc) && weights.averageCpc > 0 ? weights.averageCpc : 0,
+    competitionIndex: Number.isFinite(weights.competitionIndex) && weights.competitionIndex > 0 ? weights.competitionIndex : 0,
+  };
+
+  const total = sanitized.searchVolume + sanitized.averageCpc + sanitized.competitionIndex;
+
+  if (total <= 0) {
+    return { ...HARD_CODED_DEFAULT_WEIGHTS };
+  }
+
+  return {
+    searchVolume: sanitized.searchVolume / total,
+    averageCpc: sanitized.averageCpc / total,
+    competitionIndex: sanitized.competitionIndex / total,
+  };
+}
+
+function getConfiguredDefaultWeights(): ScoringWeights {
+  const configured = (researchScoringConfig?.scoring?.defaultWeights ?? {}) as Partial<ScoringWeights>;
+
+  const weights: ScoringWeights = {
+    searchVolume: coerceNumber(configured.searchVolume) ?? HARD_CODED_DEFAULT_WEIGHTS.searchVolume,
+    averageCpc: coerceNumber(configured.averageCpc) ?? HARD_CODED_DEFAULT_WEIGHTS.averageCpc,
+    competitionIndex: coerceNumber(configured.competitionIndex) ?? HARD_CODED_DEFAULT_WEIGHTS.competitionIndex,
+  };
+
+  return normalizeWeightMap(weights);
+}
+
+const DEFAULT_WEIGHTS = getConfiguredDefaultWeights();
+const DEFAULT_SCORING_MODEL =
+  typeof researchScoringConfig?.scoring?.model === 'string'
+    ? (researchScoringConfig.scoring.model as string)
+    : 'weighted_normalized';
+const SCORING_THRESHOLDS: ScoringThresholds =
+  (researchScoringConfig?.scoring?.thresholds as ScoringThresholds) || ({} as ScoringThresholds);
+const DEFAULT_MIN_SCORE = coerceNumber(researchScoringConfig?.scoring?.defaultMinimumScore) ?? null;
+const SCORING_CONFIG_VERSION = researchScoringConfig?.version ?? null;
+
 function median(values: number[]): number | null {
   if (!values.length) {
     return null;
@@ -145,6 +228,184 @@ function median(values: number[]): number | null {
   }
 
   return sorted[midpoint];
+}
+
+function readWeightOverride(searchParams: URLSearchParams, keys: string[]): number | null {
+  for (const key of keys) {
+    const value = parseNumericParam(searchParams.get(key));
+    if (value !== null) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+function resolveWeights(searchParams: URLSearchParams): ScoringWeights {
+  const overrides = {
+    searchVolume: readWeightOverride(searchParams, ['weightVolume', 'volumeWeight', 'weights[volume]', 'weights[searchVolume]']),
+    averageCpc: readWeightOverride(searchParams, ['weightCpc', 'cpcWeight', 'weights[cpc]', 'weights[averageCpc]']),
+    competitionIndex: readWeightOverride(searchParams, ['weightCompetition', 'competitionWeight', 'weights[competition]', 'weights[competitionIndex]']),
+  };
+
+  const weights: ScoringWeights = {
+    searchVolume: overrides.searchVolume ?? DEFAULT_WEIGHTS.searchVolume,
+    averageCpc: overrides.averageCpc ?? DEFAULT_WEIGHTS.averageCpc,
+    competitionIndex: overrides.competitionIndex ?? DEFAULT_WEIGHTS.competitionIndex,
+  };
+
+  return normalizeWeightMap(weights);
+}
+
+function computeNormalizationStats(records: ResearchRecord[]): NormalizationStats {
+  const collect = (selector: (record: ResearchRecord) => number | null): NormalizationRange => {
+    const values = records
+      .map(selector)
+      .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
+
+    if (!values.length) {
+      return null;
+    }
+
+    return {
+      min: Math.min(...values),
+      max: Math.max(...values),
+    };
+  };
+
+  return {
+    searchVolume: collect((record) => record.searchVolume),
+    averageCpc: collect((record) => record.averageCpc),
+    competitionIndex: collect((record) => record.competitionIndex),
+  };
+}
+
+function normalizeValue(value: number | null, range: NormalizationRange, invert = false): number | null {
+  if (value === null || value === undefined || range === null) {
+    return null;
+  }
+
+  const { min, max } = range;
+
+  if (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max)) {
+    return null;
+  }
+
+  if (max === min) {
+    return 1;
+  }
+
+  const normalized = Math.min(Math.max((value - min) / (max - min), 0), 1);
+  return invert ? 1 - normalized : normalized;
+}
+
+function computeCompositeScore(record: ResearchRecord, weights: ScoringWeights): number | null {
+  let totalWeight = 0;
+  let sum = 0;
+
+  if (record.normalizedSearchVolume !== null) {
+    totalWeight += weights.searchVolume;
+    sum += record.normalizedSearchVolume * weights.searchVolume;
+  }
+
+  if (record.normalizedAverageCpc !== null) {
+    totalWeight += weights.averageCpc;
+    sum += record.normalizedAverageCpc * weights.averageCpc;
+  }
+
+  if (record.normalizedCompetitionIndex !== null) {
+    totalWeight += weights.competitionIndex;
+    sum += record.normalizedCompetitionIndex * weights.competitionIndex;
+  }
+
+  if (totalWeight <= 0) {
+    return null;
+  }
+
+  const score = sum / totalWeight;
+  return Math.round(score * 1000) / 1000;
+}
+
+function buildScoreRationale(record: ResearchRecord, thresholds: ScoringThresholds): string[] {
+  const rationale = new Set<string>();
+
+  const highVolume = coerceNumber(thresholds?.highVolumeNormalized);
+  const mediumVolume = coerceNumber(thresholds?.mediumVolumeNormalized);
+  const lowVolume = coerceNumber(thresholds?.lowVolumeNormalized);
+
+  if (record.normalizedSearchVolume !== null) {
+    if (highVolume !== null && record.normalizedSearchVolume >= highVolume) {
+      rationale.add('high_volume');
+    } else if (
+      mediumVolume !== null &&
+      highVolume !== null &&
+      record.normalizedSearchVolume >= mediumVolume &&
+      record.normalizedSearchVolume < highVolume
+    ) {
+      rationale.add('medium_volume');
+    } else if (lowVolume !== null && record.normalizedSearchVolume <= lowVolume) {
+      rationale.add('low_volume');
+    }
+  }
+
+  const lowCpc = coerceNumber(thresholds?.lowCpcNormalized);
+  const highCpc = coerceNumber(thresholds?.highCpcNormalized);
+
+  if (record.normalizedAverageCpc !== null) {
+    if (lowCpc !== null && record.normalizedAverageCpc >= lowCpc) {
+      rationale.add('low_cpc');
+    }
+
+    if (highCpc !== null && record.normalizedAverageCpc <= highCpc) {
+      rationale.add('high_cpc');
+    }
+  }
+
+  const lowCompetition = coerceNumber(thresholds?.lowCompetitionNormalized);
+  const highCompetition = coerceNumber(thresholds?.highCompetitionNormalized);
+
+  if (record.normalizedCompetitionIndex !== null) {
+    if (lowCompetition !== null && record.normalizedCompetitionIndex >= lowCompetition) {
+      rationale.add('low_competition');
+    }
+
+    if (highCompetition !== null && record.normalizedCompetitionIndex <= highCompetition) {
+      rationale.add('high_competition');
+    }
+  }
+
+  return Array.from(rationale);
+}
+
+function applyNormalizationAndScoring(
+  records: ResearchRecord[],
+  weights: ScoringWeights,
+): { records: ResearchRecord[]; normalization: NormalizationStats } {
+  const normalization = computeNormalizationStats(records);
+
+  const scoredRecords = records.map((record) => {
+    const normalizedSearchVolume = normalizeValue(record.searchVolume, normalization.searchVolume);
+    const normalizedAverageCpc = normalizeValue(record.averageCpc, normalization.averageCpc, true);
+    const normalizedCompetitionIndex = normalizeValue(record.competitionIndex, normalization.competitionIndex, true);
+
+    const enriched: ResearchRecord = {
+      ...record,
+      normalizedSearchVolume,
+      normalizedAverageCpc,
+      normalizedCompetitionIndex,
+    };
+
+    const score = computeCompositeScore(enriched, weights);
+    const scoreRationale = buildScoreRationale({ ...enriched, score }, SCORING_THRESHOLDS);
+
+    return {
+      ...enriched,
+      score,
+      scoreRationale,
+    };
+  });
+
+  return { records: scoredRecords, normalization };
 }
 
 function computeQueryHash(keyword: string, matchType: string, device: string, markets: string[]): string {
@@ -205,6 +466,11 @@ function resolveSort(searchParams: URLSearchParams): { field: keyof ResearchReco
   const sortParam = (searchParams.get('sort') || searchParams.get('sortBy') || '').toLowerCase();
   const explicitOrder = (searchParams.get('sortOrder') || searchParams.get('direction') || '').toLowerCase();
 
+  if (!sortParam || sortParam === 'score' || sortParam === 'composite' || sortParam === 'ranking' || sortParam === 'rank') {
+    const direction = explicitOrder === 'asc' || explicitOrder === 'ascending' ? 'asc' : 'desc';
+    return { field: 'score', direction };
+  }
+
   if (sortParam === 'lowestcpc') {
     return { field: 'averageCpc', direction: 'asc' };
   }
@@ -228,9 +494,13 @@ function resolveSort(searchParams: URLSearchParams): { field: keyof ResearchReco
     topofpagebidlow: 'topOfPageBidLow',
     topofpagebidhigh: 'topOfPageBidHigh',
     marketcode: 'marketCode',
+    normalizedsearchvolume: 'normalizedSearchVolume',
+    normalizedaveragecpc: 'normalizedAverageCpc',
+    normalizedcompetition: 'normalizedCompetitionIndex',
+    score: 'score',
   };
 
-  const resolvedField = fieldMap[sortParam] || 'searchVolume';
+  const resolvedField = fieldMap[sortParam] || 'score';
   const resolvedDirection = explicitOrder === 'asc' || explicitOrder === 'ascending' ? 'asc' : 'desc';
 
   return { field: resolvedField, direction: resolvedDirection };
@@ -238,7 +508,17 @@ function resolveSort(searchParams: URLSearchParams): { field: keyof ResearchReco
 
 function sortRecords(records: ResearchRecord[], sortField: keyof ResearchRecord, direction: 'asc' | 'desc'): ResearchRecord[] {
   const multiplier = direction === 'asc' ? 1 : -1;
-  const sortableFields: Array<keyof ResearchRecord> = ['searchVolume', 'averageCpc', 'competitionIndex', 'topOfPageBidLow', 'topOfPageBidHigh'];
+  const sortableFields: Array<keyof ResearchRecord> = [
+    'score',
+    'searchVolume',
+    'averageCpc',
+    'competitionIndex',
+    'topOfPageBidLow',
+    'topOfPageBidHigh',
+    'normalizedSearchVolume',
+    'normalizedAverageCpc',
+    'normalizedCompetitionIndex',
+  ];
 
   return [...records].sort((a, b) => {
     const aValue = a[sortField];
@@ -274,6 +554,7 @@ function applyFilters(records: ResearchRecord[], filters: {
   maxAverageCpc: number | null;
   minCompetitionIndex: number | null;
   maxCompetitionIndex: number | null;
+  minScore: number | null;
 }): ResearchRecord[] {
   return records.filter((record) => {
     if (filters.minSearchVolume !== null && (record.searchVolume === null || record.searchVolume < filters.minSearchVolume)) {
@@ -306,6 +587,10 @@ function applyFilters(records: ResearchRecord[], filters: {
       return false;
     }
 
+    if (filters.minScore !== null && (record.score === null || record.score < filters.minScore)) {
+      return false;
+    }
+
     return true;
   });
 }
@@ -319,10 +604,19 @@ function computeAggregates(records: ResearchRecord[]): Aggregates {
     .map((record) => record.competitionIndex)
     .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
 
+  const scoreValues = records
+    .map((record) => record.score)
+    .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
+
   return {
     minAverageCpc: cpcValues.length ? Math.min(...cpcValues) : null,
     maxAverageCpc: cpcValues.length ? Math.max(...cpcValues) : null,
     medianCompetitionIndex: median(competitionValues) ?? null,
+    minScore: scoreValues.length ? Math.min(...scoreValues) : null,
+    maxScore: scoreValues.length ? Math.max(...scoreValues) : null,
+    averageScore: scoreValues.length
+      ? scoreValues.reduce((total, value) => total + value, 0) / scoreValues.length
+      : null,
     totalResults: records.length,
   };
 }
@@ -344,12 +638,34 @@ function parsePagination(searchParams: URLSearchParams, total: number): Paginati
   };
 }
 
+function formatScoringWeights(value: unknown): ScoringWeights | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  const weights = value as Record<string, unknown>;
+  const searchVolume = coerceNumber(weights.searchVolume);
+  const averageCpc = coerceNumber(weights.averageCpc);
+  const competitionIndex = coerceNumber(weights.competitionIndex);
+
+  if (searchVolume === null && averageCpc === null && competitionIndex === null) {
+    return null;
+  }
+
+  return normalizeWeightMap({
+    searchVolume: searchVolume ?? 0,
+    averageCpc: averageCpc ?? 0,
+    competitionIndex: competitionIndex ?? 0,
+  });
+}
+
 function formatSummary(summary: Record<string, unknown> | null | undefined) {
   if (!summary || typeof summary !== 'object') {
     return null;
   }
 
   const computedAt = coerceToDate(summary.computedAt ?? summary['lastComputedAt']);
+  const scoringWeights = formatScoringWeights(summary.scoringWeights ?? summary['defaultWeights']);
 
   return {
     totalMarkets: coerceNumber(summary.totalMarkets),
@@ -360,6 +676,9 @@ function formatSummary(summary: Record<string, unknown> | null | undefined) {
     lowestCpc: coerceNumber(summary.lowestCpc),
     highestCpc: coerceNumber(summary.highestCpc),
     computedAt: computedAt ? computedAt.toISOString() : null,
+    scoringModel: typeof summary.scoringModel === 'string' ? (summary.scoringModel as string) : null,
+    scoringConfigVersion: summary.scoringConfigVersion ?? summary['configVersion'] ?? null,
+    scoringWeights,
   };
 }
 
@@ -377,6 +696,11 @@ function buildResearchRecord(
     topOfPageBidHigh: coerceNumber(doc.highTopOfPageBid),
     averageCpc: coerceNumber(doc.averageCpc),
     competitionIndex: coerceNumber(doc.competitionIndex ?? doc.competitionValue),
+    normalizedSearchVolume: null,
+    normalizedAverageCpc: null,
+    normalizedCompetitionIndex: null,
+    score: null,
+    scoreRationale: [],
   };
 }
 
@@ -598,6 +922,12 @@ export async function GET(request: NextRequest) {
       .filter(({ doc }) => (doc.status || 'success') === 'success')
       .map(({ doc, fallback }) => buildResearchRecord(doc, fallback));
 
+    const weights = resolveWeights(searchParams);
+    const { records: scoredRecords, normalization } = applyNormalizationAndScoring(records, weights);
+    const minScoreParam = parseNumericParam(searchParams.get('minScore'));
+    const minimumScore =
+      minScoreParam ?? (DEFAULT_MIN_SCORE !== null && DEFAULT_MIN_SCORE > 0 ? DEFAULT_MIN_SCORE : null);
+
     const filters = {
       minSearchVolume: parseNumericParam(searchParams.get('minSearchVolume')),
       maxSearchVolume: parseNumericParam(searchParams.get('maxSearchVolume')),
@@ -605,14 +935,25 @@ export async function GET(request: NextRequest) {
       maxAverageCpc: parseNumericParam(searchParams.get('maxAverageCpc') || searchParams.get('maxCpc')),
       minCompetitionIndex: parseNumericParam(searchParams.get('minCompetition') || searchParams.get('minCompetitionIndex')),
       maxCompetitionIndex: parseNumericParam(searchParams.get('maxCompetition') || searchParams.get('maxCompetitionIndex')),
+      minScore: minimumScore,
     };
 
-    const filteredRecords = applyFilters(records, filters);
+    const filteredRecords = applyFilters(scoredRecords, filters);
     const { field: sortField, direction } = resolveSort(searchParams);
     const sortedRecords = sortRecords(filteredRecords, sortField, direction);
     const pagination = parsePagination(searchParams, sortedRecords.length);
     const paginatedRecords = sortedRecords.slice(pagination.offset, pagination.offset + pagination.limit);
     const aggregates = computeAggregates(filteredRecords);
+
+    const scoringMetadata: AppliedScoringMetadata = {
+      weights,
+      normalization,
+      thresholds: { ...(SCORING_THRESHOLDS as Record<string, number>) } as ScoringThresholds,
+      configVersion: SCORING_CONFIG_VERSION,
+      model: DEFAULT_SCORING_MODEL,
+      minimumScore,
+      rationaleLabels: (researchScoringConfig?.scoring?.rationaleLabels as Record<string, string> | undefined) || undefined,
+    };
 
     return NextResponse.json({
       status: 'ready',
@@ -625,6 +966,7 @@ export async function GET(request: NextRequest) {
       pagination,
       aggregates,
       summary: formatSummary(data?.summary),
+      scoring: scoringMetadata,
     });
   } catch (error) {
     console.error('Unexpected error handling keyword research request:', error);

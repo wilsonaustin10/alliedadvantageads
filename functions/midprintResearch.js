@@ -6,6 +6,7 @@ const logger = require("firebase-functions/logger");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 
 const keywordMarkets = require("./keywordMarketConfig.json");
+const researchScoringConfig = require("../config/midprintResearchScoring.json");
 
 const db = admin.firestore();
 
@@ -390,12 +391,24 @@ async function collectKeywordMarketMetrics({userId, keyword, matchType = "BROAD"
     highestCpc: numericCpcs.length ? Math.max(...numericCpcs) : null,
   };
 
+  const scoringSummary = {
+    scoringModel: researchScoringConfig?.scoring?.model || "weighted_normalized",
+    scoringWeights: researchScoringConfig?.scoring?.defaultWeights ?
+      {
+        searchVolume: Number(researchScoringConfig.scoring.defaultWeights.searchVolume || 0),
+        averageCpc: Number(researchScoringConfig.scoring.defaultWeights.averageCpc || 0),
+        competitionIndex: Number(researchScoringConfig.scoring.defaultWeights.competitionIndex || 0),
+      } : null,
+    scoringConfigVersion: researchScoringConfig?.version || null,
+  };
+
   const computedAt = admin.firestore.FieldValue.serverTimestamp();
 
   await queryRef.set({
     summary: {
       ...summaryMetrics,
       computedAt,
+      ...scoringSummary,
     },
     lastComputedAt: computedAt,
   }, {merge: true});
@@ -405,8 +418,10 @@ async function collectKeywordMarketMetrics({userId, keyword, matchType = "BROAD"
     summary: {
       ...summaryMetrics,
       computedAt: new Date().toISOString(),
+      ...scoringSummary,
     },
     markets: allResults,
+    scoring: scoringSummary,
   };
 }
 

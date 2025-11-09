@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "extends": ["next/core-web-vitals"],
+  "settings": {
+    "next": {
+      "rootDir": ["app", "components", "lib"]
+    }
+  },
+  "overrides": [
+    {
+      "files": ["functions/**/*.js"],
+      "env": {
+        "node": true,
+        "es2021": true
+      },
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "extends": ["eslint:recommended"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
+}

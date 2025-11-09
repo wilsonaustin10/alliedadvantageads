@@ -159,6 +159,12 @@ Rate limits & quotas – Monitor the cost metric returned by the API. Spread hig
 developers.google.com
 . Use the recommended caching strategies to reduce API calls.
 
+Research job monitoring – Track the keyword research metadata and cache lifecycle:
+- Add cards for research job success vs. failure (`status/current.state` aggregation).
+- Visualise queue depth (documents stuck in `queued`/`running` for >15 minutes) and alert when it grows.
+- Chart Google Ads API quota usage per day using structured logs emitted by `midprintResearch.js`.
+- Raise alerts when cached queries are missing `expiresAt` or when three consecutive failures occur for the same query ID.
+
 Logging & monitoring – Use Google Cloud Logging and Firestore triggers to monitor ingestion jobs. Leverage Firebase Functions logs and Cloud Monitoring alerts for error notifications.
 
 Billing – Scheduled functions and BigQuery Data Transfer incur costs. Cloud Scheduler charges per job after the free quota

@@ -25,6 +25,7 @@ export interface ResearchPagination {
   total: number;
   hasMore: boolean;
   nextOffset: number | null;
+  nextPageToken: string | null;
 }
 
 type SortField =
@@ -41,11 +42,14 @@ interface ResearchTableProps {
   sortField: SortField;
   sortDirection: 'asc' | 'desc';
   onSort: (field: SortField) => void;
-  currentPage: number;
-  pageSize: number;
-  onPageChange: (page: number) => void;
+  currentPage?: number;
+  pageSize?: number;
+  onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
   topRankCount?: number;
+  mode?: 'paged' | 'infinite';
+  isFetchingMore?: boolean;
+  totalLoaded?: number;
 }
 
 function formatNumber(value: number | null, options?: Intl.NumberFormatOptions) {
@@ -86,23 +90,41 @@ export function ResearchTable({
   sortField,
   sortDirection,
   onSort,
-  currentPage,
+  currentPage = 0,
   pageSize,
   onPageChange,
   onPageSizeChange,
   topRankCount = 3,
+  mode = 'paged',
+  isFetchingMore = false,
+  totalLoaded,
 }: ResearchTableProps) {
+  const resolvedLimit = pagination?.limit ?? pageSize ?? (data.length > 0 ? data.length : 25);
   const total = pagination?.total ?? data.length;
-  const pageLimit = pagination?.limit ?? pageSize;
-  const offset = pagination?.offset ?? currentPage * pageLimit;
-  const totalPages = pageLimit > 0 ? Math.max(1, Math.ceil(total / pageLimit)) : 1;
-  const from = total === 0 ? 0 : offset + 1;
-  const to = total === 0 ? 0 : Math.min(offset + data.length, total);
+  const rankBase = mode === 'infinite' ? 0 : pagination?.offset ?? currentPage * resolvedLimit;
+  const totalPages =
+    mode === 'infinite'
+      ? 1
+      : resolvedLimit > 0
+        ? Math.max(1, Math.ceil(total / resolvedLimit))
+        : 1;
+  const displayedCount = mode === 'infinite' ? totalLoaded ?? data.length : data.length;
+  const selectedPageSize = pageSize ?? resolvedLimit;
+  const displayFrom = mode === 'infinite' ? (total === 0 ? 0 : 1) : total === 0 ? 0 : rankBase + 1;
+  const displayTo =
+    mode === 'infinite'
+      ? displayedCount
+      : total === 0
+        ? 0
+        : Math.min(rankBase + data.length, total);
 
-  const isFirstPage = currentPage <= 0;
-  const isLastPage = pagination
-    ? !pagination.hasMore && currentPage >= totalPages - 1
-    : total === 0 || currentPage >= totalPages - 1;
+  const isFirstPage = mode === 'infinite' ? true : currentPage <= 0;
+  const isLastPage =
+    mode === 'infinite'
+      ? true
+      : pagination
+        ? !pagination.hasMore && currentPage >= totalPages - 1
+        : total === 0 || currentPage >= totalPages - 1;
 
   type HeaderConfig =
     | { key: 'rank'; label: string }
@@ -176,7 +198,7 @@ export function ResearchTable({
               </tr>
             ) : (
               data.map((record, index) => {
-                const rank = offset + index + 1;
+                const rank = rankBase + index + 1;
                 const isTopRank = rank <= topRankCount;
                 const rowClass = isTopRank ? 'bg-blue-50/60' : index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
 
@@ -224,16 +246,30 @@ export function ResearchTable({
 
       <div className="flex flex-col gap-4 border-t border-gray-200 px-4 py-3 text-sm text-gray-600 md:flex-row md:items-center md:justify-between">
         <div>
-          Showing <span className="font-medium text-gray-900">{from}-{to}</span> of{' '}
-          <span className="font-medium text-gray-900">{total}</span> markets
+          {mode === 'infinite' ? (
+            <span>
+              Loaded <span className="font-medium text-gray-900">{displayTo}</span> of{' '}
+              <span className="font-medium text-gray-900">{total}</span> markets
+              {pagination?.hasMore ? (
+                <span className="ml-2 text-xs text-gray-500">
+                  {isFetchingMore ? 'Loading more…' : 'Scroll to load additional markets.'}
+                </span>
+              ) : null}
+            </span>
+          ) : (
+            <span>
+              Showing <span className="font-medium text-gray-900">{displayFrom}-{displayTo}</span> of{' '}
+              <span className="font-medium text-gray-900">{total}</span> markets
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-3">
           {onPageSizeChange ? (
             <label className="flex items-center gap-2 text-sm text-gray-600">
-              Rows per page
+              {mode === 'infinite' ? 'Rows per load' : 'Rows per page'}
               <select
                 className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm focus:border-blue-500 focus:outline-none"
-                value={pageSize}
+                value={selectedPageSize}
                 onChange={(event) => onPageSizeChange(Number(event.target.value))}
               >
                 {[10, 25, 50, 100].map((size) => (
@@ -244,18 +280,30 @@ export function ResearchTable({
               </select>
             </label>
           ) : null}
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled={isFirstPage} onClick={() => onPageChange(currentPage - 1)}>
-              Previous
-            </Button>
-            <span className="text-sm text-gray-700">
-              Page <span className="font-semibold text-gray-900">{total === 0 ? 0 : currentPage + 1}</span> of{' '}
-              <span className="font-semibold text-gray-900">{total === 0 ? 0 : totalPages}</span>
-            </span>
-            <Button variant="outline" size="sm" disabled={isLastPage} onClick={() => onPageChange(currentPage + 1)}>
-              Next
-            </Button>
-          </div>
+          {mode === 'paged' ? (
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isFirstPage || !onPageChange}
+                onClick={() => onPageChange?.(currentPage - 1)}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-700">
+                Page <span className="font-semibold text-gray-900">{total === 0 ? 0 : currentPage + 1}</span> of{' '}
+                <span className="font-semibold text-gray-900">{total === 0 ? 0 : totalPages}</span>
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isLastPage || !onPageChange}
+                onClick={() => onPageChange?.(currentPage + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

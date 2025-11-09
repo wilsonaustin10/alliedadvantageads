@@ -1,0 +1,1352 @@
+[
+  {
+    "marketCode": "US-EN",
+    "countryCode": "US",
+    "locationId": 2840,
+    "geoTargetConstant": "geoTargetConstants/2840",
+    "currencyCode": "USD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "US-ES",
+    "countryCode": "US",
+    "locationId": 2840,
+    "geoTargetConstant": "geoTargetConstants/2840",
+    "currencyCode": "USD",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "CA-EN",
+    "countryCode": "CA",
+    "locationId": 2124,
+    "geoTargetConstant": "geoTargetConstants/2124",
+    "currencyCode": "CAD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "CA-FR",
+    "countryCode": "CA",
+    "locationId": 2124,
+    "geoTargetConstant": "geoTargetConstants/2124",
+    "currencyCode": "CAD",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "GB-EN",
+    "countryCode": "GB",
+    "locationId": 2826,
+    "geoTargetConstant": "geoTargetConstants/2826",
+    "currencyCode": "GBP",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "AU-EN",
+    "countryCode": "AU",
+    "locationId": 2036,
+    "geoTargetConstant": "geoTargetConstants/2036",
+    "currencyCode": "AUD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "NZ-EN",
+    "countryCode": "NZ",
+    "locationId": 2554,
+    "geoTargetConstant": "geoTargetConstants/2554",
+    "currencyCode": "NZD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "IE-EN",
+    "countryCode": "IE",
+    "locationId": 2372,
+    "geoTargetConstant": "geoTargetConstants/2372",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "FR-FR",
+    "countryCode": "FR",
+    "locationId": 2250,
+    "geoTargetConstant": "geoTargetConstants/2250",
+    "currencyCode": "EUR",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "FR-EN",
+    "countryCode": "FR",
+    "locationId": 2250,
+    "geoTargetConstant": "geoTargetConstants/2250",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "DE-DE",
+    "countryCode": "DE",
+    "locationId": 2276,
+    "geoTargetConstant": "geoTargetConstants/2276",
+    "currencyCode": "EUR",
+    "languageCode": "de",
+    "languageConstant": "languageConstants/1001",
+    "languageName": "German"
+  },
+  {
+    "marketCode": "DE-EN",
+    "countryCode": "DE",
+    "locationId": 2276,
+    "geoTargetConstant": "geoTargetConstants/2276",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "ES-ES",
+    "countryCode": "ES",
+    "locationId": 2724,
+    "geoTargetConstant": "geoTargetConstants/2724",
+    "currencyCode": "EUR",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "ES-EN",
+    "countryCode": "ES",
+    "locationId": 2724,
+    "geoTargetConstant": "geoTargetConstants/2724",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "IT-IT",
+    "countryCode": "IT",
+    "locationId": 2380,
+    "geoTargetConstant": "geoTargetConstants/2380",
+    "currencyCode": "EUR",
+    "languageCode": "it",
+    "languageConstant": "languageConstants/1004",
+    "languageName": "Italian"
+  },
+  {
+    "marketCode": "IT-EN",
+    "countryCode": "IT",
+    "locationId": 2380,
+    "geoTargetConstant": "geoTargetConstants/2380",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "PT-PT",
+    "countryCode": "PT",
+    "locationId": 2620,
+    "geoTargetConstant": "geoTargetConstants/2620",
+    "currencyCode": "EUR",
+    "languageCode": "pt",
+    "languageConstant": "languageConstants/1014",
+    "languageName": "Portuguese"
+  },
+  {
+    "marketCode": "PT-EN",
+    "countryCode": "PT",
+    "locationId": 2620,
+    "geoTargetConstant": "geoTargetConstants/2620",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BR-PT",
+    "countryCode": "BR",
+    "locationId": 2076,
+    "geoTargetConstant": "geoTargetConstants/2076",
+    "currencyCode": "BRL",
+    "languageCode": "pt",
+    "languageConstant": "languageConstants/1014",
+    "languageName": "Portuguese"
+  },
+  {
+    "marketCode": "BR-EN",
+    "countryCode": "BR",
+    "locationId": 2076,
+    "geoTargetConstant": "geoTargetConstants/2076",
+    "currencyCode": "BRL",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "MX-ES",
+    "countryCode": "MX",
+    "locationId": 2484,
+    "geoTargetConstant": "geoTargetConstants/2484",
+    "currencyCode": "MXN",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "MX-EN",
+    "countryCode": "MX",
+    "locationId": 2484,
+    "geoTargetConstant": "geoTargetConstants/2484",
+    "currencyCode": "MXN",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "AR-ES",
+    "countryCode": "AR",
+    "locationId": 2032,
+    "geoTargetConstant": "geoTargetConstants/2032",
+    "currencyCode": "ARS",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "CL-ES",
+    "countryCode": "CL",
+    "locationId": 2152,
+    "geoTargetConstant": "geoTargetConstants/2152",
+    "currencyCode": "CLP",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "CO-ES",
+    "countryCode": "CO",
+    "locationId": 2170,
+    "geoTargetConstant": "geoTargetConstants/2170",
+    "currencyCode": "COP",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "PE-ES",
+    "countryCode": "PE",
+    "locationId": 2604,
+    "geoTargetConstant": "geoTargetConstants/2604",
+    "currencyCode": "PEN",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "VE-ES",
+    "countryCode": "VE",
+    "locationId": 2862,
+    "geoTargetConstant": "geoTargetConstants/2862",
+    "currencyCode": "VES",
+    "languageCode": "es",
+    "languageConstant": "languageConstants/1003",
+    "languageName": "Spanish"
+  },
+  {
+    "marketCode": "JP-JA",
+    "countryCode": "JP",
+    "locationId": 2392,
+    "geoTargetConstant": "geoTargetConstants/2392",
+    "currencyCode": "JPY",
+    "languageCode": "ja",
+    "languageConstant": "languageConstants/1005",
+    "languageName": "Japanese"
+  },
+  {
+    "marketCode": "JP-EN",
+    "countryCode": "JP",
+    "locationId": 2392,
+    "geoTargetConstant": "geoTargetConstants/2392",
+    "currencyCode": "JPY",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "KR-KO",
+    "countryCode": "KR",
+    "locationId": 2410,
+    "geoTargetConstant": "geoTargetConstants/2410",
+    "currencyCode": "KRW",
+    "languageCode": "ko",
+    "languageConstant": "languageConstants/1017",
+    "languageName": "Korean"
+  },
+  {
+    "marketCode": "KR-EN",
+    "countryCode": "KR",
+    "locationId": 2410,
+    "geoTargetConstant": "geoTargetConstants/2410",
+    "currencyCode": "KRW",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "CN-ZH-CN",
+    "countryCode": "CN",
+    "locationId": 2156,
+    "geoTargetConstant": "geoTargetConstants/2156",
+    "currencyCode": "CNY",
+    "languageCode": "zh-CN",
+    "languageConstant": "languageConstants/1012",
+    "languageName": "Chinese (Simplified)"
+  },
+  {
+    "marketCode": "HK-ZH-TW",
+    "countryCode": "HK",
+    "locationId": 2344,
+    "geoTargetConstant": "geoTargetConstants/2344",
+    "currencyCode": "HKD",
+    "languageCode": "zh-TW",
+    "languageConstant": "languageConstants/1013",
+    "languageName": "Chinese (Traditional)"
+  },
+  {
+    "marketCode": "HK-EN",
+    "countryCode": "HK",
+    "locationId": 2344,
+    "geoTargetConstant": "geoTargetConstants/2344",
+    "currencyCode": "HKD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SG-EN",
+    "countryCode": "SG",
+    "locationId": 2702,
+    "geoTargetConstant": "geoTargetConstants/2702",
+    "currencyCode": "SGD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SG-ZH-CN",
+    "countryCode": "SG",
+    "locationId": 2702,
+    "geoTargetConstant": "geoTargetConstants/2702",
+    "currencyCode": "SGD",
+    "languageCode": "zh-CN",
+    "languageConstant": "languageConstants/1012",
+    "languageName": "Chinese (Simplified)"
+  },
+  {
+    "marketCode": "MY-MS",
+    "countryCode": "MY",
+    "locationId": 2458,
+    "geoTargetConstant": "geoTargetConstants/2458",
+    "currencyCode": "MYR",
+    "languageCode": "ms",
+    "languageConstant": "languageConstants/1025",
+    "languageName": "Malay"
+  },
+  {
+    "marketCode": "MY-EN",
+    "countryCode": "MY",
+    "locationId": 2458,
+    "geoTargetConstant": "geoTargetConstants/2458",
+    "currencyCode": "MYR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "ID-ID",
+    "countryCode": "ID",
+    "locationId": 2360,
+    "geoTargetConstant": "geoTargetConstants/2360",
+    "currencyCode": "IDR",
+    "languageCode": "id",
+    "languageConstant": "languageConstants/1025",
+    "languageName": "Indonesian"
+  },
+  {
+    "marketCode": "ID-EN",
+    "countryCode": "ID",
+    "locationId": 2360,
+    "geoTargetConstant": "geoTargetConstants/2360",
+    "currencyCode": "IDR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "PH-FIL",
+    "countryCode": "PH",
+    "locationId": 2608,
+    "geoTargetConstant": "geoTargetConstants/2608",
+    "currencyCode": "PHP",
+    "languageCode": "fil",
+    "languageConstant": "languageConstants/1043",
+    "languageName": "Filipino"
+  },
+  {
+    "marketCode": "PH-EN",
+    "countryCode": "PH",
+    "locationId": 2608,
+    "geoTargetConstant": "geoTargetConstants/2608",
+    "currencyCode": "PHP",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "TH-TH",
+    "countryCode": "TH",
+    "locationId": 2764,
+    "geoTargetConstant": "geoTargetConstants/2764",
+    "currencyCode": "THB",
+    "languageCode": "th",
+    "languageConstant": "languageConstants/1044",
+    "languageName": "Thai"
+  },
+  {
+    "marketCode": "TH-EN",
+    "countryCode": "TH",
+    "locationId": 2764,
+    "geoTargetConstant": "geoTargetConstants/2764",
+    "currencyCode": "THB",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "VN-VI",
+    "countryCode": "VN",
+    "locationId": 2704,
+    "geoTargetConstant": "geoTargetConstants/2704",
+    "currencyCode": "VND",
+    "languageCode": "vi",
+    "languageConstant": "languageConstants/1041",
+    "languageName": "Vietnamese"
+  },
+  {
+    "marketCode": "VN-EN",
+    "countryCode": "VN",
+    "locationId": 2704,
+    "geoTargetConstant": "geoTargetConstants/2704",
+    "currencyCode": "VND",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "IN-HI",
+    "countryCode": "IN",
+    "locationId": 2356,
+    "geoTargetConstant": "geoTargetConstants/2356",
+    "currencyCode": "INR",
+    "languageCode": "hi",
+    "languageConstant": "languageConstants/1020",
+    "languageName": "Hindi"
+  },
+  {
+    "marketCode": "IN-EN",
+    "countryCode": "IN",
+    "locationId": 2356,
+    "geoTargetConstant": "geoTargetConstants/2356",
+    "currencyCode": "INR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "PK-EN",
+    "countryCode": "PK",
+    "locationId": 2586,
+    "geoTargetConstant": "geoTargetConstants/2586",
+    "currencyCode": "PKR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BD-EN",
+    "countryCode": "BD",
+    "locationId": 2050,
+    "geoTargetConstant": "geoTargetConstants/2050",
+    "currencyCode": "BDT",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LK-EN",
+    "countryCode": "LK",
+    "locationId": 2144,
+    "geoTargetConstant": "geoTargetConstants/2144",
+    "currencyCode": "LKR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "NP-EN",
+    "countryCode": "NP",
+    "locationId": 2524,
+    "geoTargetConstant": "geoTargetConstants/2524",
+    "currencyCode": "NPR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "ZA-EN",
+    "countryCode": "ZA",
+    "locationId": 2710,
+    "geoTargetConstant": "geoTargetConstants/2710",
+    "currencyCode": "ZAR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "NG-EN",
+    "countryCode": "NG",
+    "locationId": 2566,
+    "geoTargetConstant": "geoTargetConstants/2566",
+    "currencyCode": "NGN",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "KE-EN",
+    "countryCode": "KE",
+    "locationId": 2404,
+    "geoTargetConstant": "geoTargetConstants/2404",
+    "currencyCode": "KES",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "GH-EN",
+    "countryCode": "GH",
+    "locationId": 2288,
+    "geoTargetConstant": "geoTargetConstants/2288",
+    "currencyCode": "GHS",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "EG-AR",
+    "countryCode": "EG",
+    "locationId": 2818,
+    "geoTargetConstant": "geoTargetConstants/2818",
+    "currencyCode": "EGP",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "EG-EN",
+    "countryCode": "EG",
+    "locationId": 2818,
+    "geoTargetConstant": "geoTargetConstants/2818",
+    "currencyCode": "EGP",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "MA-FR",
+    "countryCode": "MA",
+    "locationId": 2504,
+    "geoTargetConstant": "geoTargetConstants/2504",
+    "currencyCode": "MAD",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "MA-AR",
+    "countryCode": "MA",
+    "locationId": 2504,
+    "geoTargetConstant": "geoTargetConstants/2504",
+    "currencyCode": "MAD",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "DZ-FR",
+    "countryCode": "DZ",
+    "locationId": 2012,
+    "geoTargetConstant": "geoTargetConstants/2012",
+    "currencyCode": "DZD",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "DZ-AR",
+    "countryCode": "DZ",
+    "locationId": 2012,
+    "geoTargetConstant": "geoTargetConstants/2012",
+    "currencyCode": "DZD",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "TN-FR",
+    "countryCode": "TN",
+    "locationId": 2788,
+    "geoTargetConstant": "geoTargetConstants/2788",
+    "currencyCode": "TND",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "TN-AR",
+    "countryCode": "TN",
+    "locationId": 2788,
+    "geoTargetConstant": "geoTargetConstants/2788",
+    "currencyCode": "TND",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "AE-AR",
+    "countryCode": "AE",
+    "locationId": 2784,
+    "geoTargetConstant": "geoTargetConstants/2784",
+    "currencyCode": "AED",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "AE-EN",
+    "countryCode": "AE",
+    "locationId": 2784,
+    "geoTargetConstant": "geoTargetConstants/2784",
+    "currencyCode": "AED",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SA-AR",
+    "countryCode": "SA",
+    "locationId": 2682,
+    "geoTargetConstant": "geoTargetConstants/2682",
+    "currencyCode": "SAR",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "SA-EN",
+    "countryCode": "SA",
+    "locationId": 2682,
+    "geoTargetConstant": "geoTargetConstants/2682",
+    "currencyCode": "SAR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "TR-TR",
+    "countryCode": "TR",
+    "locationId": 2792,
+    "geoTargetConstant": "geoTargetConstants/2792",
+    "currencyCode": "TRY",
+    "languageCode": "tr",
+    "languageConstant": "languageConstants/1028",
+    "languageName": "Turkish"
+  },
+  {
+    "marketCode": "TR-EN",
+    "countryCode": "TR",
+    "locationId": 2792,
+    "geoTargetConstant": "geoTargetConstants/2792",
+    "currencyCode": "TRY",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "IL-HE",
+    "countryCode": "IL",
+    "locationId": 2376,
+    "geoTargetConstant": "geoTargetConstants/2376",
+    "currencyCode": "ILS",
+    "languageCode": "he",
+    "languageConstant": "languageConstants/1018",
+    "languageName": "Hebrew"
+  },
+  {
+    "marketCode": "IL-EN",
+    "countryCode": "IL",
+    "locationId": 2376,
+    "geoTargetConstant": "geoTargetConstants/2376",
+    "currencyCode": "ILS",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "RU-RU",
+    "countryCode": "RU",
+    "locationId": 2643,
+    "geoTargetConstant": "geoTargetConstants/2643",
+    "currencyCode": "RUB",
+    "languageCode": "ru",
+    "languageConstant": "languageConstants/1031",
+    "languageName": "Russian"
+  },
+  {
+    "marketCode": "UA-RU",
+    "countryCode": "UA",
+    "locationId": 2804,
+    "geoTargetConstant": "geoTargetConstants/2804",
+    "currencyCode": "UAH",
+    "languageCode": "ru",
+    "languageConstant": "languageConstants/1031",
+    "languageName": "Russian"
+  },
+  {
+    "marketCode": "UA-EN",
+    "countryCode": "UA",
+    "locationId": 2804,
+    "geoTargetConstant": "geoTargetConstants/2804",
+    "currencyCode": "UAH",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "PL-PL",
+    "countryCode": "PL",
+    "locationId": 2616,
+    "geoTargetConstant": "geoTargetConstants/2616",
+    "currencyCode": "PLN",
+    "languageCode": "pl",
+    "languageConstant": "languageConstants/1030",
+    "languageName": "Polish"
+  },
+  {
+    "marketCode": "PL-EN",
+    "countryCode": "PL",
+    "locationId": 2616,
+    "geoTargetConstant": "geoTargetConstants/2616",
+    "currencyCode": "PLN",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "CZ-CS",
+    "countryCode": "CZ",
+    "locationId": 2203,
+    "geoTargetConstant": "geoTargetConstants/2203",
+    "currencyCode": "CZK",
+    "languageCode": "cs",
+    "languageConstant": "languageConstants/1029",
+    "languageName": "Czech"
+  },
+  {
+    "marketCode": "CZ-EN",
+    "countryCode": "CZ",
+    "locationId": 2203,
+    "geoTargetConstant": "geoTargetConstants/2203",
+    "currencyCode": "CZK",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SK-SK",
+    "countryCode": "SK",
+    "locationId": 2703,
+    "geoTargetConstant": "geoTargetConstants/2703",
+    "currencyCode": "EUR",
+    "languageCode": "sk",
+    "languageConstant": "languageConstants/1026",
+    "languageName": "Slovak"
+  },
+  {
+    "marketCode": "SK-EN",
+    "countryCode": "SK",
+    "locationId": 2703,
+    "geoTargetConstant": "geoTargetConstants/2703",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "HU-HU",
+    "countryCode": "HU",
+    "locationId": 2348,
+    "geoTargetConstant": "geoTargetConstants/2348",
+    "currencyCode": "HUF",
+    "languageCode": "hu",
+    "languageConstant": "languageConstants/1023",
+    "languageName": "Hungarian"
+  },
+  {
+    "marketCode": "HU-EN",
+    "countryCode": "HU",
+    "locationId": 2348,
+    "geoTargetConstant": "geoTargetConstants/2348",
+    "currencyCode": "HUF",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "RO-RO",
+    "countryCode": "RO",
+    "locationId": 2642,
+    "geoTargetConstant": "geoTargetConstants/2642",
+    "currencyCode": "RON",
+    "languageCode": "ro",
+    "languageConstant": "languageConstants/1022",
+    "languageName": "Romanian"
+  },
+  {
+    "marketCode": "RO-EN",
+    "countryCode": "RO",
+    "locationId": 2642,
+    "geoTargetConstant": "geoTargetConstants/2642",
+    "currencyCode": "RON",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BG-BG",
+    "countryCode": "BG",
+    "locationId": 2100,
+    "geoTargetConstant": "geoTargetConstants/2100",
+    "currencyCode": "BGN",
+    "languageCode": "bg",
+    "languageConstant": "languageConstants/1019",
+    "languageName": "Bulgarian"
+  },
+  {
+    "marketCode": "BG-EN",
+    "countryCode": "BG",
+    "locationId": 2100,
+    "geoTargetConstant": "geoTargetConstants/2100",
+    "currencyCode": "BGN",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "GR-EL",
+    "countryCode": "GR",
+    "locationId": 2300,
+    "geoTargetConstant": "geoTargetConstants/2300",
+    "currencyCode": "EUR",
+    "languageCode": "el",
+    "languageConstant": "languageConstants/1027",
+    "languageName": "Greek"
+  },
+  {
+    "marketCode": "GR-EN",
+    "countryCode": "GR",
+    "locationId": 2300,
+    "geoTargetConstant": "geoTargetConstants/2300",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "NL-NL",
+    "countryCode": "NL",
+    "locationId": 2528,
+    "geoTargetConstant": "geoTargetConstants/2528",
+    "currencyCode": "EUR",
+    "languageCode": "nl",
+    "languageConstant": "languageConstants/1011",
+    "languageName": "Dutch"
+  },
+  {
+    "marketCode": "NL-EN",
+    "countryCode": "NL",
+    "locationId": 2528,
+    "geoTargetConstant": "geoTargetConstants/2528",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BE-FR",
+    "countryCode": "BE",
+    "locationId": 2056,
+    "geoTargetConstant": "geoTargetConstants/2056",
+    "currencyCode": "EUR",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "BE-NL",
+    "countryCode": "BE",
+    "locationId": 2056,
+    "geoTargetConstant": "geoTargetConstants/2056",
+    "currencyCode": "EUR",
+    "languageCode": "nl",
+    "languageConstant": "languageConstants/1011",
+    "languageName": "Dutch"
+  },
+  {
+    "marketCode": "BE-EN",
+    "countryCode": "BE",
+    "locationId": 2056,
+    "geoTargetConstant": "geoTargetConstants/2056",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SE-SV",
+    "countryCode": "SE",
+    "locationId": 2752,
+    "geoTargetConstant": "geoTargetConstants/2752",
+    "currencyCode": "SEK",
+    "languageCode": "sv",
+    "languageConstant": "languageConstants/1015",
+    "languageName": "Swedish"
+  },
+  {
+    "marketCode": "SE-EN",
+    "countryCode": "SE",
+    "locationId": 2752,
+    "geoTargetConstant": "geoTargetConstants/2752",
+    "currencyCode": "SEK",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "NO-NO",
+    "countryCode": "NO",
+    "locationId": 2578,
+    "geoTargetConstant": "geoTargetConstants/2578",
+    "currencyCode": "NOK",
+    "languageCode": "no",
+    "languageConstant": "languageConstants/1016",
+    "languageName": "Norwegian"
+  },
+  {
+    "marketCode": "NO-EN",
+    "countryCode": "NO",
+    "locationId": 2578,
+    "geoTargetConstant": "geoTargetConstants/2578",
+    "currencyCode": "NOK",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "DK-DA",
+    "countryCode": "DK",
+    "locationId": 2208,
+    "geoTargetConstant": "geoTargetConstants/2208",
+    "currencyCode": "DKK",
+    "languageCode": "da",
+    "languageConstant": "languageConstants/1009",
+    "languageName": "Danish"
+  },
+  {
+    "marketCode": "DK-EN",
+    "countryCode": "DK",
+    "locationId": 2208,
+    "geoTargetConstant": "geoTargetConstants/2208",
+    "currencyCode": "DKK",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "FI-FI",
+    "countryCode": "FI",
+    "locationId": 2246,
+    "geoTargetConstant": "geoTargetConstants/2246",
+    "currencyCode": "EUR",
+    "languageCode": "fi",
+    "languageConstant": "languageConstants/1018",
+    "languageName": "Finnish"
+  },
+  {
+    "marketCode": "FI-EN",
+    "countryCode": "FI",
+    "locationId": 2246,
+    "geoTargetConstant": "geoTargetConstants/2246",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "CH-DE",
+    "countryCode": "CH",
+    "locationId": 2756,
+    "geoTargetConstant": "geoTargetConstants/2756",
+    "currencyCode": "CHF",
+    "languageCode": "de",
+    "languageConstant": "languageConstants/1001",
+    "languageName": "German"
+  },
+  {
+    "marketCode": "CH-FR",
+    "countryCode": "CH",
+    "locationId": 2756,
+    "geoTargetConstant": "geoTargetConstants/2756",
+    "currencyCode": "CHF",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  },
+  {
+    "marketCode": "CH-IT",
+    "countryCode": "CH",
+    "locationId": 2756,
+    "geoTargetConstant": "geoTargetConstants/2756",
+    "currencyCode": "CHF",
+    "languageCode": "it",
+    "languageConstant": "languageConstants/1004",
+    "languageName": "Italian"
+  },
+  {
+    "marketCode": "AT-DE",
+    "countryCode": "AT",
+    "locationId": 2040,
+    "geoTargetConstant": "geoTargetConstants/2040",
+    "currencyCode": "EUR",
+    "languageCode": "de",
+    "languageConstant": "languageConstants/1001",
+    "languageName": "German"
+  },
+  {
+    "marketCode": "AT-EN",
+    "countryCode": "AT",
+    "locationId": 2040,
+    "geoTargetConstant": "geoTargetConstants/2040",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "HR-EN",
+    "countryCode": "HR",
+    "locationId": 2191,
+    "geoTargetConstant": "geoTargetConstants/2191",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "SI-EN",
+    "countryCode": "SI",
+    "locationId": 2705,
+    "geoTargetConstant": "geoTargetConstants/2705",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "RS-EN",
+    "countryCode": "RS",
+    "locationId": 2688,
+    "geoTargetConstant": "geoTargetConstants/2688",
+    "currencyCode": "RSD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BA-EN",
+    "countryCode": "BA",
+    "locationId": 2070,
+    "geoTargetConstant": "geoTargetConstants/2070",
+    "currencyCode": "BAM",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "ME-EN",
+    "countryCode": "ME",
+    "locationId": 2499,
+    "geoTargetConstant": "geoTargetConstants/2499",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "MK-EN",
+    "countryCode": "MK",
+    "locationId": 2807,
+    "geoTargetConstant": "geoTargetConstants/2807",
+    "currencyCode": "MKD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "AL-EN",
+    "countryCode": "AL",
+    "locationId": 2008,
+    "geoTargetConstant": "geoTargetConstants/2008",
+    "currencyCode": "ALL",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LV-EN",
+    "countryCode": "LV",
+    "locationId": 2428,
+    "geoTargetConstant": "geoTargetConstants/2428",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LT-EN",
+    "countryCode": "LT",
+    "locationId": 2440,
+    "geoTargetConstant": "geoTargetConstants/2440",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "EE-EN",
+    "countryCode": "EE",
+    "locationId": 2233,
+    "geoTargetConstant": "geoTargetConstants/2233",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "IS-EN",
+    "countryCode": "IS",
+    "locationId": 2352,
+    "geoTargetConstant": "geoTargetConstants/2352",
+    "currencyCode": "ISK",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LU-EN",
+    "countryCode": "LU",
+    "locationId": 2442,
+    "geoTargetConstant": "geoTargetConstants/2442",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LI-DE",
+    "countryCode": "LI",
+    "locationId": 2438,
+    "geoTargetConstant": "geoTargetConstants/2438",
+    "currencyCode": "CHF",
+    "languageCode": "de",
+    "languageConstant": "languageConstants/1001",
+    "languageName": "German"
+  },
+  {
+    "marketCode": "CY-EN",
+    "countryCode": "CY",
+    "locationId": 2196,
+    "geoTargetConstant": "geoTargetConstants/2196",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "CY-EL",
+    "countryCode": "CY",
+    "locationId": 2196,
+    "geoTargetConstant": "geoTargetConstants/2196",
+    "currencyCode": "EUR",
+    "languageCode": "el",
+    "languageConstant": "languageConstants/1027",
+    "languageName": "Greek"
+  },
+  {
+    "marketCode": "MT-EN",
+    "countryCode": "MT",
+    "locationId": 2470,
+    "geoTargetConstant": "geoTargetConstants/2470",
+    "currencyCode": "EUR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "QA-AR",
+    "countryCode": "QA",
+    "locationId": 2634,
+    "geoTargetConstant": "geoTargetConstants/2634",
+    "currencyCode": "QAR",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "QA-EN",
+    "countryCode": "QA",
+    "locationId": 2634,
+    "geoTargetConstant": "geoTargetConstants/2634",
+    "currencyCode": "QAR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "KW-AR",
+    "countryCode": "KW",
+    "locationId": 2414,
+    "geoTargetConstant": "geoTargetConstants/2414",
+    "currencyCode": "KWD",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "KW-EN",
+    "countryCode": "KW",
+    "locationId": 2414,
+    "geoTargetConstant": "geoTargetConstants/2414",
+    "currencyCode": "KWD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "BH-AR",
+    "countryCode": "BH",
+    "locationId": 2048,
+    "geoTargetConstant": "geoTargetConstants/2048",
+    "currencyCode": "BHD",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "BH-EN",
+    "countryCode": "BH",
+    "locationId": 2048,
+    "geoTargetConstant": "geoTargetConstants/2048",
+    "currencyCode": "BHD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "OM-AR",
+    "countryCode": "OM",
+    "locationId": 2512,
+    "geoTargetConstant": "geoTargetConstants/2512",
+    "currencyCode": "OMR",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "OM-EN",
+    "countryCode": "OM",
+    "locationId": 2512,
+    "geoTargetConstant": "geoTargetConstants/2512",
+    "currencyCode": "OMR",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "JO-AR",
+    "countryCode": "JO",
+    "locationId": 2400,
+    "geoTargetConstant": "geoTargetConstants/2400",
+    "currencyCode": "JOD",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "JO-EN",
+    "countryCode": "JO",
+    "locationId": 2400,
+    "geoTargetConstant": "geoTargetConstants/2400",
+    "currencyCode": "JOD",
+    "languageCode": "en",
+    "languageConstant": "languageConstants/1000",
+    "languageName": "English"
+  },
+  {
+    "marketCode": "LB-AR",
+    "countryCode": "LB",
+    "locationId": 2422,
+    "geoTargetConstant": "geoTargetConstants/2422",
+    "currencyCode": "LBP",
+    "languageCode": "ar",
+    "languageConstant": "languageConstants/1010",
+    "languageName": "Arabic"
+  },
+  {
+    "marketCode": "LB-FR",
+    "countryCode": "LB",
+    "locationId": 2422,
+    "geoTargetConstant": "geoTargetConstants/2422",
+    "currencyCode": "LBP",
+    "languageCode": "fr",
+    "languageConstant": "languageConstants/1002",
+    "languageName": "French"
+  }
+]

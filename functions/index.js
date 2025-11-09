@@ -21,6 +21,7 @@ const OpenAI = require("openai");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 const VercelDeploymentService = require("./vercelDeployment");
 const EnvironmentManager = require("./environmentManager");
+const {collectKeywordMarketMetrics} = require("./midprintResearch");
 
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -215,6 +216,57 @@ exports.handleOnboardingSubmission = onRequest(async (request, response) => {
 
       return response.status(500).json({
         error: "Error processing the submission. Please try again later.",
+      });
+    }
+  });
+});
+
+exports.requestKeywordResearch = onRequest(async (request, response) => {
+  return cors(request, response, async () => {
+    if (request.method !== "POST") {
+      return response.status(405).json({
+        error: "Method not allowed. Please use POST.",
+      });
+    }
+
+    const requestPayload = request.body || {};
+    const {userId, keyword, matchType, device} = requestPayload;
+    let markets = null;
+    if (Array.isArray(requestPayload.markets)) {
+      markets = requestPayload.markets;
+    } else if (Array.isArray(requestPayload.marketCodes)) {
+      markets = requestPayload.marketCodes;
+    }
+
+    if (!userId || !keyword || !markets) {
+      return response.status(400).json({
+        error: "userId, keyword, and markets are required.",
+      });
+    }
+
+    try {
+      const result = await collectKeywordMarketMetrics({
+        userId,
+        keyword,
+        matchType,
+        device,
+        markets,
+      });
+
+      return response.status(200).json({
+        status: "ok",
+        queryId: result.queryId,
+        summary: result.summary,
+        markets: result.markets,
+      });
+    } catch (error) {
+      logger.error("Keyword research request failed", {
+        userId,
+        keyword,
+        error: error?.response?.data || error?.message || error,
+      });
+      return response.status(400).json({
+        error: error instanceof Error ? error.message : "Failed to collect keyword metrics.",
       });
     }
   });
@@ -642,10 +694,10 @@ exports.generateLanding = onDocumentCreated(
 );
 
 // Import MidPrint functions
-const { syncAllUsersData } = require("./midprint");
+const {syncAllUsersData} = require("./midprint");
 
 // Add scheduled function for MidPrint data sync
-const { onSchedule } = require("firebase-functions/v2/scheduler");
+const {onSchedule} = require("firebase-functions/v2/scheduler");
 
 exports.scheduledMidPrintSync = onSchedule({
   schedule: "0 7 * * *", // Run daily at 7 AM
@@ -654,7 +706,7 @@ exports.scheduledMidPrintSync = onSchedule({
   timeoutSeconds: 540, // 9 minutes
 }, async (event) => {
   logger.info("Starting scheduled MidPrint data sync");
-  
+
   try {
     await syncAllUsersData();
     logger.info("MidPrint data sync completed successfully");
@@ -662,4 +714,62 @@ exports.scheduledMidPrintSync = onSchedule({
     logger.error("Error in scheduled MidPrint sync:", error);
     throw error; // Re-throw to mark the function execution as failed
   }
+});
+
+exports.scheduledKeywordResearchRefresh = onSchedule({
+  schedule: "0 3 * * *", // Run nightly at 3 AM ET
+  timeZone: "America/New_York",
+  memory: "512MB",
+  timeoutSeconds: 540,
+}, async () => {
+  logger.info("Starting scheduled keyword research refresh");
+
+  const configSnapshot = await admin.firestore()
+      .collection("midprintResearchConfig")
+      .doc("popularKeywords")
+      .get();
+
+  const configData = configSnapshot.exists ? configSnapshot.data() : {};
+  const keywordQueue = Array.isArray(configData.keywords) ? configData.keywords : [];
+
+  for (const entry of keywordQueue) {
+    if (!entry || !entry.userId || !entry.keyword) {
+      continue;
+    }
+
+    const targetMarkets = entry.markets ||
+      entry.marketCodes ||
+      configData.defaultMarkets ||
+      [];
+
+    if (!Array.isArray(targetMarkets) || targetMarkets.length === 0) {
+      logger.warn("Skipping keyword refresh due to missing markets", {
+        userId: entry.userId,
+        keyword: entry.keyword,
+      });
+      continue;
+    }
+
+    try {
+      await collectKeywordMarketMetrics({
+        userId: entry.userId,
+        keyword: entry.keyword,
+        matchType: entry.matchType || configData.defaultMatchType || "BROAD",
+        device: entry.device || configData.defaultDevice || "DESKTOP",
+        markets: targetMarkets,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    } catch (error) {
+      logger.error("Scheduled keyword refresh failed", {
+        userId: entry.userId,
+        keyword: entry.keyword,
+        error: error?.response?.data || error?.message || error,
+      });
+    }
+  }
+
+  logger.info("Completed scheduled keyword research refresh", {
+    processedKeywords: keywordQueue.length,
+  });
 });

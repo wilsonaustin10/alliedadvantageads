@@ -12,8 +12,6 @@ function getZapierWebhookUrl(): string {
   return url;
 }
 
-const ZAPIER_WEBHOOK_URL = getZapierWebhookUrl();
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -62,7 +60,7 @@ export async function POST(request: Request) {
     };
 
     // Send to Zapier webhook
-    const zapierResponse = await fetch(ZAPIER_WEBHOOK_URL, {
+    const zapierResponse = await fetch(getZapierWebhookUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

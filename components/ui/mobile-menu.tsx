@@ -72,11 +72,11 @@ export default function MobileMenu() {
             </li>
             <li>
               <Link
-                href="#consultation-form"
-                className="mt-2 block rounded bg-blue-600 px-4 py-2 text-center text-sm text-white hover:bg-blue-700"
+                href="#application-form"
+                className="mt-2 block rounded bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-center text-sm font-semibold text-white"
                 onClick={() => setIsOpen(false)}
               >
-                Get Started
+                Apply Now
               </Link>
             </li>
           </ul>

@@ -3,13 +3,13 @@ export default function ValueProposition() {
     {
       icon: (
         <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
-      title: "Higher Quality Leads",
-      metric: "3.2x",
-      description: "Our AI-powered methodology generates leads that convert 3.2x better than industry average",
-      proof: "Validated across 38 specialized markets"
+      title: "Predictable Deal Flow",
+      metric: "67%",
+      description: "Lower cost per contract than traditional PPC agencies. We optimize for closed deals, not just cheap clicks.",
+      proof: "Powered by AI-trained campaigns and 2,000+ negative keywords"
     },
     {
       icon: (
@@ -17,21 +17,22 @@ export default function ValueProposition() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: "Lower Cost Per Lead",
-      metric: "45%",
-      description: "Advanced AI optimization reduces cost per lead by 45% while our flat monthly subscription keeps savings in your campaigns",
-      proof: "Average reduction validated across nationwide campaigns"
+      title: "Cost Per Contract Focus",
+      metric: "3x",
+      description: "More qualified motivated seller leads. We track from click to contract so you know exactly what's working.",
+      proof: "Full attribution from ad spend to assignment fee"
     },
     {
       icon: (
         <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      title: "Proven Methodology",
-      metric: "10x",
-      description: "Our tested approach delivers up to 10x return on ad spend with precise Google Ads scaling",
-      proof: "Case study highlight: 10x return on efficient ad spend"
+      title: "Market Exclusivity",
+      metric: "1",
+      description: "Partner per core market. When you lock in your territory, competitors can't access our system in your area.",
+      proof: "Protected campaigns in select cities nationwide"
     }
   ];
 
@@ -59,14 +60,14 @@ export default function ValueProposition() {
     <section className="py-20 bg-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4" data-aos="fade-up">
-            THE ALLIED ADVANTAGE
+          <div className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4" data-aos="fade-up">
+            THE WHOLESALER DEAL FLOW SYSTEM
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4" data-aos="fade-up" data-aos-delay="100">
-            Why We Outperform Every Competitor
+            Built for Serious Wholesalers Who Want Results
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Our unique AI-powered methodology is specifically designed for real estate wholesalers
+            Stop chasing cheap leads. Start scaling contracts with a system designed specifically for motivated seller acquisition.
           </p>
         </div>
 
@@ -81,23 +82,26 @@ export default function ValueProposition() {
               <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-100 to-purple-100 text-blue-600 mb-6">
                 {prop.icon}
               </div>
-              
+
               <div className="mb-4">
                 <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   {prop.metric}
                 </span>
+                {prop.title === "Market Exclusivity" && (
+                  <span className="text-2xl font-bold text-gray-400 ml-1">partner</span>
+                )}
               </div>
-              
+
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 {prop.title}
               </h3>
-              
+
               <p className="text-gray-600 mb-3">
                 {prop.description}
               </p>
-              
+
               <p className="text-sm text-blue-600 font-semibold">
-                ✓ {prop.proof}
+                {prop.proof}
               </p>
             </div>
           ))}
@@ -111,38 +115,38 @@ export default function ValueProposition() {
           >
             <div className="max-w-3xl mx-auto">
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
-                Our Tested Lead Generation Methodology
+                How We Turn Ad Spend Into Closed Contracts
               </h3>
               <p className="text-lg text-gray-700 mb-6">
-                While others guess, we know. Our proprietary system combines advanced AI with battle-tested strategies to deliver predictable, scalable results.
+                We understand assignment fees, spreads, and motivated seller reality. Our system plugs into your existing deal machine and turns up the volume.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold text-sm">1</div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">AI-Powered Audience Discovery</h4>
-                    <p className="text-gray-600">Identify and target your ideal customers with surgical precision</p>
+                    <h4 className="font-semibold text-gray-900">AI-Trained Campaign Launch</h4>
+                    <p className="text-gray-600">Motivated seller campaigns built on data from thousands of successful wholesaler deals</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold text-sm">2</div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Dynamic Creative Optimization</h4>
-                    <p className="text-gray-600">Test and optimize hundreds of ad variations automatically</p>
+                    <h4 className="font-semibold text-gray-900">Ad Spend Protection</h4>
+                    <p className="text-gray-600">2,000+ negative keywords block junk traffic and protect your budget from wasted clicks</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-bold text-sm">3</div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Predictive Lead Scoring</h4>
-                    <p className="text-gray-600">Focus on leads most likely to convert and close</p>
+                    <h4 className="font-semibold text-gray-900">Contract-to-Click Tracking</h4>
+                    <p className="text-gray-600">Tie every closed deal back to the click that started it — know your true cost per contract</p>
                   </div>
                 </li>
               </ul>
             </div>
             {showTestimonials && (
               <div className="bg-white rounded-xl p-8 shadow-xl">
-                <h4 className="text-xl font-bold text-gray-900 mb-6">Real Results from Real Clients</h4>
+                <h4 className="text-xl font-bold text-gray-900 mb-6">What Our Partners Are Saying</h4>
                 <div className="space-y-6">
                   {testimonialQuotes.map(({ quote, author, borderClass }) => (
                     <div
@@ -161,12 +165,12 @@ export default function ValueProposition() {
 
         <div className="mt-12 text-center">
           <a
-            href="#consultation-form"
+            href="#application-form"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-bold text-xl hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1"
             data-aos="fade-up"
             data-aos-delay="700"
           >
-            Get Your Custom Strategy
+            Check Availability in Your Market
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -175,4 +179,4 @@ export default function ValueProposition() {
       </div>
     </section>
   );
-} 
+}

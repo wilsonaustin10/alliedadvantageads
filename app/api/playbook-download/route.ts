@@ -17,48 +17,41 @@ const ZAPIER_WEBHOOK_URL = getZapierWebhookUrl();
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, phone, dealsPerMonth, a2pConsent } = body;
+    const { name, email } = body;
 
     // Validate required fields
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !phone ||
-      !dealsPerMonth ||
-      a2pConsent !== true
-    ) {
+    if (!name || !email) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        { error: 'Name and email are required' },
         { status: 400 }
       );
     }
 
-    // Log the consultation form submission
-    console.log('Consultation Form Submission:', {
-      firstName,
-      lastName,
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Log the playbook download request
+    console.log('Playbook Download Request:', {
+      name,
       email,
-      phone,
-      dealsPerMonth,
-      a2pConsent,
+      timestamp: new Date().toISOString(),
+      source: 'lead-magnet-section',
     });
 
     // Prepare payload for Zapier
     const payload = {
-      firstName,
-      lastName,
+      firstName: name,
       email,
-      phone,
-      primaryMarket: body.primaryMarket,
-      monthlyBudget: body.monthlyBudget,
-      dealsPerMonth,
-      biggestBottleneck: body.biggestBottleneck,
-      isQualified: body.isQualified,
-      a2pConsent,
-      tag: 'consultation',
-      source: 'Application Form',
-      formType: 'consultation',
+      tag: 'playbook',
+      source: 'Playbook Download',
+      formType: 'playbook',
+      timestamp: new Date().toISOString(),
     };
 
     // Send to Zapier webhook
@@ -79,21 +72,20 @@ export async function POST(request: Request) {
     }
 
     const responseText = await zapierResponse.text();
-    console.log('Consultation forwarded to Zapier:', responseText);
+    console.log('Playbook download forwarded to Zapier:', responseText);
 
-    return NextResponse.json(
-      { message: 'Consultation request received successfully' },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      success: true,
+      message: 'Playbook request received',
+    });
   } catch (error) {
-    console.error('Error processing consultation request:', error);
-    
-    // Provide more detailed error information in development
+    console.error('Playbook download error:', error);
+
     const errorMessage = error instanceof Error ? error.message : 'Internal server error';
-    const errorDetails = process.env.NODE_ENV === 'development' 
+    const errorDetails = process.env.NODE_ENV === 'development'
       ? { message: errorMessage, stack: error instanceof Error ? error.stack : undefined }
       : { message: 'Internal server error' };
-    
+
     return NextResponse.json(
       errorDetails,
       { status: 500 }

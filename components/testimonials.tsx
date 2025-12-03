@@ -164,15 +164,15 @@ export default function Testimonials() {
 
         <div className="mt-16 text-center">
           <p className="text-lg text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="900">
-            Ready to write your own success story?
+            Ready to join them?
           </p>
           <a
-            href="#consultation-form"
+            href="#application-form"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-bold text-xl hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1"
             data-aos="fade-up"
             data-aos-delay="1000"
           >
-            Start Your Success Story
+            Apply to See If You Qualify
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

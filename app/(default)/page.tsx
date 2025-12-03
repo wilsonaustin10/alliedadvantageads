@@ -1,14 +1,13 @@
 export const metadata = {
-  title: 'Allied Advantage: AI Advertising - Superior Leads at Lower Costs',
-  description: 'Revolutionary AI-powered advertising agency delivering higher-quality leads at lower costs for real estate wholesalers and home services through Google Ads management.',
+  title: 'Allied Advantage: Google Ads for Serious Real Estate Wholesalers',
+  description: 'High-converting Google Ads management for established wholesalers who want predictable deal flow. AI-powered campaigns, market exclusivity, and contract-to-click tracking.',
 }
 
 import HeroHome from '@/components/hero-home'
 import ValueProposition from '@/components/value-proposition'
+import QualifierSection from '@/components/qualifier-section'
 import Services from '@/components/services'
-import AIAdvantage from '@/components/ai-advantage'
-import FutureInnovations from '@/components/future-innovations'
-import EducationalCourses from '@/components/educational-courses'
+import LeadMagnetSection from '@/components/lead-magnet-section'
 import Testimonials from '@/components/testimonials'
 import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
@@ -20,10 +19,9 @@ export default function Home() {
     <>
       <HeroHome />
       <ValueProposition />
+      <QualifierSection />
       <Services />
-      <AIAdvantage />
-      <FutureInnovations />
-      <EducationalCourses />
+      <LeadMagnetSection />
       {SHOW_TESTIMONIALS && <Testimonials />}
       <ConsultationForm />
       <FAQ />

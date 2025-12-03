@@ -13,9 +13,9 @@ export default function Header() {
           <div className="shrink-0 mr-4">
             <Link href="/" className="block" aria-label="Allied Advantage Ads">
               <Image
-                src="/AAA Marquee.png"
-                width={180}
-                height={60}
+                src="/AAA Master Logo.png"
+                width={200}
+                height={67}
                 alt="Allied Advantage Ads"
                 priority
                 className="object-contain"
@@ -65,10 +65,10 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  href="#consultation-form"
-                  className="btn-sm text-white bg-blue-600 hover:bg-blue-700 ml-3 shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5"
+                  href="#application-form"
+                  className="btn-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg ml-3 shadow-md transform transition-all duration-200 hover:-translate-y-0.5"
                 >
-                  Get Started
+                  Apply Now
                 </Link>
               </li>
             </ul>

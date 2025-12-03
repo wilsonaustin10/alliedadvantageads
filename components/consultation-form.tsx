@@ -8,7 +8,10 @@ export default function ConsultationForm() {
     lastName: '',
     email: '',
     phone: '',
+    primaryMarket: '',
+    monthlyBudget: '',
     dealsPerMonth: '',
+    biggestBottleneck: '',
     a2pConsent: false,
   });
 
@@ -17,6 +20,14 @@ export default function ConsultationForm() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isQualified, setIsQualified] = useState(false);
+
+  // Qualification check based on budget and deals
+  const checkQualification = (budget: string, deals: string): boolean => {
+    const qualifiedBudgets = ['$2k - $5k/mo', '$5k - $10k/mo', '$10k+/mo'];
+    const qualifiedDeals = ['1-2 deals', '3-5 deals', '6-10 deals', '10+ deals'];
+    return qualifiedBudgets.includes(budget) && qualifiedDeals.includes(deals);
+  };
 
   // Real-time validation
   const validateField = (name: string, value: string): string => {
@@ -39,8 +50,14 @@ export default function ConsultationForm() {
         const phoneRegex = /^[\d\s\-\(\)\+\.]{10,}$/;
         if (!phoneRegex.test(value)) return 'Please enter a valid phone number';
         return '';
+      case 'primaryMarket':
+        if (!value.trim()) return 'Primary market is required';
+        return '';
+      case 'monthlyBudget':
+        if (!value) return 'Please select your monthly marketing budget';
+        return '';
       case 'dealsPerMonth':
-        if (!value) return 'Please select how many deals you close per month';
+        if (!value) return 'Please select how many deals you\'ve closed';
         return '';
       case 'a2pConsent':
         if (!value) return 'You must agree to receive text messages';
@@ -52,7 +69,7 @@ export default function ConsultationForm() {
 
   // Check form validity
   useEffect(() => {
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'dealsPerMonth'];
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'primaryMarket', 'monthlyBudget', 'dealsPerMonth'];
     const hasRequiredFields = requiredFields.every(field => formData[field as keyof typeof formData].toString().trim());
     const hasA2PConsent = formData.a2pConsent === true;
     const hasNoErrors = Object.values(fieldErrors).every(error => !error);
@@ -64,31 +81,41 @@ export default function ConsultationForm() {
     setStatus('submitting');
     setErrorMessage('');
 
+    // Check qualification before submitting
+    const qualified = checkQualification(formData.monthlyBudget, formData.dealsPerMonth);
+    setIsQualified(qualified);
+
     try {
       const response = await fetch('/api/consultation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          isQualified: qualified,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error('Failed to submit application');
       }
 
       setStatus('success');
-      setShowCalendar(true);
+      if (qualified) {
+        setShowCalendar(true);
+      }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error submitting application:', error);
       setStatus('error');
-      setErrorMessage('Failed to submit form. Please try again later.');
+      setErrorMessage('Failed to submit application. Please try again later.');
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
-    
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
     // Update form data
     const fieldValue = type === 'checkbox' ? checked : value;
     setFormData({
@@ -109,19 +136,26 @@ export default function ConsultationForm() {
     }
   };
 
-  if (showCalendar) {
+  // Success state - Qualified: Show Calendly
+  if (showCalendar && isQualified) {
     return (
-      <section id="consultation-form" className="relative bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
+      <section id="application-form" className="relative bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Application Received
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Great! Now Let's Schedule Your Free Consultation
+              You Qualify! Book Your Deal Flow Strategy Session
             </h2>
             <p className="text-lg text-gray-600">
-              Pick a time that works best for you. We'll discuss your goals and create a custom lead generation strategy.
+              Based on your application, you're a great fit for our Wholesaler Deal Flow System. Pick a time below to discuss your goals and see if we have capacity in your market.
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg shadow-xl p-8">
             {/* Calendly embed */}
             <div className="calendly-inline-widget" data-url="https://calendly.com/austin-alliedleadvantage-ads/30min" style={{minWidth: '320px', height: '700px'}}></div>
@@ -137,17 +171,45 @@ export default function ConsultationForm() {
     );
   }
 
+  // Success state - Not Qualified: Show thank you message
+  if (status === 'success' && !isQualified) {
+    return (
+      <section id="application-form" className="relative bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="bg-white rounded-lg shadow-xl p-8 md:p-12 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Thanks for Your Application
+            </h2>
+            <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto">
+              We've received your application and will review it shortly. If there's a fit and we have capacity in your market, a member of our team will reach out within 1-2 business days.
+            </p>
+            <div className="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
+              <p className="text-sm text-gray-600">
+                <span className="font-semibold text-gray-900">In the meantime:</span> Check your email for our Motivated Seller Deal Flow Playbook with strategies you can implement today.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="consultation-form" className="relative bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
+    <section id="application-form" className="relative bg-gradient-to-b from-gray-50 to-white py-16 sm:py-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl">
           <h2 className="mb-4 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-            Get Your Free Consultation
+            Apply to See If You Qualify
           </h2>
           <p className="mb-8 text-center text-lg text-gray-600">
-            Tell us about your business and we'll create a custom lead generation strategy that delivers results.
+            Tell us a bit about your business so we can confirm capacity in your market.
           </p>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6 rounded-lg bg-white p-8 shadow-xl">
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
@@ -163,8 +225,8 @@ export default function ConsultationForm() {
                   value={formData.firstName}
                   onChange={handleChange}
                   className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
-                    fieldErrors.firstName 
-                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                    fieldErrors.firstName
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                   }`}
                   aria-describedby={fieldErrors.firstName ? 'firstName-error' : undefined}
@@ -175,7 +237,7 @@ export default function ConsultationForm() {
                   </p>
                 )}
               </div>
-              
+
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                   Last Name <span className="text-red-500">*</span>
@@ -189,8 +251,8 @@ export default function ConsultationForm() {
                   value={formData.lastName}
                   onChange={handleChange}
                   className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
-                    fieldErrors.lastName 
-                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                    fieldErrors.lastName
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                   }`}
                   aria-describedby={fieldErrors.lastName ? 'lastName-error' : undefined}
@@ -216,8 +278,8 @@ export default function ConsultationForm() {
                 value={formData.email}
                 onChange={handleChange}
                 className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
-                  fieldErrors.email 
-                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                  fieldErrors.email
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                 }`}
                 aria-describedby={fieldErrors.email ? 'email-error' : undefined}
@@ -243,8 +305,8 @@ export default function ConsultationForm() {
                 onChange={handleChange}
                 placeholder="(555) 123-4567"
                 className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
-                  fieldErrors.phone 
-                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                  fieldErrors.phone
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                 }`}
                 aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
@@ -257,35 +319,112 @@ export default function ConsultationForm() {
             </div>
 
             <div>
-              <label htmlFor="dealsPerMonth" className="block text-sm font-medium text-gray-700">
-                How Many Deals Are You Closing Per Month? <span className="text-red-500">*</span>
+              <label htmlFor="primaryMarket" className="block text-sm font-medium text-gray-700">
+                Primary Market(s) <span className="text-red-500">*</span>
               </label>
-              <select
-                name="dealsPerMonth"
-                id="dealsPerMonth"
+              <input
+                type="text"
+                name="primaryMarket"
+                id="primaryMarket"
                 required
                 disabled={status === 'submitting'}
-                value={formData.dealsPerMonth}
+                value={formData.primaryMarket}
                 onChange={handleChange}
+                placeholder="e.g., Dallas-Fort Worth, Houston"
                 className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
-                  fieldErrors.dealsPerMonth 
-                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                  fieldErrors.primaryMarket
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
                 }`}
-                aria-describedby={fieldErrors.dealsPerMonth ? 'dealsPerMonth-error' : undefined}
-              >
-                <option value="">Select number of deals</option>
-                <option value="0-1">0-1 deals per month</option>
-                <option value="2-5">2-5 deals per month</option>
-                <option value="6-10">6-10 deals per month</option>
-                <option value="11-20">11-20 deals per month</option>
-                <option value="20+">20+ deals per month</option>
-              </select>
-              {fieldErrors.dealsPerMonth && (
-                <p id="dealsPerMonth-error" className="mt-1 text-sm text-red-600" role="alert">
-                  {fieldErrors.dealsPerMonth}
+                aria-describedby={fieldErrors.primaryMarket ? 'primaryMarket-error' : undefined}
+              />
+              {fieldErrors.primaryMarket && (
+                <p id="primaryMarket-error" className="mt-1 text-sm text-red-600" role="alert">
+                  {fieldErrors.primaryMarket}
                 </p>
               )}
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="monthlyBudget" className="block text-sm font-medium text-gray-700">
+                  Monthly Marketing Budget <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="monthlyBudget"
+                  id="monthlyBudget"
+                  required
+                  disabled={status === 'submitting'}
+                  value={formData.monthlyBudget}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
+                    fieldErrors.monthlyBudget
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+                  }`}
+                  aria-describedby={fieldErrors.monthlyBudget ? 'monthlyBudget-error' : undefined}
+                >
+                  <option value="">Select budget range</option>
+                  <option value="Less than $1k/mo">Less than $1k/mo</option>
+                  <option value="$1k - $2k/mo">$1k - $2k/mo</option>
+                  <option value="$2k - $5k/mo">$2k - $5k/mo</option>
+                  <option value="$5k - $10k/mo">$5k - $10k/mo</option>
+                  <option value="$10k+/mo">$10k+/mo</option>
+                </select>
+                {fieldErrors.monthlyBudget && (
+                  <p id="monthlyBudget-error" className="mt-1 text-sm text-red-600" role="alert">
+                    {fieldErrors.monthlyBudget}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="dealsPerMonth" className="block text-sm font-medium text-gray-700">
+                  Deals Closed (Last 6 Months) <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="dealsPerMonth"
+                  id="dealsPerMonth"
+                  required
+                  disabled={status === 'submitting'}
+                  value={formData.dealsPerMonth}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full rounded-md border px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-50 ${
+                    fieldErrors.dealsPerMonth
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500'
+                  }`}
+                  aria-describedby={fieldErrors.dealsPerMonth ? 'dealsPerMonth-error' : undefined}
+                >
+                  <option value="">Select deal range</option>
+                  <option value="0 deals">0 deals (just getting started)</option>
+                  <option value="1-2 deals">1-2 deals</option>
+                  <option value="3-5 deals">3-5 deals</option>
+                  <option value="6-10 deals">6-10 deals</option>
+                  <option value="10+ deals">10+ deals</option>
+                </select>
+                {fieldErrors.dealsPerMonth && (
+                  <p id="dealsPerMonth-error" className="mt-1 text-sm text-red-600" role="alert">
+                    {fieldErrors.dealsPerMonth}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="biggestBottleneck" className="block text-sm font-medium text-gray-700">
+                Biggest Bottleneck Right Now <span className="text-gray-400">(optional)</span>
+              </label>
+              <textarea
+                name="biggestBottleneck"
+                id="biggestBottleneck"
+                rows={3}
+                disabled={status === 'submitting'}
+                value={formData.biggestBottleneck}
+                onChange={handleChange}
+                placeholder="What's the biggest challenge holding back your deal flow?"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50"
+              />
             </div>
 
             <div className="border-t pt-6">
@@ -304,7 +443,7 @@ export default function ConsultationForm() {
                 <label htmlFor="a2pConsent" className="ml-3 text-sm text-gray-700">
                   <span className="font-medium">I agree to receive text messages <span className="text-red-500">*</span></span>
                   <p id="a2pConsent-description" className="mt-1 text-gray-600">
-                    By checking this box, you consent to receive autodialed promotional text messages from Allied Advantage Ads at the phone number provided above. 
+                    By checking this box, you consent to receive autodialed promotional text messages from Allied Advantage Ads at the phone number provided above.
                     Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe. View our <a href="/terms" className="text-blue-600 hover:underline">Terms</a> and <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
                   </p>
                 </label>
@@ -331,7 +470,7 @@ export default function ConsultationForm() {
                 className={`inline-block rounded-full px-12 py-4 text-center text-lg font-bold text-white shadow-lg transition-all duration-200 ${
                   status === 'submitting' || !isFormValid
                     ? 'cursor-not-allowed opacity-50 bg-gray-400'
-                    : 'bg-blue-600 hover:bg-blue-700 hover:shadow-xl transform hover:-translate-y-0.5'
+                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-xl transform hover:-translate-y-0.5'
                 }`}
                 aria-describedby="submit-status"
               >
@@ -344,16 +483,12 @@ export default function ConsultationForm() {
                     Submitting...
                   </span>
                 ) : (
-                  'Get My Free Consultation'
+                  'Submit Application'
                 )}
               </button>
-              <div className="mt-4 text-sm text-gray-500 max-w-lg mx-auto">
-                <p className="mb-2">🔒 Your information is 100% secure. We'll never spam you.</p>
-                <p>
-                  By submitting this form, you consent to Allied Advantage Ads contacting you via phone, email, or text about our services. 
-                  View our <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
-                </p>
-              </div>
+              <p className="mt-4 text-sm text-gray-500">
+                We review all applications within 1-2 business days.
+              </p>
             </div>
           </form>
         </div>

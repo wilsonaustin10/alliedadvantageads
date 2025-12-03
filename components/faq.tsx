@@ -4,49 +4,54 @@ import { useState } from 'react';
 
 const faqs = [
   {
-    category: "AI Technology",
-    question: "How does AI improve my advertising results?",
-    answer: "Our AI acts like a 24/7 marketing team that never sleeps. It analyzes performance data across platforms in real time — identifying patterns, testing new ad variations, and reallocating budget to what’s working fastest. By learning from every click and impression, it continually refines your targeting, messaging, and spend to reach the right audience at the right moment. The result: consistently lower costs, higher-quality leads, and campaigns that get smarter every single day."
+    category: "Fit",
+    question: "Who is this service for?",
+    answer: "Our Wholesaler Deal Flow System is built for established real estate wholesalers who are already closing deals and investing at least $2k/month in marketing. If you're brand new to wholesaling or not ready to invest seriously in paid acquisition, this isn't the right fit yet."
   },
   {
-    category: "Services",
-    question: "What services do you offer?",
-    answer: "We focus exclusively on Google Ads management. Our team handles everything from keyword research and campaign structure to bid automation, ad copy testing, and conversion tracking — all tailored to real estate wholesalers."
+    category: "Fit",
+    question: "Why do I need to apply? Can't I just sign up?",
+    answer: "We only partner with one wholesaler per core market to protect your territory and ensure we can deliver results. The application helps us confirm we have capacity in your market and that we're a good mutual fit. We're selective because our success depends on your success."
+  },
+  {
+    category: "System",
+    question: "What's included in the Wholesaler Deal Flow System?",
+    answer: "Everything you need to turn Google Ads into closed contracts: AI-trained motivated seller campaigns, our 2,000+ negative keyword vault to protect your ad spend, high-converting landing pages built for sellers, contract-to-click attribution tracking, and ongoing optimization. We build and manage the entire system for you."
+  },
+  {
+    category: "System",
+    question: "How is this different from other PPC agencies?",
+    answer: "Most agencies optimize for cheap leads and low CPL. We optimize for cost per contract and profit per deal. We understand assignment fees, spreads, and motivated seller reality — not just generic 'real estate leads.' Plus, we offer market exclusivity so you're not competing against our other clients in your area."
   },
   {
     category: "Results",
     question: "How quickly will I see results?",
-    answer: "Thanks to our AI-powered optimization, most clients start receiving high-quality leads within 48 hours of campaign launch. Our systems typically achieve optimal performance within the 60 days, continuously improving results over time. We've generated 1,000s leads across our client base."
+    answer: "Most partners start receiving motivated seller leads within 48 hours of campaign launch. Our AI-powered optimization typically achieves strong performance within 60 days, continuously improving over time. We track everything from click to contract so you know exactly what's working."
+  },
+  {
+    category: "Results",
+    question: "What kind of results can I expect?",
+    answer: "Results vary by market and budget, but our partners typically see 67% lower cost per contract compared to managing campaigns themselves or using generic agencies. We focus on qualified motivated sellers who are actually ready to sell — not tire-kickers or people looking for retail agents."
   },
   {
     category: "Pricing",
-    question: "How does your pricing compare to competitors?",
-    answer: "Our AI automation allows us to deliver superior results at lower costs. While traditional agencies charge premium prices for manual management, our technology enables us to reduce cost per lead by an average of 45% while maintaining higher quality. Plus, we offer transparent, performance-based pricing with no hidden fees."
+    question: "How does pricing work?",
+    answer: "We operate on a predictable flat monthly fee — your management costs stay the same whether you're spending $3k or $30k on ads. Most agencies tie their fees to your ad spend, meaning your bill grows every time you scale. We believe growth should reward you, not penalize you."
   },
   {
     category: "Pricing",
-    question: "Is the subscription really a fixed monthly investment?",
-    answer: "Yes — Allied Advantage Ads operates on a predictable flat monthly fee, so your management costs stay the same whether you're spending $3,000 or $30,000 on media. Most agencies tie their fees to your ad spend, meaning your invoice climbs every time you scale. We believe growth should reward you, not penalize you, which is why your subscription never inflates as your campaigns expand."
-  },
-  {
-    category: "Education",
-    question: "What are the free educational courses about?",
-    answer: "We offer comprehensive Google Ads courses covering campaign fundamentals, advanced search strategies, conversion tracking, and AI-assisted optimization. Each course includes lifetime access, weekly live Q&A sessions, and certificates of completion so you can continuously sharpen your Google Ads skills."
-  },
-  {
-    category: "Future Tools",
-    question: "What upcoming tools will be available?",
-    answer: "In Winter 2025, we're launching three revolutionary tools: AI Keyword Generator ($29/month) for discovering high-converting keywords, Prompt Optimizer Pro ($49/month) for perfect ad copy creation, and Campaign Intelligence Suite ($99/month) for advanced analytics and optimization. Early adopters receive lifetime discounts."
+    question: "What's the minimum ad spend requirement?",
+    answer: "We work best with wholesalers investing at least $2k/month in ad spend. This gives us enough data to optimize effectively and generate consistent deal flow. If you're not ready for that level of investment yet, download our free Playbook to learn the system first."
   },
   {
     category: "Commitment",
     question: "Do you require long-term contracts?",
-    answer: "No, we operate on a month-to-month basis after a 90-day campaign maturity period. Our campaigns are built to deliver up to 10x return on ad spend, so clients choose to stay based on performance. However, we offer significant discounts for longer commitments: 15% off for 3 months, 20% off for 6 months, and 30% off for annual agreements."
+    answer: "We operate month-to-month after an initial 90-day campaign maturity period. This gives our AI enough time to learn your market and optimize for your specific goals. Our partners stay because of results, not contracts — though we do offer discounts for longer commitments."
   },
   {
     category: "Coverage",
-    question: "What industries and locations do you serve?",
-    answer: "We specialize in real estate wholesaling nationwide across the United States. Our AI can target specific cities, counties, or regions based on your needs. We've successfully managed campaigns in markets ranging from major metros to rural areas."
+    question: "What markets do you serve?",
+    answer: "We serve wholesalers nationwide across the United States. Our AI can target specific cities, counties, or regions based on your buying criteria. However, we only partner with one wholesaler per core market to protect your territory — so availability depends on whether your market is already taken."
   }
 ];
 
@@ -61,20 +66,20 @@ export default function FAQ() {
     <section id="faq" className="relative bg-gray-50 py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4" data-aos="fade-up">
+          <div className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4" data-aos="fade-up">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            FREQUENTLY ASKED QUESTIONS
+            COMMON QUESTIONS
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4" data-aos="fade-up" data-aos-delay="100">
-            Everything You Need to Know
+            Is This Right for You?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-            Get answers about our AI-powered advertising solutions and how we deliver superior results
+            Answers about our Wholesaler Deal Flow System and how we help serious operators scale
           </p>
         </div>
-        
+
         <div className="mx-auto max-w-4xl">
           <div className="space-y-4">
             {faqs.map((faq, index) => (
@@ -98,7 +103,7 @@ export default function FAQ() {
                       </h3>
                     </div>
                     <svg
-                      className={`w-6 h-6 text-blue-600 transform transition-transform duration-300 ${
+                      className={`w-6 h-6 text-blue-600 transform transition-transform duration-300 flex-shrink-0 ${
                         activeIndex === index ? 'rotate-180' : ''
                       }`}
                       fill="none"
@@ -125,16 +130,16 @@ export default function FAQ() {
 
         <div className="mt-16 text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white" data-aos="fade-up" data-aos-delay="600">
           <h3 className="text-3xl font-bold mb-4">
-            Still Have Questions?
+            Ready to See If You Qualify?
           </h3>
           <p className="text-xl mb-8 text-blue-100">
-            Our AI-powered team is here to help you succeed
+            If you're already closing deals and serious about scaling, let's talk.
           </p>
           <a
-            href="#consultation-form"
-            className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transform transition-all duration-200 hover:-translate-y-1"
+            href="#application-form"
+            className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transform transition-all duration-200 hover:-translate-y-1"
           >
-            Get Expert Answers
+            Apply Now
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -143,4 +148,4 @@ export default function FAQ() {
       </div>
     </section>
   );
-} 
+}

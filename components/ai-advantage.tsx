@@ -132,15 +132,15 @@ export default function AIAdvantage() {
 
         <div className="mt-12 text-center">
           <p className="text-xl text-blue-100 mb-8" data-aos="fade-up" data-aos-delay="500">
-            Ready to leave your competition in the dust?
+            Ready to put AI-powered campaigns to work for your wholesaling business?
           </p>
           <a
-            href="#consultation-form"
+            href="#application-form"
             className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1"
             data-aos="fade-up"
             data-aos-delay="600"
           >
-            Experience the AI Advantage
+            Apply to See If You Qualify
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>

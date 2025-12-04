@@ -120,7 +120,7 @@ export default function HeroHome() {
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 max-w-4xl mx-auto">
               <div className="text-center">
                 <div className="mb-1 text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  3x
+                  2x
                 </div>
                 <p className="text-sm md:text-base text-gray-600">More Deals Closed</p>
               </div>

@@ -140,7 +140,7 @@ export default function AIAdvantage() {
             data-aos="fade-up"
             data-aos-delay="600"
           >
-            Apply to See If You Qualify
+            Book A Strategy Session
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>

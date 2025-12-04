@@ -4,7 +4,7 @@ export const metadata = {
 }
 
 import HeroHome from '@/components/hero-home'
-import ValueProposition from '@/components/value-proposition'
+import CaseStudyMini from '@/components/case-study-mini'
 import QualifierSection from '@/components/qualifier-section'
 import Services from '@/components/services'
 import LeadMagnetSection from '@/components/lead-magnet-section'
@@ -13,14 +13,14 @@ import ConsultationForm from '@/components/consultation-form'
 import FAQ from '@/components/faq'
 
 export default function Home() {
-  const SHOW_TESTIMONIALS = false // Toggle to true when testimonials should reappear
+  const SHOW_TESTIMONIALS = true // Toggle to true when testimonials should reappear
 
   return (
     <>
       <HeroHome />
-      <ValueProposition />
-      <QualifierSection />
+      <CaseStudyMini />
       <Services />
+      <QualifierSection />
       <LeadMagnetSection />
       {SHOW_TESTIMONIALS && <Testimonials />}
       <ConsultationForm />

@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Thank You - Allied Advantage',
-  description: 'Your download is on the way. See if you qualify for our Wholesaler Deal Flow System.',
+  description: 'Your Power Pack is on the way. Book a strategy session to see if we have capacity in your market.',
 }
 
 import Link from 'next/link'
@@ -21,7 +21,7 @@ export default function ThankYou() {
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              Your Playbook Is On The Way
+              Your Power Pack Is On The Way
             </div>
           </div>
 
@@ -118,7 +118,7 @@ export default function ThankYou() {
             </h2>
 
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We only partner with a few wholesalers per market. Click below to see if you qualify for our Wholesaler Deal Flow System.
+              We have limited availability per market. Book a strategy session to see if we have capacity in your area.
             </p>
 
             {/* CTA Button */}
@@ -126,7 +126,7 @@ export default function ThankYou() {
               href="/#application-form"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-full font-bold text-xl shadow-xl hover:shadow-2xl transform transition-all duration-200 hover:-translate-y-1"
             >
-              Check Availability & See If You Qualify
+              Book A Strategy Session
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -134,7 +134,7 @@ export default function ThankYou() {
 
             {/* Microcopy */}
             <p className="mt-6 text-gray-500 max-w-lg mx-auto">
-              If we have capacity in your market and you meet our criteria, you'll be able to book a Deal Flow Strategy Session.
+              If we have capacity in your market, we'll discuss your goals and see if our system is a fit.
             </p>
           </div>
 
@@ -150,25 +150,25 @@ export default function ThankYou() {
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">Check Your Email</h3>
                 <p className="text-sm text-gray-600">
-                  Your Motivated Seller Deal Flow Playbook is on its way to your inbox.
+                  Your Deal Flow Power Pack is on its way to your inbox.
                 </p>
               </div>
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
                   <span className="text-blue-600 font-bold text-lg">2</span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Review the Playbook</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">Review the 7-Step Playbook</h3>
                 <p className="text-sm text-gray-600">
-                  Learn our 5-step system for turning Google Ads into consistent contracts.
+                  Learn our system for turning Google Ads into consistent contracts.
                 </p>
               </div>
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
                   <span className="text-blue-600 font-bold text-lg">3</span>
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">Apply If Ready</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">Book A Strategy Session</h3>
                 <p className="text-sm text-gray-600">
-                  If you're closing deals and ready to scale, apply to see if we have capacity.
+                  If you're closing deals and ready to scale, book a call to see if we have capacity.
                 </p>
               </div>
             </div>

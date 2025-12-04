@@ -130,7 +130,7 @@ export default function FAQ() {
 
         <div className="mt-16 text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white" data-aos="fade-up" data-aos-delay="600">
           <h3 className="text-3xl font-bold mb-4">
-            Ready to See If You Qualify?
+            Ready to Get Started?
           </h3>
           <p className="text-xl mb-8 text-blue-100">
             If you're already closing deals and serious about scaling, let's talk.
@@ -139,7 +139,7 @@ export default function FAQ() {
             href="#application-form"
             className="inline-flex items-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl transform transition-all duration-200 hover:-translate-y-1"
           >
-            Apply Now
+            Book A Strategy Session
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

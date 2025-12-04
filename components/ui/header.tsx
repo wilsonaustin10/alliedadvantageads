@@ -68,7 +68,7 @@ export default function Header() {
                   href="#application-form"
                   className="btn-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg ml-3 shadow-md transform transition-all duration-200 hover:-translate-y-0.5"
                 >
-                  Apply Now
+                  Book A Strategy Session
                 </Link>
               </li>
             </ul>

@@ -144,7 +144,7 @@ export default function QualifierSection() {
             href="#application-form"
           >
             <span className="relative inline-flex items-center">
-              Apply to See If You Qualify
+              Book A Strategy Session
               <span className="ml-3 tracking-normal transition-transform group-hover:translate-x-1">
                 →
               </span>

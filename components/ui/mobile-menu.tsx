@@ -76,7 +76,7 @@ export default function MobileMenu() {
                 className="mt-2 block rounded bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-center text-sm font-semibold text-white"
                 onClick={() => setIsOpen(false)}
               >
-                Apply Now
+                Book A Strategy Session
               </Link>
             </li>
           </ul>

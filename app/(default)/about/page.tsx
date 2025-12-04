@@ -38,10 +38,10 @@ export default function AboutPage() {
           <section className="space-y-4">
             <h2 className="text-2xl font-bold text-gray-900">Why we're selective about who we work with</h2>
             <p>
-              We only partner with one wholesaler per core market. That's not a marketing gimmick—it's how we protect your investment and ensure we can deliver results. When you work with us, your competitors in that market can't access our system.
+              We have limited availability per market. That's not a marketing gimmick—it's how we protect your investment and ensure we can deliver results. When you work with us, we're fully committed to your success in that territory.
             </p>
             <p>
-              This exclusivity means we're picky. We work best with wholesalers who are already closing deals consistently and investing at least $2k/month in marketing. If you're brand new or looking for cheap leads, we're not the right fit. But if you're serious about building a predictable deal flow machine, we should talk.
+              This means we're picky. We work best with wholesalers who are already closing deals consistently and investing at least $2k/month in marketing. If you're brand new or looking for cheap leads, we're not the right fit. But if you're serious about building a predictable deal flow machine, we should talk.
             </p>
           </section>
 
@@ -81,12 +81,17 @@ export default function AboutPage() {
           <section className="space-y-4">
             <h2 className="text-2xl font-bold text-gray-900">Results our partners see</h2>
             <div className="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-              <p>
-                Our partners typically see <strong>67% lower cost per contract</strong> compared to managing campaigns themselves or using generic agencies. We focus on qualified motivated sellers who are actually ready to sell—not tire-kickers looking for retail agents or people who clicked by accident.
+              <p className="mb-4">
+                Here's what one of our Southern California partners achieved in 60 days:
               </p>
+              <ul className="space-y-2 text-gray-800">
+                <li><strong>Cost per contract:</strong> $2,500 → $1,162 (53% lower)</li>
+                <li><strong>Closed contracts:</strong> 2-4/mo → 6-8/mo (2x more)</li>
+                <li><strong>Monthly revenue:</strong> $26k avg → $57k avg (119% growth)</li>
+              </ul>
             </div>
             <p>
-              With transparent dashboards and full attribution from click to contract, every marketing dollar is tied to measurable outcomes. We stay in the trenches with you, optimizing until the deals close.
+              We focus on qualified motivated sellers who are actually ready to sell—not tire-kickers looking for retail agents or people who clicked by accident. With transparent dashboards and full attribution from click to contract, every marketing dollar is tied to measurable outcomes.
             </p>
           </section>
 
@@ -103,17 +108,17 @@ export default function AboutPage() {
 
         <div className="mt-16 rounded-2xl bg-gray-900 p-8 md:p-12 text-center">
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Ready to See If You Qualify?
+            Ready to Get Started?
           </h3>
           <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-            We only onboard a handful of partners each month. If you're already closing deals and serious about scaling, apply to see if we have capacity in your market.
+            We only onboard a handful of partners each month. If you're already closing deals and serious about scaling, book a strategy session to see if we have capacity in your market.
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/#application-form"
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
             >
-              Apply Now
+              Book A Strategy Session
               <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

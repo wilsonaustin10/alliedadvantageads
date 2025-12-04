@@ -149,7 +149,7 @@ export default function ConsultationForm() {
               Application Received
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              You Qualify! Book Your Deal Flow Strategy Session
+              You Qualify! Book A Strategy Session
             </h2>
             <p className="text-lg text-gray-600">
               Based on your application, you're a great fit for our Wholesaler Deal Flow System. Pick a time below to discuss your goals and see if we have capacity in your market.
@@ -204,7 +204,7 @@ export default function ConsultationForm() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl">
           <h2 className="mb-4 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-            Apply to See If You Qualify
+            Book A Strategy Session
           </h2>
           <p className="mb-8 text-center text-lg text-gray-600">
             Tell us a bit about your business so we can confirm capacity in your market.

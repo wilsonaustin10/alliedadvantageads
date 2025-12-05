@@ -43,6 +43,8 @@ export async function POST(request: Request) {
     });
 
     // Prepare payload for Zapier
+    // Use 'playbook' tag for non-qualified leads, 'consultation' for qualified
+    const tag = body.isQualified ? 'consultation' : 'playbook';
     const payload = {
       firstName,
       lastName,
@@ -54,7 +56,7 @@ export async function POST(request: Request) {
       biggestBottleneck: body.biggestBottleneck,
       isQualified: body.isQualified,
       a2pConsent,
-      tag: 'consultation',
+      tag,
       source: 'Application Form',
       formType: 'consultation',
     };

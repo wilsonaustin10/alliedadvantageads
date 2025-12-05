@@ -24,9 +24,13 @@ export default function ConsultationForm() {
 
   // Qualification check based on budget and deals
   const checkQualification = (budget: string, deals: string): boolean => {
-    const qualifiedBudgets = ['$2k - $5k/mo', '$5k - $10k/mo', '$10k+/mo'];
-    const qualifiedDeals = ['1-2 deals', '3-5 deals', '6-10 deals', '10+ deals'];
-    return qualifiedBudgets.includes(budget) && qualifiedDeals.includes(deals);
+    const disqualifiedBudgets = ['Less than $1k/mo'];
+    const disqualifiedDeals = ['0 deals (just getting started)'];
+    // Disqualified if budget is too low OR no deals closed
+    if (disqualifiedBudgets.includes(budget) || disqualifiedDeals.includes(deals)) {
+      return false;
+    }
+    return true;
   };
 
   // Real-time validation
@@ -190,7 +194,7 @@ export default function ConsultationForm() {
             </p>
             <div className="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
               <p className="text-sm text-gray-600">
-                <span className="font-semibold text-gray-900">In the meantime:</span> Check your email for our Motivated Seller Deal Flow Playbook with strategies you can implement today.
+                <span className="font-semibold text-gray-900">In the meantime:</span> Check your email for our Motivated Seller Deal Flow Power Pack with strategies you can implement today.
               </p>
             </div>
           </div>

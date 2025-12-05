@@ -17,10 +17,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email } = body;
 
-    // Validate required fields
-    if (!name || !email) {
+    // Validate required fields (only email is required)
+    if (!email) {
       return NextResponse.json(
-        { error: 'Name and email are required' },
+        { error: 'Email is required' },
         { status: 400 }
       );
     }
@@ -44,11 +44,11 @@ export async function POST(request: Request) {
 
     // Prepare payload for Zapier
     const payload = {
-      firstName: name,
+      firstName: name || '',
       email,
       tag: 'playbook',
-      source: 'Playbook Download',
-      formType: 'playbook',
+      source: 'Power Pack Download',
+      formType: 'power-pack',
       timestamp: new Date().toISOString(),
     };
 

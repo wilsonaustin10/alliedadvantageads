@@ -21,10 +21,12 @@ const OpenAI = require("openai");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 const VercelDeploymentService = require("./vercelDeployment");
 const EnvironmentManager = require("./environmentManager");
-const {collectKeywordMarketMetrics} = require("./midprintResearch");
 
-// Initialize Firebase Admin
+// Initialize Firebase Admin - must be before importing modules that use firestore
 admin.initializeApp();
+
+// Import after initializeApp since these modules use admin.firestore()
+const {collectKeywordMarketMetrics} = require("./midprintResearch");
 
 // Clients for dependent services, initialized by ensureClientsInitialized
 let GITHUB_OWNER;

@@ -1,0 +1,31 @@
+{
+  "version": "2024-05-01", 
+  "scoring": {
+    "model": "weighted_normalized",
+    "description": "Scores markets by normalizing search volume (higher is better), average CPC (lower is better), and competition index (lower is better) before applying configurable weights.",
+    "defaultWeights": {
+      "searchVolume": 0.5,
+      "averageCpc": 0.3,
+      "competitionIndex": 0.2
+    },
+    "thresholds": {
+      "highVolumeNormalized": 0.7,
+      "mediumVolumeNormalized": 0.4,
+      "lowVolumeNormalized": 0.2,
+      "lowCpcNormalized": 0.65,
+      "highCpcNormalized": 0.35,
+      "lowCompetitionNormalized": 0.6,
+      "highCompetitionNormalized": 0.35
+    },
+    "defaultMinimumScore": 0,
+    "rationaleLabels": {
+      "high_volume": "Normalized search volume >= 0.70",
+      "medium_volume": "Normalized search volume between 0.40 and 0.69",
+      "low_volume": "Normalized search volume <= 0.20",
+      "low_cpc": "Normalized CPC (inverted) >= 0.65 (i.e. CPC is well below peers)",
+      "high_cpc": "Normalized CPC (inverted) <= 0.35 (i.e. CPC is materially above peers)",
+      "low_competition": "Normalized competition (inverted) >= 0.60",
+      "high_competition": "Normalized competition (inverted) <= 0.35"
+    }
+  }
+}

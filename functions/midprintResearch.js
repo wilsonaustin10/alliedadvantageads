@@ -6,7 +6,7 @@ const logger = require("firebase-functions/logger");
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 
 const keywordMarkets = require("./keywordMarketConfig.json");
-const researchScoringConfig = require("../config/midprintResearchScoring.json");
+const researchScoringConfig = require("./midprintResearchScoring.json");
 
 const db = admin.firestore();
 
@@ -17,6 +17,11 @@ const secretManagerClient = new SecretManagerServiceClient({
 const marketConfigByCode = new Map(keywordMarkets.map((market) => [market.marketCode, market]));
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 
+/**
+ * Get the status document reference for a query.
+ * @param {object} queryRef The Firestore query reference.
+ * @return {object} The status document reference.
+ */
 function getStatusRef(queryRef) {
   return queryRef.collection("status").doc("current");
 }
@@ -390,42 +395,42 @@ async function collectKeywordMarketMetrics({userId, keyword, matchType = "BROAD"
     }
 
     const successfulResults = allResults.filter((item) => item.status === "success");
-  const numericSearchVolumes = successfulResults
-      .map((item) => (item.avgMonthlySearches === null || item.avgMonthlySearches === undefined ? null : Number(item.avgMonthlySearches)))
-      .filter((value) => value !== null && !Number.isNaN(value));
-  const numericCompetition = successfulResults
-      .map((item) => (item.competitionIndex === null || item.competitionIndex === undefined ? null : Number(item.competitionIndex)))
-      .filter((value) => value !== null && !Number.isNaN(value));
-  const numericCpcs = successfulResults
-      .map((item) => (item.averageCpc === null || item.averageCpc === undefined ? null : Number(item.averageCpc)))
-      .filter((value) => value !== null && !Number.isNaN(value));
+    const numericSearchVolumes = successfulResults
+        .map((item) => (item.avgMonthlySearches === null || item.avgMonthlySearches === undefined ? null : Number(item.avgMonthlySearches)))
+        .filter((value) => value !== null && !Number.isNaN(value));
+    const numericCompetition = successfulResults
+        .map((item) => (item.competitionIndex === null || item.competitionIndex === undefined ? null : Number(item.competitionIndex)))
+        .filter((value) => value !== null && !Number.isNaN(value));
+    const numericCpcs = successfulResults
+        .map((item) => (item.averageCpc === null || item.averageCpc === undefined ? null : Number(item.averageCpc)))
+        .filter((value) => value !== null && !Number.isNaN(value));
 
-  const summaryMetrics = {
-    totalMarkets: allResults.length,
-    successfulMarkets: successfulResults.length,
-    averageMonthlySearches: numericSearchVolumes.length ?
+    const summaryMetrics = {
+      totalMarkets: allResults.length,
+      successfulMarkets: successfulResults.length,
+      averageMonthlySearches: numericSearchVolumes.length ?
       numericSearchVolumes.reduce((sum, value) => sum + value, 0) / numericSearchVolumes.length :
       null,
-    averageCompetitionIndex: numericCompetition.length ?
+      averageCompetitionIndex: numericCompetition.length ?
       numericCompetition.reduce((sum, value) => sum + value, 0) / numericCompetition.length :
       null,
-    averageCpc: numericCpcs.length ?
+      averageCpc: numericCpcs.length ?
       numericCpcs.reduce((sum, value) => sum + value, 0) / numericCpcs.length :
       null,
-    lowestCpc: numericCpcs.length ? Math.min(...numericCpcs) : null,
-    highestCpc: numericCpcs.length ? Math.max(...numericCpcs) : null,
-  };
+      lowestCpc: numericCpcs.length ? Math.min(...numericCpcs) : null,
+      highestCpc: numericCpcs.length ? Math.max(...numericCpcs) : null,
+    };
 
-  const scoringSummary = {
-    scoringModel: researchScoringConfig?.scoring?.model || "weighted_normalized",
-    scoringWeights: researchScoringConfig?.scoring?.defaultWeights ?
+    const scoringSummary = {
+      scoringModel: researchScoringConfig?.scoring?.model || "weighted_normalized",
+      scoringWeights: researchScoringConfig?.scoring?.defaultWeights ?
       {
         searchVolume: Number(researchScoringConfig.scoring.defaultWeights.searchVolume || 0),
         averageCpc: Number(researchScoringConfig.scoring.defaultWeights.averageCpc || 0),
         competitionIndex: Number(researchScoringConfig.scoring.defaultWeights.competitionIndex || 0),
       } : null,
-    scoringConfigVersion: researchScoringConfig?.version || null,
-  };
+      scoringConfigVersion: researchScoringConfig?.version || null,
+    };
 
     const computedAt = admin.firestore.FieldValue.serverTimestamp();
     const expiresAtDate = new Date(Date.now() + CACHE_TTL_MS);

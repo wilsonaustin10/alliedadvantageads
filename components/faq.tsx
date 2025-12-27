@@ -6,7 +6,7 @@ const faqs = [
   {
     category: "Fit",
     question: "Who is this service for?",
-    answer: "Our Wholesaler Deal Flow System is built for established real estate wholesalers who are already closing deals and investing at least $2k/month in marketing. If you're brand new to wholesaling or not ready to invest seriously in paid acquisition, this isn't the right fit yet."
+    answer: "Our Wholesaler Deal Flow System is built for established real estate wholesalers who are already closing deals and investing at least $3k/mo in marketing. If you're brand new to wholesaling or not ready to invest seriously in paid acquisition, this isn't the right fit yet."
   },
   {
     category: "Fit",
@@ -41,7 +41,7 @@ const faqs = [
   {
     category: "Pricing",
     question: "What's the minimum ad spend requirement?",
-    answer: "We work best with wholesalers investing at least $2k/month in ad spend. This gives us enough data to optimize effectively and generate consistent deal flow. If you're not ready for that level of investment yet, download our free Playbook to learn the system first."
+    answer: "We work best with wholesalers investing at least $3k/mo in ad spend. This gives us enough data to optimize effectively and generate consistent deal flow. If you're not ready for that level of investment yet, download our free Playbook to learn the system first."
   },
   {
     category: "Commitment",

@@ -24,7 +24,7 @@ export default function ConsultationForm() {
 
   // Qualification check based on budget and deals
   const checkQualification = (budget: string, deals: string): boolean => {
-    const disqualifiedBudgets = ['Less than $1k/mo'];
+    const disqualifiedBudgets = ['Less than $3k/mo'];
     const disqualifiedDeals = ['0 deals (just getting started)'];
     // Disqualified if budget is too low OR no deals closed
     if (disqualifiedBudgets.includes(budget) || disqualifiedDeals.includes(deals)) {
@@ -369,9 +369,8 @@ export default function ConsultationForm() {
                   aria-describedby={fieldErrors.monthlyBudget ? 'monthlyBudget-error' : undefined}
                 >
                   <option value="">Select budget range</option>
-                  <option value="Less than $1k/mo">Less than $1k/mo</option>
-                  <option value="$1k - $2k/mo">$1k - $2k/mo</option>
-                  <option value="$2k - $5k/mo">$2k - $5k/mo</option>
+                  <option value="Less than $3k/mo">Less than $3k/mo</option>
+                  <option value="$3k - $5k/mo">$3k - $5k/mo</option>
                   <option value="$5k - $10k/mo">$5k - $10k/mo</option>
                   <option value="$10k+/mo">$10k+/mo</option>
                 </select>

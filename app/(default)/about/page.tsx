@@ -41,7 +41,7 @@ export default function AboutPage() {
               We have limited availability per market. That's not a marketing gimmick—it's how we protect your investment and ensure we can deliver results. When you work with us, we're fully committed to your success in that territory.
             </p>
             <p>
-              This means we're picky. We work best with wholesalers who are already closing deals consistently and investing at least $2k/month in marketing. If you're brand new or looking for cheap leads, we're not the right fit. But if you're serious about building a predictable deal flow machine, we should talk.
+              This means we're picky. We work best with wholesalers who are already closing deals consistently and investing at least $3k/mo in marketing. If you're brand new or looking for cheap leads, we're not the right fit. But if you're serious about building a predictable deal flow machine, we should talk.
             </p>
           </section>
 

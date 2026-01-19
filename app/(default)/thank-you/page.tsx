@@ -177,7 +177,7 @@ export default function ThankYou() {
           {/* Who this is for reminder */}
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
-              <span className="font-semibold">Best suited for:</span> Wholesalers already closing deals and investing $2k+/mo in marketing.
+              <span className="font-semibold">Best suited for:</span> Wholesalers already closing deals and investing $3k+/mo in marketing.
             </p>
           </div>
         </div>

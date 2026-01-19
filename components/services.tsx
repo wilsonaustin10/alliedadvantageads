@@ -100,7 +100,7 @@ export default function Services() {
               Best Suited For Wholesalers Already Closing Deals
             </h3>
             <p className="text-gray-300 mb-8">
-              This system is built for serious operators investing at least <span className="text-white font-semibold">$2k/month</span> in marketing who want a specialist partner — not a generic agency that doesn't understand motivated seller deals.
+              This system is built for serious operators investing at least <span className="text-white font-semibold">$3k/mo</span> in marketing who want a specialist partner — not a generic agency that doesn't understand motivated seller deals.
             </p>
             <a
               href="#application-form"

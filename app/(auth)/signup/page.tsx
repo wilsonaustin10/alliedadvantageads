@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import Link from "next/link";
 
@@ -11,6 +11,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -21,16 +22,36 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      // Update user profile with name
-      await updateProfile(userCredential.user, {
-        displayName: name,
+      // Call the signup API endpoint which validates invite code and creates user
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          password,
+          inviteCode,
+        }),
       });
-      
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setError(data.error || "Failed to create account");
+        setLoading(false);
+        return;
+      }
+
+      // Account created successfully on the backend
+      // Now sign in client-side to get the auth token for the cookie
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
       // Set auth cookie for middleware
       document.cookie = `auth-token=${await userCredential.user.getIdToken()}; path=/; max-age=3600`;
-      
+
       // Redirect to home portal
       router.push("/home-portal");
     } catch (error: any) {
@@ -43,6 +64,9 @@ export default function SignUp() {
     <>
       <div className="mb-10">
         <h1 className="text-4xl font-bold">Create your account</h1>
+        <p className="mt-2 text-sm text-gray-600">
+          An invite code is required to register
+        </p>
       </div>
 
       {error && (
@@ -54,6 +78,23 @@ export default function SignUp() {
       {/* Form */}
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
+          <div>
+            <label
+              className="mb-1 block text-sm font-medium text-gray-700"
+              htmlFor="inviteCode"
+            >
+              Invite Code <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="inviteCode"
+              className="form-input w-full py-2 uppercase"
+              type="text"
+              placeholder="Enter your invite code"
+              value={inviteCode}
+              onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+              required
+            />
+          </div>
           <div>
             <label
               className="mb-1 block text-sm font-medium text-gray-700"
@@ -99,7 +140,7 @@ export default function SignUp() {
               id="phone"
               className="form-input w-full py-2"
               type="text"
-              placeholder="(+750) 932-8907"
+              placeholder="(555) 123-4567"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
@@ -116,16 +157,18 @@ export default function SignUp() {
               id="password"
               className="form-input w-full py-2"
               type="password"
-              autoComplete="on"
+              autoComplete="new-password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
+            <p className="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
           </div>
         </div>
         <div className="mt-6 space-y-3">
-          <button 
+          <button
             type="submit"
             disabled={loading}
             className="btn w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] disabled:opacity-50 disabled:cursor-not-allowed"

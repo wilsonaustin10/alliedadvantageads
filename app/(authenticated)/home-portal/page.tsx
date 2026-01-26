@@ -3,20 +3,45 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, firestore } from "@/lib/firebase";
 import Link from "next/link";
+
+interface UserData {
+  accessLevel: string;
+  name?: string;
+  onboardingCompleted?: boolean;
+}
 
 export default function HomePortal() {
   const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         router.push("/signin");
       } else {
         setUser(user);
+
+        // Fetch user data from Firestore to get access level
+        try {
+          const userDocRef = doc(firestore, "users", user.uid);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            setUserData(userDocSnap.data() as UserData);
+          } else {
+            // Default to standard access if no user document exists
+            setUserData({ accessLevel: "standard" });
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUserData({ accessLevel: "standard" });
+        }
+
         setLoading(false);
       }
     });
@@ -27,11 +52,17 @@ export default function HomePortal() {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      // Clear auth cookie
+      document.cookie = "auth-token=; path=/; max-age=0";
       router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
+
+  // Check if user has elevated access (premium or admin)
+  const hasElevatedAccess =
+    userData?.accessLevel === "premium" || userData?.accessLevel === "admin";
 
   if (loading) {
     return (
@@ -49,7 +80,19 @@ export default function HomePortal() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-8">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Welcome to Your Home Portal</h1>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Welcome to Your Home Portal
+              </h1>
+              {userData?.accessLevel && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Access Level:{" "}
+                  <span className="capitalize font-medium">
+                    {userData.accessLevel}
+                  </span>
+                </p>
+              )}
+            </div>
             <button
               onClick={handleSignOut}
               className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
@@ -60,19 +103,27 @@ export default function HomePortal() {
 
           <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
             <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">User Information</h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">Your account details</p>
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                User Information
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                Your account details
+              </p>
             </div>
             <div className="border-t border-gray-200">
               <dl>
                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Email address</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Email address
+                  </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {user?.email}
                   </dd>
                 </div>
                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Account created</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Account created
+                  </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {user?.metadata.creationTime}
                   </dd>
@@ -82,45 +133,118 @@ export default function HomePortal() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Onboarding - Always visible */}
             <Link
               href="/onboarding"
               className="col-span-1 bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
             >
               <div className="text-center">
                 <div className="mx-auto h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <svg
+                    className="h-6 w-6 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
                   </svg>
                 </div>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">Complete Onboarding</h3>
-                <p className="mt-2 text-sm text-gray-500">Set up your profile and preferences</p>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">
+                  Complete Onboarding
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Set up your profile and preferences
+                </p>
               </div>
             </Link>
 
-            <Link
-              href="/midprint"
-              className="col-span-1 bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-            >
-              <div className="text-center">
-                <div className="mx-auto h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+            {/* MidPrint Dashboard - Only visible for premium/admin users */}
+            {hasElevatedAccess ? (
+              <Link
+                href="/midprint"
+                className="col-span-1 bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+              >
+                <div className="text-center">
+                  <div className="mx-auto h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="h-6 w-6 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 text-lg font-medium text-gray-900">
+                    MidPrint Dashboard
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-500">
+                    View your Google Ads performance
+                  </p>
                 </div>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">MidPrint Dashboard</h3>
-                <p className="mt-2 text-sm text-gray-500">View your Google Ads performance</p>
+              </Link>
+            ) : (
+              <div className="col-span-1 bg-gray-100 rounded-lg shadow p-6 opacity-60 cursor-not-allowed">
+                <div className="text-center">
+                  <div className="mx-auto h-12 w-12 bg-gray-200 rounded-full flex items-center justify-center">
+                    <svg
+                      className="h-6 w-6 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 text-lg font-medium text-gray-500">
+                    MidPrint Dashboard
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-400">
+                    Complete onboarding to unlock
+                  </p>
+                </div>
               </div>
-            </Link>
+            )}
 
+            {/* Recent Activity placeholder */}
             <div className="col-span-1 bg-white rounded-lg shadow p-6">
               <div className="text-center">
                 <div className="mx-auto h-12 w-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <svg className="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="h-6 w-6 text-purple-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">Recent Activity</h3>
-                <p className="mt-2 text-sm text-gray-500">View your recent actions</p>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">
+                  Recent Activity
+                </h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  View your recent actions
+                </p>
               </div>
             </div>
           </div>

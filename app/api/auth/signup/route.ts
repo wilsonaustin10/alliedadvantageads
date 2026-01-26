@@ -123,10 +123,24 @@ export async function POST(request: Request) {
       phone,
       accessLevel,
       inviteCodeUsed: trimmedInviteCode,
+      emailVerified: false,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
       onboardingCompleted: false,
     });
+
+    // Send verification email
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      await fetch(`${baseUrl}/api/auth/send-verification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, uid: userRecord.uid, name }),
+      });
+    } catch (emailError) {
+      console.error('Failed to send verification email during signup:', emailError);
+      // Don't fail signup if email fails - user can request resend
+    }
 
     // Increment invite code usage count
     await inviteCodeRef.update({
@@ -140,9 +154,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'Account created successfully',
+      message: 'Account created successfully. Please check your email to verify your account.',
       uid: userRecord.uid,
       accessLevel,
+      emailVerified: false,
     });
 
   } catch (error: any) {

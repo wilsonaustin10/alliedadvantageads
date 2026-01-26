@@ -2,8 +2,9 @@
 
 import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Inter } from 'next/font/google';
-import { storage, auth } from '@/lib/firebase'; // Assuming lib directory is aliased as @/lib
+import { storage, auth, firestore } from '@/lib/firebase'; // Assuming lib directory is aliased as @/lib
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
@@ -90,10 +91,26 @@ export default function OnboardingPage() {
   ];
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         router.push("/signin");
       } else {
+        // Check if email is verified
+        try {
+          const userDocRef = doc(firestore, "users", user.uid);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            if (userData.emailVerified === false) {
+              router.push("/verify-email");
+              return;
+            }
+          }
+        } catch (error) {
+          console.error("Error checking verification status:", error);
+        }
+
         setUser(user);
         setLoading(false);
       }

@@ -11,6 +11,7 @@ interface UserData {
   accessLevel: string;
   name?: string;
   onboardingCompleted?: boolean;
+  emailVerified?: boolean;
 }
 
 export default function HomePortal() {
@@ -32,7 +33,14 @@ export default function HomePortal() {
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
-            setUserData(userDocSnap.data() as UserData);
+            const data = userDocSnap.data() as UserData;
+            setUserData(data);
+
+            // Redirect to verify-email if email is not verified
+            if (data.emailVerified === false) {
+              router.push("/verify-email");
+              return;
+            }
           } else {
             // Default to standard access if no user document exists
             setUserData({ accessLevel: "standard" });
@@ -63,6 +71,9 @@ export default function HomePortal() {
   // Check if user has elevated access (premium or admin)
   const hasElevatedAccess =
     userData?.accessLevel === "premium" || userData?.accessLevel === "admin";
+
+  // Check if user is admin
+  const isAdmin = userData?.accessLevel === "admin";
 
   if (loading) {
     return (
@@ -247,6 +258,38 @@ export default function HomePortal() {
                 </p>
               </div>
             </div>
+
+            {/* Admin Panel - Only visible for admin users */}
+            {isAdmin && (
+              <Link
+                href="/admin/users"
+                className="col-span-1 bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow border-2 border-red-200"
+              >
+                <div className="text-center">
+                  <div className="mx-auto h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="h-6 w-6 text-red-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 text-lg font-medium text-gray-900">
+                    User Management
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-500">
+                    Manage users and access levels
+                  </p>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

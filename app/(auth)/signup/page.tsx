@@ -52,8 +52,8 @@ export default function SignUp() {
       // Set auth cookie for middleware
       document.cookie = `auth-token=${await userCredential.user.getIdToken()}; path=/; max-age=3600`;
 
-      // Redirect to home portal
-      router.push("/home-portal");
+      // Redirect to verify email page
+      router.push("/verify-email?pending=true");
     } catch (error: any) {
       setError(error.message || "Failed to create account");
       setLoading(false);

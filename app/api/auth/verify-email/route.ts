@@ -2,6 +2,18 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
 
+// CORS headers for responses
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 export async function POST(request: Request) {
   try {
     const { token } = await request.json();
@@ -9,7 +21,7 @@ export async function POST(request: Request) {
     if (!token) {
       return NextResponse.json(
         { success: false, error: 'Verification token is required' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -19,7 +31,7 @@ export async function POST(request: Request) {
     if (!tokenDoc.exists) {
       return NextResponse.json(
         { success: false, error: 'Invalid verification token' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -29,7 +41,7 @@ export async function POST(request: Request) {
     if (tokenData?.used) {
       return NextResponse.json(
         { success: false, error: 'This verification link has already been used' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -38,7 +50,7 @@ export async function POST(request: Request) {
     if (new Date() > expiresAt) {
       return NextResponse.json(
         { success: false, error: 'This verification link has expired. Please request a new one.' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -46,7 +58,7 @@ export async function POST(request: Request) {
     if (!uid) {
       return NextResponse.json(
         { success: false, error: 'Invalid token data' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -57,7 +69,7 @@ export async function POST(request: Request) {
     if (!userDoc.exists) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: corsHeaders }
       );
     }
 
@@ -77,13 +89,13 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: 'Email verified successfully',
-    });
+    }, { headers: corsHeaders });
 
   } catch (error: any) {
     console.error('Error verifying email:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to verify email' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
@@ -96,7 +108,7 @@ export async function GET(request: Request) {
   if (!token) {
     return NextResponse.json(
       { success: false, error: 'Verification token is required' },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 

@@ -12,6 +12,18 @@ if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY);
 }
 
+// CORS headers for responses
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 // Generate a secure verification token
 function generateVerificationToken(): string {
   return crypto.randomBytes(32).toString('hex');
@@ -24,7 +36,7 @@ export async function POST(request: Request) {
     if (!email || !uid) {
       return NextResponse.json(
         { success: false, error: 'Email and user ID are required' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -33,7 +45,7 @@ export async function POST(request: Request) {
     if (!userDoc.exists) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
-        { status: 404 }
+        { status: 404, headers: corsHeaders }
       );
     }
 
@@ -43,7 +55,7 @@ export async function POST(request: Request) {
     if (userData?.emailVerified) {
       return NextResponse.json(
         { success: false, error: 'Email is already verified' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -108,7 +120,7 @@ export async function POST(request: Request) {
         console.error('Failed to send verification email:', emailError);
         return NextResponse.json(
           { success: false, error: 'Failed to send verification email. Please try again.' },
-          { status: 500 }
+          { status: 500, headers: corsHeaders }
         );
       }
     } else {
@@ -118,13 +130,13 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: 'Verification email sent successfully',
-    });
+    }, { headers: corsHeaders });
 
   } catch (error: any) {
     console.error('Error sending verification email:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to send verification email' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }

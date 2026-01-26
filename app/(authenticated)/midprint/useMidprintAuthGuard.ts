@@ -22,6 +22,7 @@ type UseMidprintAuthGuardResult = {
   loading: boolean;
   user: User | null;
   hasGoogleAdsAccess: boolean;
+  hasElevatedAccess: boolean;
   showAccountSelector: boolean;
   availableAccounts: GoogleAdsAccount[];
   handleConnectGoogleAds: (userId: string | undefined) => void;
@@ -33,6 +34,7 @@ export function useMidprintAuthGuard(options?: UseMidprintAuthGuardOptions): Use
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [hasGoogleAdsAccess, setHasGoogleAdsAccess] = useState(false);
+  const [hasElevatedAccess, setHasElevatedAccess] = useState(false);
   const [showAccountSelector, setShowAccountSelector] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState<GoogleAdsAccount[]>([]);
 
@@ -65,6 +67,17 @@ export function useMidprintAuthGuard(options?: UseMidprintAuthGuardOptions): Use
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setHasGoogleAdsAccess(Boolean(userData.googleAdsCustomerId));
+
+          // Check access level - only premium/admin users can access MidPrint
+          const accessLevel = userData.accessLevel || 'standard';
+          const elevated = accessLevel === 'premium' || accessLevel === 'admin';
+          setHasElevatedAccess(elevated);
+
+          if (!elevated) {
+            // Redirect users without elevated access back to home portal
+            router.push('/home-portal');
+            return;
+          }
         } else {
           await setDoc(
             doc(db, 'users', userId),
@@ -76,13 +89,18 @@ export function useMidprintAuthGuard(options?: UseMidprintAuthGuardOptions): Use
             { merge: true },
           );
           setHasGoogleAdsAccess(false);
+          setHasElevatedAccess(false);
+          // No user document means standard access - redirect to home portal
+          router.push('/home-portal');
+          return;
         }
       } catch (error) {
         console.error('Error checking Google Ads access:', error);
         setHasGoogleAdsAccess(false);
+        setHasElevatedAccess(false);
       }
     },
-    [],
+    [router],
   );
 
   useEffect(() => {
@@ -141,6 +159,7 @@ export function useMidprintAuthGuard(options?: UseMidprintAuthGuardOptions): Use
     loading,
     user,
     hasGoogleAdsAccess,
+    hasElevatedAccess,
     showAccountSelector,
     availableAccounts,
     handleConnectGoogleAds,

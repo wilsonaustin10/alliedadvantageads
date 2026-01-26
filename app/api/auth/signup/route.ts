@@ -4,12 +4,12 @@ import { FieldValue } from 'firebase-admin/firestore';
 
 export async function POST(request: Request) {
   try {
-    const { name, email, phone, password, inviteCode } = await request.json();
+    const { name, email, phone, password } = await request.json();
 
     // Validate required fields
-    if (!name || !email || !phone || !password || !inviteCode) {
+    if (!name || !email || !phone || !password) {
       return NextResponse.json(
-        { success: false, error: 'All fields are required including invite code' },
+        { success: false, error: 'All fields are required' },
         { status: 400 }
       );
     }
@@ -29,51 +29,6 @@ export async function POST(request: Request) {
         { success: false, error: 'Password must be at least 6 characters' },
         { status: 400 }
       );
-    }
-
-    const trimmedInviteCode = inviteCode.trim().toUpperCase();
-
-    // Validate invite code
-    const inviteCodeRef = db.collection('inviteCodes').doc(trimmedInviteCode);
-    const inviteCodeDoc = await inviteCodeRef.get();
-
-    if (!inviteCodeDoc.exists) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid invite code' },
-        { status: 400 }
-      );
-    }
-
-    const inviteCodeData = inviteCodeDoc.data();
-
-    if (!inviteCodeData?.active) {
-      return NextResponse.json(
-        { success: false, error: 'This invite code is no longer active' },
-        { status: 400 }
-      );
-    }
-
-    const usageCount = inviteCodeData.usageCount || 0;
-    const maxUses = inviteCodeData.maxUses || 1;
-
-    if (usageCount >= maxUses) {
-      return NextResponse.json(
-        { success: false, error: 'This invite code has reached its maximum usage limit' },
-        { status: 400 }
-      );
-    }
-
-    if (inviteCodeData.expiresAt) {
-      const expiresAt = inviteCodeData.expiresAt.toDate ?
-        inviteCodeData.expiresAt.toDate() :
-        new Date(inviteCodeData.expiresAt);
-
-      if (new Date() > expiresAt) {
-        return NextResponse.json(
-          { success: false, error: 'This invite code has expired' },
-          { status: 400 }
-        );
-      }
     }
 
     // Check if email already exists in Firebase Auth
@@ -112,8 +67,8 @@ export async function POST(request: Request) {
       phoneNumber: phone.startsWith('+') ? phone : undefined, // Firebase requires E.164 format
     });
 
-    // Determine access level from invite code
-    const accessLevel = inviteCodeData.accessLevel || 'standard';
+    // Set default access level for new users
+    const accessLevel = 'standard';
 
     // Create user document in Firestore
     await db.collection('users').doc(userRecord.uid).set({
@@ -122,7 +77,6 @@ export async function POST(request: Request) {
       email,
       phone,
       accessLevel,
-      inviteCodeUsed: trimmedInviteCode,
       emailVerified: false,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
@@ -141,16 +95,6 @@ export async function POST(request: Request) {
       console.error('Failed to send verification email during signup:', emailError);
       // Don't fail signup if email fails - user can request resend
     }
-
-    // Increment invite code usage count
-    await inviteCodeRef.update({
-      usageCount: FieldValue.increment(1),
-      usedBy: FieldValue.arrayUnion({
-        uid: userRecord.uid,
-        email,
-        usedAt: new Date().toISOString(),
-      }),
-    });
 
     return NextResponse.json({
       success: true,

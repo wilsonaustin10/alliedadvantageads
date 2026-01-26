@@ -11,7 +11,6 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      // Call the signup API endpoint which validates invite code and creates user
+      // Call the signup API endpoint to create user
       const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -33,7 +32,6 @@ export default function SignUp() {
           email,
           phone,
           password,
-          inviteCode,
         }),
       });
 
@@ -65,7 +63,7 @@ export default function SignUp() {
       <div className="mb-10">
         <h1 className="text-4xl font-bold">Create your account</h1>
         <p className="mt-2 text-sm text-gray-600">
-          An invite code is required to register
+          Enter your details below to get started
         </p>
       </div>
 
@@ -78,23 +76,6 @@ export default function SignUp() {
       {/* Form */}
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
-          <div>
-            <label
-              className="mb-1 block text-sm font-medium text-gray-700"
-              htmlFor="inviteCode"
-            >
-              Invite Code <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="inviteCode"
-              className="form-input w-full py-2 uppercase"
-              type="text"
-              placeholder="Enter your invite code"
-              value={inviteCode}
-              onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-              required
-            />
-          </div>
           <div>
             <label
               className="mb-1 block text-sm font-medium text-gray-700"

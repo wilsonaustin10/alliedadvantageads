@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || 'noreply@alliedadvantage.com';
+const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || 'noreply@alliedleadgen.com';
 
 if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY);

@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
-    "@sendgrid/mail": "^8.1.4",
     "aos": "^3.0.0-beta.6",
     "firebase": "^11.7.3",
     "firebase-admin": "^13.4.0",

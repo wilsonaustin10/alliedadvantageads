@@ -2,23 +2,21 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, firestore } from "@/lib/firebase";
+import { onAuthStateChanged, User, sendEmailVerification } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import Link from "next/link";
 
 function VerifyEmailContent() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [verifying, setVerifying] = useState(false);
   const [resending, setResending] = useState(false);
+  const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const token = searchParams.get("token");
   const isPending = searchParams.get("pending") === "true";
 
   useEffect(() => {
@@ -30,23 +28,13 @@ function VerifyEmailContent() {
 
       setUser(currentUser);
 
-      // Check Firestore for verification status
-      try {
-        const userDocRef = doc(firestore, "users", currentUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          if (userData.emailVerified) {
-            setEmailVerified(true);
-            // If already verified, redirect to home portal after a short delay
-            setTimeout(() => {
-              router.push("/home-portal");
-            }, 2000);
-          }
-        }
-      } catch (err) {
-        console.error("Error checking verification status:", err);
+      // Check Firebase Auth for verification status
+      if (currentUser.emailVerified) {
+        setEmailVerified(true);
+        // If already verified, redirect to home portal after a short delay
+        setTimeout(() => {
+          router.push("/home-portal");
+        }, 2000);
       }
 
       setLoading(false);
@@ -55,42 +43,32 @@ function VerifyEmailContent() {
     return () => unsubscribe();
   }, [router]);
 
-  // Auto-verify if token is in URL
-  useEffect(() => {
-    if (token && !loading && user) {
-      handleVerifyToken(token);
-    }
-  }, [token, loading, user]);
+  const handleCheckVerification = async () => {
+    if (!user) return;
 
-  const handleVerifyToken = async (verificationToken: string) => {
-    setVerifying(true);
+    setChecking(true);
     setError("");
 
     try {
-      const response = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: verificationToken }),
-      });
+      // Reload user to get latest emailVerified status
+      await user.reload();
 
-      const data = await response.json();
+      // Get updated user from auth
+      const updatedUser = auth.currentUser;
 
-      if (!response.ok || !data.success) {
-        setError(data.error || "Failed to verify email");
-        setVerifying(false);
-        return;
+      if (updatedUser?.emailVerified) {
+        setEmailVerified(true);
+        setSuccess("Email verified successfully! Redirecting...");
+        setTimeout(() => {
+          router.push("/home-portal");
+        }, 2000);
+      } else {
+        setError("Email not verified yet. Please check your inbox and click the verification link.");
       }
-
-      setSuccess("Email verified successfully! Redirecting...");
-      setEmailVerified(true);
-
-      // Redirect to home portal after successful verification
-      setTimeout(() => {
-        router.push("/home-portal");
-      }, 2000);
     } catch (err) {
-      setError("Failed to verify email. Please try again.");
-      setVerifying(false);
+      setError("Failed to check verification status. Please try again.");
+    } finally {
+      setChecking(false);
     }
   };
 
@@ -102,32 +80,15 @@ function VerifyEmailContent() {
     setSuccess("");
 
     try {
-      const idToken = await user.getIdToken();
-
-      const response = await fetch("/api/auth/send-verification", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          uid: user.uid,
-          name: user.displayName,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setError(data.error || "Failed to resend verification email");
-        setResending(false);
-        return;
-      }
-
+      await sendEmailVerification(user);
       setSuccess("Verification email sent! Please check your inbox.");
-      setResending(false);
-    } catch (err) {
-      setError("Failed to resend verification email. Please try again.");
+    } catch (err: any) {
+      if (err.code === "auth/too-many-requests") {
+        setError("Too many requests. Please wait a few minutes before trying again.");
+      } else {
+        setError("Failed to resend verification email. Please try again.");
+      }
+    } finally {
       setResending(false);
     }
   };
@@ -137,15 +98,6 @@ function VerifyEmailContent() {
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
         <p className="mt-4 text-gray-600">Loading...</p>
-      </div>
-    );
-  }
-
-  if (verifying) {
-    return (
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Verifying your email...</p>
       </div>
     );
   }
@@ -226,18 +178,28 @@ function VerifyEmailContent() {
           <ol className="list-decimal list-inside space-y-2 text-sm text-gray-600">
             <li>Check your email inbox (and spam folder)</li>
             <li>Click the verification link in the email</li>
-            <li>You'll be redirected to your dashboard</li>
+            <li>Come back here and click "I've Verified My Email"</li>
           </ol>
         </div>
 
         <div className="text-center pt-4">
+          <button
+            onClick={handleCheckVerification}
+            disabled={checking}
+            className="btn w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {checking ? "Checking..." : "I've Verified My Email"}
+          </button>
+        </div>
+
+        <div className="text-center pt-2">
           <p className="text-sm text-gray-500 mb-3">
             Didn't receive the email?
           </p>
           <button
             onClick={handleResendEmail}
             disabled={resending}
-            className="btn w-full bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow hover:bg-[length:100%_150%] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn w-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {resending ? "Sending..." : "Resend Verification Email"}
           </button>

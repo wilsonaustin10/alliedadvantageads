@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import Link from "next/link";
 
@@ -46,6 +46,9 @@ export default function SignUp() {
       // Account created successfully on the backend
       // Now sign in client-side to get the auth token for the cookie
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+      // Send verification email using Firebase Auth
+      await sendEmailVerification(userCredential.user);
 
       // Set auth cookie for middleware
       document.cookie = `auth-token=${await userCredential.user.getIdToken()}; path=/; max-age=3600`;

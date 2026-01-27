@@ -77,31 +77,19 @@ export async function POST(request: Request) {
       email,
       phone,
       accessLevel,
-      emailVerified: false,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
       onboardingCompleted: false,
     });
 
-    // Send verification email
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-      await fetch(`${baseUrl}/api/auth/send-verification`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, uid: userRecord.uid, name }),
-      });
-    } catch (emailError) {
-      console.error('Failed to send verification email during signup:', emailError);
-      // Don't fail signup if email fails - user can request resend
-    }
+    // Note: Email verification is handled by Firebase Auth on the client side
+    // using sendEmailVerification() after the user signs in
 
     return NextResponse.json({
       success: true,
       message: 'Account created successfully. Please check your email to verify your account.',
       uid: userRecord.uid,
       accessLevel,
-      emailVerified: false,
     });
 
   } catch (error: any) {

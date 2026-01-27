@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import sgMail from '@sendgrid/mail';
 
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'leads@company.com';
-
-if (SENDGRID_API_KEY) {
-  sgMail.setApiKey(SENDGRID_API_KEY);
-}
+const ZAPIER_WEBHOOK_URL = process.env.ZAPIER_WEBHOOK_URL;
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.json();
-    
+
     const { name, email, phone, company, message } = formData;
 
     if (!name || !email || !phone) {
@@ -21,11 +15,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await saveLeadToDatabase(formData);
+    // Log lead submission
+    console.log('New lead submission:', {
+      ...formData,
+      timestamp: new Date().toISOString(),
+      source: 'landing-page-builder'
+    });
 
-    if (SENDGRID_API_KEY) {
-      await sendNotificationEmail(formData);
-      await sendConfirmationEmail(email, name);
+    // Send to Zapier webhook if configured (for email notifications, CRM, etc.)
+    if (ZAPIER_WEBHOOK_URL) {
+      try {
+        await fetch(ZAPIER_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            company: company || '',
+            message: message || '',
+            timestamp: new Date().toISOString(),
+            source: 'landing-page-builder'
+          }),
+        });
+      } catch (webhookError) {
+        console.error('Failed to send to webhook:', webhookError);
+        // Don't fail the submission if webhook fails
+      }
     }
 
     return NextResponse.json({
@@ -39,57 +55,5 @@ export async function POST(request: NextRequest) {
       { error: 'Failed to process submission' },
       { status: 500 }
     );
-  }
-}
-
-async function saveLeadToDatabase(data: any): Promise<void> {
-  console.log('Saving lead:', {
-    ...data,
-    timestamp: new Date().toISOString(),
-    source: 'landing-page-builder'
-  });
-}
-
-async function sendNotificationEmail(data: any): Promise<void> {
-  const msg = {
-    to: NOTIFICATION_EMAIL,
-    from: 'noreply@alliedadvantage.com',
-    subject: `New Lead: ${data.name}`,
-    html: `
-      <h2>New Lead Submission</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Phone:</strong> ${data.phone}</p>
-      <p><strong>Company:</strong> ${data.company || 'N/A'}</p>
-      <p><strong>Message:</strong> ${data.message || 'N/A'}</p>
-      <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
-    `
-  };
-
-  try {
-    await sgMail.send(msg);
-  } catch (error) {
-    console.error('Failed to send notification email:', error);
-  }
-}
-
-async function sendConfirmationEmail(email: string, name: string): Promise<void> {
-  const msg = {
-    to: email,
-    from: 'noreply@alliedadvantage.com',
-    subject: 'Thank you for contacting us',
-    html: `
-      <h2>Hello ${name},</h2>
-      <p>Thank you for reaching out to us. We have received your inquiry and will get back to you within 24 hours.</p>
-      <p>If you have any urgent questions, please don't hesitate to call us directly.</p>
-      <br>
-      <p>Best regards,<br>The Team</p>
-    `
-  };
-
-  try {
-    await sgMail.send(msg);
-  } catch (error) {
-    console.error('Failed to send confirmation email:', error);
   }
 }

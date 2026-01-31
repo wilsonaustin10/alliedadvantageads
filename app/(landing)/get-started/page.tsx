@@ -376,25 +376,17 @@ export default function GetStartedPage() {
           <div data-aos="fade-up">
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center gap-8">
-                {/* Photo placeholder */}
+                {/* Austin's headshot */}
                 <div className="shrink-0">
-                  {/* TODO: Add Austin's headshot - download from LinkedIn or use provided photo */}
-                  {/* Replace the placeholder div below with:
-                      <Image
-                        src="/images/austin-wilson.jpg"
-                        alt="Austin Wilson"
-                        width={160}
-                        height={160}
-                        className="rounded-2xl object-cover"
-                      />
-                  */}
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-white/10 flex items-center justify-center overflow-hidden">
-                    <div className="text-center">
-                      <svg className="w-12 h-12 text-gray-600 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span className="text-[10px] text-gray-600 font-medium">Photo</span>
-                    </div>
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl border border-white/10 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/images/austin-headshot.jpg"
+                      alt="Austin Wilson"
+                      width={160}
+                      height={160}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
 

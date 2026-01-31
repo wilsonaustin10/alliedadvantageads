@@ -18,7 +18,25 @@ const btnPrimary =
 
 export default function GetStartedPage() {
   return (
-    <div className="bg-gray-950 text-gray-100 -mt-20">
+    <div className="bg-gray-950 text-gray-100 min-h-screen">
+      {/* ============================== NAV ============================== */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+          <a href="https://alliedadvantage.co" className="flex items-center gap-2" aria-label="Allied Advantage Ads">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+              alt="Allied Advantage Ads"
+              width={140}
+              height={47}
+              className="object-contain brightness-0 invert"
+            />
+          </a>
+          <a href="#booking" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200">
+            Book a Strategy Call
+          </a>
+        </div>
+      </nav>
       {/* ============================== HERO ============================== */}
       <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
         {/* Background orbs */}
@@ -555,6 +573,27 @@ export default function GetStartedPage() {
           </div>
         </div>
       </section>
+
+      {/* ============================== FOOTER ============================== */}
+      <footer className="py-10 border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+                alt="Allied Advantage Ads"
+                width={100}
+                height={33}
+                className="object-contain brightness-0 invert opacity-50"
+              />
+            </div>
+            <p className="text-gray-600 text-sm">
+              &copy; {new Date().getFullYear()} Allied Advantage Ads. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

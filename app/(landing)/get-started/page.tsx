@@ -529,30 +529,15 @@ export default function GetStartedPage() {
               numbers, and tell you honestly whether we can help.
             </p>
 
-            {/* Booking embed placeholder */}
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-12 mb-8">
-              {/* TODO: Replace with Calendly inline widget or GHL booking embed */}
-              <div className="py-12">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-600/20">
-                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Book Your Strategy Call</h3>
-                <p className="text-gray-500 text-sm mb-6">
-                  Pick a time that works for you. 15 minutes. No obligation.
-                </p>
-                {/* TODO: Replace href with actual Calendly/booking link */}
-                <a
-                  href="https://alliedadvantage.co/qualify"
-                  className={btnPrimary}
-                >
-                  Book a 15-Minute Strategy Call
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-              </div>
+            {/* Calendly Embed */}
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden mb-8">
+              <iframe
+                src="https://calendly.com/austin-alliedleadvantage-ads/30min?hide_gdpr_banner=1&background_color=030712&text_color=f3f4f6&primary_color=7c3aed"
+                className="w-full border-0"
+                style={{ minHeight: '700px' }}
+                title="Book a Strategy Call"
+                loading="lazy"
+              />
             </div>
 
             <div className="flex items-center justify-center gap-2 text-gray-500 text-sm">

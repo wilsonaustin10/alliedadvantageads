@@ -1,0 +1,47 @@
+/* Step connector arrows between timeline items */
+.stepConnector {
+  position: relative;
+}
+.stepConnector::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -1.5rem;
+  width: 3rem;
+  height: 2px;
+  background: linear-gradient(90deg, #2563eb, #9333ea);
+  opacity: 0.4;
+}
+@media (max-width: 767px) {
+  .stepConnector::after {
+    display: none;
+  }
+}
+.stepConnector:last-child::after {
+  display: none;
+}
+
+/* Pulse-dot animation for the live indicator */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.pulseDot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* Comparison table styling */
+.comparisonTable th,
+.comparisonTable td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.comparisonTable thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.comparisonTable tbody td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.comparisonTable tbody tr:last-child td {
+  border-bottom: none;
+}

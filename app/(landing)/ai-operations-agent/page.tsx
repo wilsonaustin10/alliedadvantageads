@@ -25,11 +25,11 @@ export default function AIOperationsAgentPage() {
           <a href="https://alliedadvantage.co" className="flex items-center gap-2" aria-label="Allied Advantage">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+              src="/images/allied-advantage-logo-white.png"
               alt="Allied Advantage"
               width={140}
               height={47}
-              className="object-contain brightness-0 invert"
+              className="object-contain"
             />
           </a>
           <a href="#booking" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200">
@@ -638,11 +638,11 @@ export default function AIOperationsAgentPage() {
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+                src="/images/allied-advantage-logo-white.png"
                 alt="Allied Advantage"
                 width={100}
                 height={33}
-                className="object-contain brightness-0 invert opacity-50"
+                className="object-contain opacity-70"
               />
             </div>
             <div className="flex items-center gap-6">

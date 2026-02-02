@@ -58,11 +58,11 @@ export default function InsuranceLandingPage() {
           <a href="https://alliedadvantage.co" className="flex items-center gap-2" aria-label="Allied Advantage">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+              src="/AA White Logo 200x60.png"
               alt="Allied Advantage"
               width={140}
               height={47}
-              className="object-contain brightness-0 invert"
+              className="object-contain"
             />
           </a>
           <div className="flex items-center gap-3">
@@ -1011,11 +1011,11 @@ export default function InsuranceLandingPage() {
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://alliedadvantage.co/_next/image?url=%2FAAA%20Master%20Logo.png&w=256&q=75"
+                src="/AA White Logo 200x60.png"
                 alt="Allied Advantage"
                 width={100}
                 height={33}
-                className="object-contain brightness-0 invert opacity-50"
+                className="object-contain opacity-50"
               />
             </div>
             <div className="flex items-center gap-6">

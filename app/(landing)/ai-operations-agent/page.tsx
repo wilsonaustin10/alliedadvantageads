@@ -89,7 +89,7 @@ export default function AIOperationsAgentPage() {
               {[
                 { value: '24/7', label: 'Always Running' },
                 { value: '4 wk', label: 'Discovery to Go-Live' },
-                { value: '$10k', label: 'One-Time Setup' },
+                { value: '100%', label: 'Custom to Your Fund' },
                 { value: '30d', label: 'Post-Launch Support' },
               ].map((stat) => (
                 <div key={stat.label}>
@@ -416,88 +416,7 @@ export default function AIOperationsAgentPage() {
         </div>
       </section>
 
-      {/* ============================== INVESTMENT ============================== */}
-      <section className="py-20 md:py-28 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-900/50 to-gray-950 pointer-events-none" aria-hidden="true" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative">
-          <div className="text-center mb-14" data-aos="fade-up">
-            <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-6">
-              Investment
-            </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
-              Transparent <span className={gradientText}>Pricing</span>
-            </h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">
-              One-time setup. No recurring surprise fees. Optional add-ons if you want to expand.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
-            {/* Core Package */}
-            <div className="md:col-span-2 bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-8 relative overflow-hidden">
-              <div className="absolute top-4 right-4">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
-              </div>
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-1">Agent Setup &amp; Configuration</h3>
-                <p className="text-gray-400 text-sm">Everything you need to go live</p>
-              </div>
-              <div className="mb-6">
-                <span className="text-5xl font-extrabold text-white">$10,000</span>
-                <span className="text-gray-500 text-lg ml-2">one-time</span>
-              </div>
-              <ul className="space-y-3 mb-8">
-                {[
-                  'Full agent instance — hosted on your infrastructure or managed VPS',
-                  'Custom agent personality tuned to your fund\'s operations',
-                  'All integrations — email, calendar, Slack/Teams, documents',
-                  'VC-specific workflows — deal flow, LP comms, portfolio monitoring',
-                  'Automated daily & weekly briefings',
-                  '2-hour onboarding session + documentation',
-                  '30 days post-launch support & optimization',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-300 text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <a href="#booking" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold px-6 py-3.5 rounded-full shadow-xl hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200 text-sm">
-                Schedule a Discovery Call
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </div>
-
-            {/* Add-ons */}
-            <div className="space-y-4">
-              {/* Managed Service */}
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6">
-                <h4 className="font-bold text-white text-sm mb-1">Managed Service</h4>
-                <p className="text-gray-500 text-xs mb-3">Ongoing optimization, new workflows, priority support, monthly reviews</p>
-                <div className="text-2xl font-extrabold text-white">$3,000<span className="text-gray-500 text-sm font-normal">/mo</span></div>
-              </div>
-
-              {/* Specialized Agents */}
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6">
-                <h4 className="font-bold text-white text-sm mb-1">Specialized Agents</h4>
-                <p className="text-gray-500 text-xs mb-3">Research Analyst, Portfolio Monitor, LP Communications — dedicated agents for deep work</p>
-                <div className="text-2xl font-extrabold text-white">$5,000<span className="text-gray-500 text-sm font-normal"> each</span></div>
-              </div>
-
-              {/* Multi-Agent Coordination */}
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6">
-                <h4 className="font-bold text-white text-sm mb-1">Multi-Agent Coordination</h4>
-                <p className="text-gray-500 text-xs mb-3">Orchestration layer — research feeds into memos, monitoring feeds into briefings</p>
-                <div className="text-2xl font-extrabold text-white">$5,000<span className="text-gray-500 text-sm font-normal"> one-time</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Pricing section removed — discussed during discovery call */}
 
       {/* ============================== WHY US ============================== */}
       <section className="py-20 md:py-28 bg-gray-900/50">
@@ -671,21 +590,25 @@ export default function AIOperationsAgentPage() {
               Book a 30-minute discovery call. We&apos;ll learn about your workflows, tools, and pain points — and tell you honestly whether this is a fit.
             </p>
 
-            {/* Calendly Embed Area */}
+            {/* Calendly link */}
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-12 mb-8">
-              <div className="py-12">
+              <div className="py-8">
                 <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-600/20">
                   <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Schedule a Discovery Call</h3>
-                <p className="text-gray-500 text-sm mb-6">30 minutes. No commitment. We&apos;ll map your operations and see if an AI agent makes sense for your fund.</p>
-                {/* {{calendarLink}} — Replace href with your actual Calendly or booking link */}
-                <a href="{{calendarLink}}" className={btnPrimary}>
-                  Schedule a 30-Minute Discovery Call
+                <h3 className="text-xl font-bold text-white mb-2">Book a Strategy Session</h3>
+                <p className="text-gray-500 text-sm mb-6">30 minutes. No commitment. We&apos;ll map your operations and tell you honestly whether an AI agent makes sense for your fund.</p>
+                <a
+                  href="https://calendly.com/austin-alliedleadvantage-ads/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${btnPrimary} px-8 py-4 rounded-full text-lg`}
+                >
+                  Book a Strategy Session
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </a>
               </div>

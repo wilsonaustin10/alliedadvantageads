@@ -7,6 +7,21 @@ export const metadata = {
     title: 'Allied Advantage — Your Fund\'s AI Operations Agent',
     description:
       'A dedicated AI team member that handles email, meetings, deal flow, and portfolio monitoring around the clock. Not a chatbot — a persistent, memory-equipped operations agent.',
+    images: [
+      {
+        url: '/images/og-ai-operations-agent.png',
+        width: 1200,
+        height: 630,
+        alt: 'Allied Advantage',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Allied Advantage — Your Fund\'s AI Operations Agent',
+    description:
+      'A dedicated AI operations agent for your fund. Not a chatbot — a persistent, memory-equipped operations agent.',
+    images: ['/images/og-ai-operations-agent.png'],
   },
 }
 

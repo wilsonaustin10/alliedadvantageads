@@ -464,14 +464,14 @@ export default function AIOperationsAgentPage() {
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 md:p-10">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="shrink-0">
-                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-white/10 flex items-center justify-center overflow-hidden">
-                    {/* AUSTIN PHOTO: Replace this div with an <img> tag pointing to Austin&apos;s headshot */}
-                    <div className="text-center">
-                      <svg className="w-10 h-10 text-gray-600 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span className="text-[10px] text-gray-600 font-medium">Photo</span>
-                    </div>
+                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-white/10 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/images/austin-headshot.jpg"
+                      alt="Austin Wilson"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                 </div>
                 <div className="text-center md:text-left">
@@ -479,7 +479,7 @@ export default function AIOperationsAgentPage() {
                     <span className={gradientText}>Austin Wilson</span>, Founder
                   </h3>
                   <p className="text-gray-400 leading-relaxed text-sm mb-3">
-                    Sales Manager at RavenDB (enterprise database) and founder of Allied Advantage. Background in enterprise software, complex B2B operations, and building systems that scale. Operator&apos;s mindset — not just tech.
+                    Enterprise software sales executive and founder of Allied Advantage. Background in complex B2B operations, go-to-market strategy, and building systems that scale. Operator&apos;s mindset — not just tech.
                   </p>
                   <p className="text-gray-400 leading-relaxed text-sm">
                     Our philosophy: if a task is done more than once, it should be automated. If it requires judgment, it should be agent-assisted. The companies that adopt AI as operational infrastructure will dramatically outperform those that don&apos;t.

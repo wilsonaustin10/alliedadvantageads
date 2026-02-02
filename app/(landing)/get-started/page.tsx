@@ -32,7 +32,7 @@ export default function GetStartedPage() {
               className="object-contain brightness-0 invert"
             />
           </a>
-          <a href="#booking" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200">
+          <a href="https://go.alliedadvantage.co/guaranteed-page" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200">
             Book a Strategy Call
           </a>
         </div>
@@ -74,7 +74,7 @@ export default function GetStartedPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 lg:justify-start justify-center">
-                <a href="#booking" className={btnPrimary}>
+                <a href="https://go.alliedadvantage.co/guaranteed-page" className={btnPrimary}>
                   Book a 15-Minute Strategy Call
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -500,7 +500,7 @@ export default function GetStartedPage() {
               scalable agency model — it&apos;s an exclusive partnership. When your
               market is taken, it&apos;s taken.
             </p>
-            <a href="#booking" className={btnPrimary}>
+            <a href="https://go.alliedadvantage.co/guaranteed-page" className={btnPrimary}>
               Check If Your Market Is Available
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -529,16 +529,16 @@ export default function GetStartedPage() {
               numbers, and tell you honestly whether we can help.
             </p>
 
-            {/* Calendly Embed */}
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden mb-8">
-              <iframe
-                src="https://calendly.com/austin-alliedleadvantage-ads/30min?hide_gdpr_banner=1&background_color=030712&text_color=f3f4f6&primary_color=7c3aed"
-                className="w-full border-0"
-                style={{ minHeight: '700px' }}
-                title="Book a Strategy Call"
-                loading="lazy"
-              />
-            </div>
+            {/* CTA to Guaranteed Page */}
+            <a
+              href="https://go.alliedadvantage.co/guaranteed-page"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold px-10 py-5 rounded-full text-xl shadow-xl hover:shadow-blue-600/35 hover:-translate-y-0.5 transition-all duration-200 mb-8"
+            >
+              Book a 15-Minute Strategy Call
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
 
             <div className="flex items-center justify-center gap-2 text-gray-500 text-sm">
               <span className="relative flex h-2 w-2">

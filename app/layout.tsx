@@ -113,16 +113,14 @@ export default function RootLayout({
             firstScript.parentNode.insertBefore(script, firstScript);
           })();`}
         </Script>
-        {/* Privacy-friendly analytics by Plausible */}
+        {/* Datafast Analytics */}
         <Script
-          id="plausible-analytics"
-          src="https://plausible.io/js/pa-IiXpZZLKBcveweeHLnM7I.js"
+          id="datafast-analytics"
+          src="https://datafa.st/js/script.js"
+          data-website-id="dfid_7gy6aO68GniZWslscVMBa"
+          data-domain="alliedadvantage.co"
           strategy="afterInteractive"
         />
-        <Script id="plausible-init" strategy="afterInteractive">
-          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-          plausible.init();`}
-        </Script>
         {/* Microsoft Clarity - Heatmap & Session Recording */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){

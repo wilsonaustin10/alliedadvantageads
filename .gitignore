@@ -37,3 +37,11 @@ next-env.d.ts
 
 # contentlayer
 .contentlayer
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# pipeline runtime output (golden fixture is committed; live reports are not)
+/reports/

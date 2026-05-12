@@ -67,6 +67,57 @@ This template has been developed with the App Router (`app`) and React Server Co
 
 For more information about what support covers, please see our (FAQs)[https://cruip.com/faq/].
 
+## Optimization Pipeline
+
+The `pipeline/` package runs the four Allied Advantage optimization agents
+against a Google Ads account export and emits a prioritized markdown report
+under `reports/<account>/<date>.md`.
+
+### Running it
+
+```bash
+python -m pipeline.run sample_account \
+  --export fixtures/sample_account/export.json \
+  --date 2026-05-01
+```
+
+### Agents
+
+The pipeline runs these four agents in sequence and merges their output:
+
+1. **KeywordAgent** — flags zero-conversion keywords and high-CPA outliers.
+2. **AdCopyAgent** — flags low-CTR ads against the top performer in each ad group.
+3. **BudgetAgent** — recommends shifting daily spend from the worst-CPA campaign to the best.
+4. **GeoAgent** — flags regions burning budget with no conversions.
+
+Each agent lives in its own module under `pipeline/agents/` and consumes the
+typed `AccountExport` defined in `pipeline/contracts.py`.
+
+### Where it slots into the 60-day client onboarding
+
+| Phase | Day range | What happens | Pipeline involvement |
+| --- | --- | --- | --- |
+| Kickoff | Day 1–7 | Intake form, GHL setup, landing page build, account access granted | none |
+| Launch | Day 8–14 | Campaigns built and launched against the agreed keyword set | none — accounts have no data yet |
+| Learning | Day 15–29 | Campaigns accumulate clicks, calls, and form fills | none — let data mature |
+| **First optimization pass** | **Day 30** | Pull the 30-day Google Ads account export and run `python -m pipeline.run <account_id>`. Review the generated `reports/<account>/<date>.md` with the client. Apply the P1/P2 actions. | **this pipeline** |
+| Iterate | Day 31–59 | Apply recommendations, run weekly check-ins, watch for spend creep | re-run pipeline weekly |
+| **60-day review** | **Day 60** | Pull a second export and re-run the pipeline. Compare against day-30 report to confirm wasted spend dropped and CPA improved. Use the second report as the deliverable for the 60-day client review. | **this pipeline** |
+
+The pipeline replaces the manual 2–3 hour spreadsheet audit previously done at
+day 30 and day 60 of every onboarding.
+
+### Tests
+
+```bash
+pytest tests/
+```
+
+`tests/test_pipeline_golden.py` diffs the generated report against
+`fixtures/sample_account/expected_report.md` with a 5% line-diff tolerance.
+Small wording tweaks pass; substantive behavior changes require an intentional
+golden-file refresh (`cp` the new report over the expected one and re-run).
+
 ## Credits
 
 - [Nucleo](https://nucleoapp.com/)

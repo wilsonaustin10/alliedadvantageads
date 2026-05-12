@@ -1,0 +1,154 @@
+{
+  "account_id": "sample_account",
+  "account_name": "Acme Wholesale Realty",
+  "date_range": "2026-04-01 to 2026-04-30",
+  "campaigns": [
+    {
+      "name": "Brand - Search",
+      "budget_daily": 40.0,
+      "cost": 1180.50,
+      "conversions": 24.0,
+      "conversion_value": 14400.0
+    },
+    {
+      "name": "Wholesale Sellers - Search",
+      "budget_daily": 120.0,
+      "cost": 3650.00,
+      "conversions": 18.0,
+      "conversion_value": 10800.0
+    },
+    {
+      "name": "Cash Buyers - Search",
+      "budget_daily": 80.0,
+      "cost": 2400.00,
+      "conversions": 3.0,
+      "conversion_value": 1800.0
+    }
+  ],
+  "keywords": [
+    {
+      "text": "sell my house fast",
+      "match_type": "PHRASE",
+      "campaign": "Wholesale Sellers - Search",
+      "ad_group": "Motivated Sellers",
+      "impressions": 4200,
+      "clicks": 312,
+      "cost": 940.00,
+      "conversions": 9.0
+    },
+    {
+      "text": "we buy houses",
+      "match_type": "PHRASE",
+      "campaign": "Wholesale Sellers - Search",
+      "ad_group": "Motivated Sellers",
+      "impressions": 5100,
+      "clicks": 410,
+      "cost": 1230.00,
+      "conversions": 6.0
+    },
+    {
+      "text": "real estate agent near me",
+      "match_type": "BROAD",
+      "campaign": "Wholesale Sellers - Search",
+      "ad_group": "Motivated Sellers",
+      "impressions": 2800,
+      "clicks": 180,
+      "cost": 540.00,
+      "conversions": 0.0
+    },
+    {
+      "text": "how to flip houses",
+      "match_type": "BROAD",
+      "campaign": "Cash Buyers - Search",
+      "ad_group": "Investor Audience",
+      "impressions": 1700,
+      "clicks": 95,
+      "cost": 285.00,
+      "conversions": 0.0
+    },
+    {
+      "text": "cash for houses",
+      "match_type": "EXACT",
+      "campaign": "Cash Buyers - Search",
+      "ad_group": "Investor Audience",
+      "impressions": 900,
+      "clicks": 60,
+      "cost": 240.00,
+      "conversions": 1.0
+    },
+    {
+      "text": "acme realty",
+      "match_type": "EXACT",
+      "campaign": "Brand - Search",
+      "ad_group": "Brand Terms",
+      "impressions": 3200,
+      "clicks": 410,
+      "cost": 410.00,
+      "conversions": 20.0
+    }
+  ],
+  "ads": [
+    {
+      "campaign": "Wholesale Sellers - Search",
+      "ad_group": "Motivated Sellers",
+      "headline": "Sell Your House In 7 Days - Cash Offer",
+      "description": "No fees, no repairs. Get a fair cash offer today.",
+      "impressions": 6200,
+      "clicks": 372,
+      "conversions": 11.0
+    },
+    {
+      "campaign": "Wholesale Sellers - Search",
+      "ad_group": "Motivated Sellers",
+      "headline": "Real Estate Services - Acme Realty",
+      "description": "Full service real estate. Call today.",
+      "impressions": 5900,
+      "clicks": 88,
+      "conversions": 2.0
+    },
+    {
+      "campaign": "Cash Buyers - Search",
+      "ad_group": "Investor Audience",
+      "headline": "Off-Market Wholesale Deals",
+      "description": "Get exclusive access to wholesale deals in your market.",
+      "impressions": 1500,
+      "clicks": 90,
+      "conversions": 2.0
+    },
+    {
+      "campaign": "Cash Buyers - Search",
+      "ad_group": "Investor Audience",
+      "headline": "Learn Real Estate Investing",
+      "description": "Tips and tricks for new investors.",
+      "impressions": 1100,
+      "clicks": 12,
+      "conversions": 0.0
+    }
+  ],
+  "geo": [
+    {
+      "campaign": "Wholesale Sellers - Search",
+      "region": "Houston, TX",
+      "cost": 1100.00,
+      "conversions": 12.0
+    },
+    {
+      "campaign": "Wholesale Sellers - Search",
+      "region": "San Francisco, CA",
+      "cost": 410.00,
+      "conversions": 0.0
+    },
+    {
+      "campaign": "Cash Buyers - Search",
+      "region": "Phoenix, AZ",
+      "cost": 980.00,
+      "conversions": 2.0
+    },
+    {
+      "campaign": "Cash Buyers - Search",
+      "region": "Manhattan, NY",
+      "cost": 320.00,
+      "conversions": 0.0
+    }
+  ]
+}

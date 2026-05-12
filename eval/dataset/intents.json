@@ -1,0 +1,104 @@
+{
+  "rubric_version": "1.0.0",
+  "description": "Taxonomy of buyer-side intents the Akita Red assistant must handle, plus the risk factors that drive hangups. Each entry lists canonical synonyms — the predictor uses these for keyword matching against the VAPI config.",
+  "intents": {
+    "greeting_and_purpose": {
+      "summary": "Opening turn — state who you are and why you are calling.",
+      "synonyms": ["greeting", "introduction", "introduce", "opener", "who is this", "purpose of call", "reason for call"]
+    },
+    "qualify_motivation": {
+      "summary": "Establish why the seller wants to sell (motivation level).",
+      "synonyms": ["motivation", "why selling", "reason to sell", "situation", "circumstances"]
+    },
+    "qualify_timeline": {
+      "summary": "Establish how soon the seller wants to close.",
+      "synonyms": ["timeline", "how soon", "when to close", "closing date", "urgency"]
+    },
+    "qualify_condition": {
+      "summary": "Ask about the property condition (repairs, occupancy).",
+      "synonyms": ["condition", "repairs", "needs work", "rehab", "occupied", "vacant", "tenant"]
+    },
+    "qualify_mortgage": {
+      "summary": "Ask whether there is a mortgage or loan balance.",
+      "synonyms": ["mortgage", "loan", "balance owed", "lien", "free and clear"]
+    },
+    "qualify_price_expectation": {
+      "summary": "Surface the seller's asking price or expectation.",
+      "synonyms": ["asking price", "price expectation", "what are you looking for", "how much"]
+    },
+    "price_objection_too_low": {
+      "summary": "Seller pushes back that the offer is below their number.",
+      "synonyms": ["too low", "lowball", "not enough", "more than that", "insulting", "offer is low"]
+    },
+    "price_objection_market": {
+      "summary": "Seller cites comps, Zillow, or recent sales as why price should be higher.",
+      "synonyms": ["zillow", "comps", "comparable", "market value", "appraised", "neighbor sold"]
+    },
+    "callback_request": {
+      "summary": "Seller asks the assistant to call back later or at a specific time.",
+      "synonyms": ["call back", "call me later", "not a good time", "try later", "busy right now"]
+    },
+    "transfer_request": {
+      "summary": "Seller explicitly asks to speak to a human / acquisitions manager.",
+      "synonyms": ["speak to a person", "real person", "transfer", "human", "acquisitions", "manager"]
+    },
+    "not_interested": {
+      "summary": "Seller declines to engage further on this call.",
+      "synonyms": ["not interested", "not selling", "take me off", "remove my number", "do not call"]
+    },
+    "ambiguous_response": {
+      "summary": "Seller's reply is unclear, mumbled, or non-committal (\"maybe\", \"I dunno\").",
+      "synonyms": ["unclear", "mumble", "maybe", "i dunno", "not sure", "ambiguous", "clarify"]
+    },
+    "hostile_owner": {
+      "summary": "Seller is annoyed, sarcastic, or hostile.",
+      "synonyms": ["hostile", "angry", "annoyed", "frustrated", "rude", "de-escalate", "deescalate"]
+    },
+    "voicemail_detected": {
+      "summary": "The line went to voicemail mid-call.",
+      "synonyms": ["voicemail", "leave a message", "answering machine", "after the tone"]
+    },
+    "wrong_number": {
+      "summary": "Seller says this is not their property or they are the wrong person.",
+      "synonyms": ["wrong number", "not my property", "doesn't own", "i don't own"]
+    },
+    "confirm_appointment": {
+      "summary": "Wrap-up — confirm the next step or set an appointment.",
+      "synonyms": ["confirm", "appointment", "next step", "schedule", "book", "set up a time"]
+    }
+  },
+  "risk_factors": {
+    "long_silence": {
+      "summary": "Assistant goes silent for >3s without acknowledgement.",
+      "guardrail_synonyms": ["dead air", "silence", "filler", "acknowledge", "thinking out loud", "buying time"]
+    },
+    "repetition_loop": {
+      "summary": "Assistant re-asks a question the seller already answered.",
+      "guardrail_synonyms": ["already answered", "don't repeat", "do not repeat", "track context", "remember answers", "don't re-ask", "already said"]
+    },
+    "interruption": {
+      "summary": "Assistant talks over the seller.",
+      "guardrail_synonyms": ["interrupt", "talk over", "wait until", "let them finish", "yield", "barge-in", "barge in"]
+    },
+    "pressure_after_pushback": {
+      "summary": "Assistant doubles down on a pitch after the seller pushed back.",
+      "guardrail_synonyms": ["pressure", "back off", "soft-sell", "soft sell", "no hard sell", "no pressure", "respect no"]
+    },
+    "off_topic": {
+      "summary": "Assistant produces a non-sequitur reply.",
+      "guardrail_synonyms": ["off-topic", "off topic", "stay on topic", "relevant", "non-sequitur", "non sequitur"]
+    },
+    "script_after_transfer_request": {
+      "summary": "Assistant continues script after seller asked for a human.",
+      "guardrail_synonyms": ["transfer immediately", "stop script", "honor transfer", "if asked for human", "transfer request"]
+    },
+    "robotic_greeting": {
+      "summary": "Opener sounds rehearsed / corporate.",
+      "guardrail_synonyms": ["natural greeting", "casual opener", "don't sound corporate", "warm intro", "warm opener"]
+    },
+    "unacknowledged_emotion": {
+      "summary": "Assistant ignores frustration / urgency / sadness in seller's voice.",
+      "guardrail_synonyms": ["acknowledge emotion", "empathize", "empathy", "validate", "mirror feeling"]
+    }
+  }
+}

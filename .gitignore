@@ -37,3 +37,8 @@ next-env.d.ts
 
 # contentlayer
 .contentlayer
+
+# python (eval harness)
+__pycache__/
+*.pyc
+.pytest_cache/

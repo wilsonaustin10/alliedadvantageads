@@ -1,0 +1,2653 @@
+{
+  "composite": 0.564743,
+  "config_id": "akita_red_baseline_v1",
+  "config_path": "eval/configs/akita_red_baseline.json",
+  "dataset_path": "eval/dataset/turns.jsonl",
+  "hangup": {
+    "accuracy": 0.855769,
+    "f1": 0.0,
+    "fn": 15,
+    "fp": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tn": 89,
+    "tp": 0
+  },
+  "intent": {
+    "accuracy": 0.673077,
+    "f1": 0.797619,
+    "fn": 17,
+    "fp": 17,
+    "precision": 0.797619,
+    "recall": 0.797619,
+    "tn": 3,
+    "tp": 67
+  },
+  "intents_path": "eval/dataset/intents.json",
+  "n_turns": 104,
+  "naturalness": {
+    "mae": 1.144231,
+    "norm": 0.713942
+  },
+  "per_intent_f1": {
+    "ambiguous_response": 0.0,
+    "callback_request": 0.0,
+    "confirm_appointment": 0.909091,
+    "greeting_and_purpose": 0.8,
+    "hostile_owner": 1.0,
+    "not_interested": 0.8,
+    "price_objection_market": 0.8,
+    "price_objection_too_low": 0.923077,
+    "qualify_condition": 0.923077,
+    "qualify_mortgage": 0.909091,
+    "qualify_motivation": 1.0,
+    "qualify_price_expectation": 0.909091,
+    "qualify_timeline": 0.923077,
+    "transfer_request": 0.833333,
+    "voicemail_detected": 0.666667,
+    "wrong_number": 0.0
+  },
+  "per_turn_diffs": [
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0001",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0002",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0003",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0004",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 2,
+      "naturalness_gold": 3,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0005",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "greeting_and_purpose",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: greeting_and_purpose"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0006",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0007",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0008",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0009",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0010",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0011",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0012",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0013",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0014",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0015",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0016",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0017",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0018",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0019",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0020",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0021",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0022",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0023",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0024",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0025",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0026",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0027",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0028",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0029",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_mortgage",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_mortgage"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0030",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0031",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0032",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0033",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0034",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 2,
+      "naturalness_gold": 3,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0035",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_price_expectation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_price_expectation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0036",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0037",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0038",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0039",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0040",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0041",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0042",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0043",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0044",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0045",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0046",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0047",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_market",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_market"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0048",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0049",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0050",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0051",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": true,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0052",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0053",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 2,
+      "naturalness_gold": 3,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0054",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0055",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0056",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0057",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0058",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0059",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0060",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0061",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0062",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0063",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0064",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0065",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "not_interested",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: not_interested"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0066",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0067",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0068",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0069",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": true,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0070",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0071",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0072",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0073",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0074",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0075",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0076",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0077",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0078",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0079",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0080",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 2,
+      "naturalness_gold": 3,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0081",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0082",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0083",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "voicemail_detected",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: voicemail_detected"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0084",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0085",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0086",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0087",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": true,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 4,
+      "naturalness_gold": 1,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0088",
+      "would_hangup_gold": true,
+      "would_hangup_match": false,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0089",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "wrong_number",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for wrong_number"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0090",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0091",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0092",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0093",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": false,
+      "intent_handled_match": false,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 3,
+      "naturalness_gold": 2,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "all risk factors guarded"
+        ]
+      },
+      "turn_id": "T0094",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0095",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "confirm_appointment",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: confirm_appointment"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0096",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_motivation",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_motivation"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0097",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "price_objection_too_low",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: price_objection_too_low"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0098",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_condition",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_condition"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0099",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "ambiguous_response",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for ambiguous_response"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0100",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "transfer_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: transfer_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0101",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "hostile_owner",
+      "naturalness_delta": 1,
+      "naturalness_gold": 4,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: hostile_owner"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0102",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": true,
+      "intent_handled_pred": true,
+      "intent_type": "qualify_timeline",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "config addresses intent: qualify_timeline"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0103",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    },
+    {
+      "intent_handled_gold": true,
+      "intent_handled_match": false,
+      "intent_handled_pred": false,
+      "intent_type": "callback_request",
+      "naturalness_delta": 0,
+      "naturalness_gold": 5,
+      "naturalness_pred": 5,
+      "rationale": {
+        "intent_handled": [
+          "no explicit handler for callback_request"
+        ],
+        "naturalness": [
+          "config encourages natural/casual tone",
+          "config explicitly mentions contractions"
+        ],
+        "would_hangup": [
+          "no risk factors flagged on turn"
+        ]
+      },
+      "turn_id": "T0104",
+      "would_hangup_gold": false,
+      "would_hangup_match": true,
+      "would_hangup_pred": false
+    }
+  ],
+  "rubric_version": "1.0.0"
+}

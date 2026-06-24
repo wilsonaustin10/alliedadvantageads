@@ -446,8 +446,7 @@ export default function ConsultationForm() {
                 <label htmlFor="a2pConsent" className="ml-3 text-sm text-gray-700">
                   <span className="font-medium">I agree to receive text messages <span className="text-red-500">*</span></span>
                   <p id="a2pConsent-description" className="mt-1 text-gray-600">
-                    By checking this box, you consent to receive autodialed promotional text messages from Allied Advantage Ads at the phone number provided above.
-                    Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe. View our <a href="/terms" className="text-blue-600 hover:underline">Terms</a> and <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
+                    By checking this box, you agree to receive automated text messages from Allied Advantage Ads — including appointment confirmations, reminders, and account/service notifications — at the phone number provided above. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe, HELP for help. View our <a href="/terms" className="text-blue-600 hover:underline">Terms</a> and <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
                   </p>
                 </label>
               </div>

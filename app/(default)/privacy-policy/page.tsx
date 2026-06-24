@@ -121,6 +121,9 @@ export default function PrivacyPolicy() {
             <p className="text-gray-700 mb-4">
               We do not sell your personal information to third parties for their marketing purposes.
             </p>
+            <p className="text-gray-700 mb-4">
+              Note: The information-sharing categories above exclude mobile opt-in information and SMS/text-messaging consent, which are never shared with any third parties or affiliates.
+            </p>
           </section>
 
           <section className="mb-8">
@@ -181,14 +184,30 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Contact Information</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">12. SMS / Text Messaging Terms</h2>
+            <p className="text-gray-700 mb-4">
+              When you provide your mobile number and check the consent box on our forms, you agree to receive automated, recurring text messages from Allied Advantage Ads, including appointment confirmations, appointment reminders with meeting links, and notifications about jobs or outcomes completed on your account. Consent is not a condition of any purchase.
+            </p>
+            <p className="text-gray-700 mb-4">
+              Message frequency varies. Message and data rates may apply.
+            </p>
+            <p className="text-gray-700 mb-4">
+              You can opt out at any time by replying STOP to any message; you will receive a single confirmation that you have been unsubscribed. Reply HELP for help, or contact us at 512-710-2660.
+            </p>
+            <p className="text-gray-700 mb-4">
+              We do not share, sell, rent, or otherwise disclose your mobile phone number or text-messaging consent to any third parties or affiliates for their marketing or promotional purposes. Mobile opt-in information and consent are excluded from all data-sharing categories described elsewhere in this Privacy Policy and will not be shared with any third party.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">13. Contact Information</h2>
             <p className="text-gray-700 mb-4">
               If you have any questions about this Privacy Policy or our privacy practices, please contact us:
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
               <p className="text-gray-700 mb-2"><strong>Allied Advantage Ads</strong></p>
               <p className="text-gray-700 mb-2">Email: privacy@alliedleadgen.com</p>
-              <p className="text-gray-700 mb-2">Phone: (888) 524-4496</p>
+              <p className="text-gray-700 mb-2">Phone: (512) 710-2660</p>
               <p className="text-gray-700">Address: 5900 Balcones Drive, Suite 12823, Austin, TX 78731</p>
             </div>
           </section>

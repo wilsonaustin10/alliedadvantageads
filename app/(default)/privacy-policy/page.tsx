@@ -192,7 +192,7 @@ export default function PrivacyPolicy() {
               Message frequency varies. Message and data rates may apply.
             </p>
             <p className="text-gray-700 mb-4">
-              You can opt out at any time by replying STOP to any message; you will receive a single confirmation that you have been unsubscribed. Reply HELP for help, or contact us at 606-530-0349.
+              You can opt out at any time by replying STOP to any message; you will receive a single confirmation that you have been unsubscribed. Reply HELP for help, or contact us at 512-710-2660.
             </p>
             <p className="text-gray-700 mb-4">
               We do not share, sell, rent, or otherwise disclose your mobile phone number or text-messaging consent to any third parties or affiliates for their marketing or promotional purposes. Mobile opt-in information and consent are excluded from all data-sharing categories described elsewhere in this Privacy Policy and will not be shared with any third party.
@@ -207,7 +207,7 @@ export default function PrivacyPolicy() {
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
               <p className="text-gray-700 mb-2"><strong>Allied Advantage Ads</strong></p>
               <p className="text-gray-700 mb-2">Email: privacy@alliedleadgen.com</p>
-              <p className="text-gray-700 mb-2">Phone: (606) 530-0349</p>
+              <p className="text-gray-700 mb-2">Phone: (512) 710-2660</p>
               <p className="text-gray-700">Address: 5900 Balcones Drive, Suite 12823, Austin, TX 78731</p>
             </div>
           </section>

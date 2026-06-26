@@ -17,14 +17,13 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { firstName, lastName, email, phone, dealsPerMonth, a2pConsent } = body;
 
-    // Validate required fields
+    // Validate required fields (SMS consent is intentionally optional)
     if (
       !firstName ||
       !lastName ||
       !email ||
       !phone ||
-      !dealsPerMonth ||
-      a2pConsent !== true
+      !dealsPerMonth
     ) {
       return NextResponse.json(
         { error: 'All fields are required' },

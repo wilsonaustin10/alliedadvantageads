@@ -64,7 +64,7 @@ export default function ConsultationForm() {
         if (!value) return 'Please select how many deals you\'ve closed';
         return '';
       case 'a2pConsent':
-        if (!value) return 'You must agree to receive text messages';
+        // SMS consent is optional — never block submission on this field.
         return '';
       default:
         return '';
@@ -75,9 +75,8 @@ export default function ConsultationForm() {
   useEffect(() => {
     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'primaryMarket', 'monthlyBudget', 'dealsPerMonth'];
     const hasRequiredFields = requiredFields.every(field => formData[field as keyof typeof formData].toString().trim());
-    const hasA2PConsent = formData.a2pConsent === true;
     const hasNoErrors = Object.values(fieldErrors).every(error => !error);
-    setIsFormValid(hasRequiredFields && hasA2PConsent && hasNoErrors);
+    setIsFormValid(hasRequiredFields && hasNoErrors);
   }, [formData, fieldErrors]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -436,7 +435,6 @@ export default function ConsultationForm() {
                   type="checkbox"
                   name="a2pConsent"
                   id="a2pConsent"
-                  required
                   disabled={status === 'submitting'}
                   checked={formData.a2pConsent}
                   onChange={handleChange}
@@ -444,7 +442,7 @@ export default function ConsultationForm() {
                   aria-describedby="a2pConsent-description"
                 />
                 <label htmlFor="a2pConsent" className="ml-3 text-sm text-gray-700">
-                  <span className="font-medium">I agree to receive text messages <span className="text-red-500">*</span></span>
+                  <span className="font-medium">I agree to receive text messages</span>
                   <p id="a2pConsent-description" className="mt-1 text-gray-600">
                     By checking this box, you agree to receive automated text messages from Allied Advantage Ads — including appointment confirmations, reminders, and account/service notifications — at the phone number provided above. Consent is not a condition of purchase. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe, HELP for help. View our <a href="/terms" className="text-blue-600 hover:underline">Terms</a> and <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
                   </p>
